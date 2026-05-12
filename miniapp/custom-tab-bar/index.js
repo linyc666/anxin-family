@@ -5,6 +5,7 @@ Component({
     selected: 0,
     tabBg: '#FFFCF6',
     tabBorder: '#E1D7C7',
+    pageThemeClass: '',
     list: [
       { pagePath: '/pages/index/index', text: '总览', icon: '🏠' },
       { pagePath: '/pages/members/members', text: '资料', icon: '📂' },
@@ -14,18 +15,30 @@ Component({
   },
 
   attached() {
-    var t = theme.getThemeColors();
-    this.setData({ tabBg: t.cardBg, tabBorder: t.cardBorder });
+    this.refreshTheme();
   },
 
   pageLifetimes: {
     show() {
-      var t = theme.getThemeColors();
-      this.setData({ tabBg: t.cardBg, tabBorder: t.cardBorder });
+      this.refreshTheme();
     }
   },
 
   methods: {
+    refreshTheme() {
+      var app = getApp();
+      var tc = (app && app.globalData && app.globalData.themeColors)
+        || theme.getThemeColors();
+      var cls = (app && app.globalData && app.globalData.pageThemeClass !== undefined)
+        ? app.globalData.pageThemeClass
+        : (tc.pageClass || '');
+      this.setData({
+        tabBg: tc.cardBg,
+        tabBorder: tc.cardBorder,
+        pageThemeClass: cls
+      });
+    },
+
     switchTab(e) {
       var index = e.currentTarget.dataset.index;
       var item = this.data.list[index];

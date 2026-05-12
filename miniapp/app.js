@@ -22,9 +22,7 @@ App({
     } catch(e) { console.log('云开发初始化失败', e); }
 
     var theme = require('./utils/theme');
-    var themeKey = theme.getTheme();
-    this.globalData.theme = themeKey;
-    this.globalData.themeColors = theme.getThemeColors(themeKey);
+    var themeKey = theme.initTheme();
 
     this.loadLocalData();
     if (ENABLE_LOCAL_TEST_MEMBERSHIP) this.enableLocalTestMembership();

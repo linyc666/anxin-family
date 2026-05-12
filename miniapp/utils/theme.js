@@ -33,6 +33,7 @@ function getTheme() {
 function setTheme(key) {
   if (!THEMES[key]) return;
   try { wx.setStorageSync('app_theme', key); } catch(e) {}
+  syncGlobalData(key);
   applyTheme(key);
 }
 
@@ -47,27 +48,63 @@ function getThemeList() {
   ];
 }
 
+function syncGlobalData(key) {
+  var t = THEMES[key] || THEMES.light;
+  var app = getApp();
+  app.globalData.theme = key;
+  app.globalData.themeColors = t;
+  app.globalData.pageThemeClass = t.pageClass;
+}
+
 function applyTheme(key) {
   var t = THEMES[key] || THEMES.light;
-  // 设置页面 class
+
+  // 更新所有已存在的页面
   var pages = getCurrentPages();
   pages.forEach(function(page) {
     if (page.setData) {
-      page.setData({ pageThemeClass: t.pageClass });
+      page.setData({ pageThemeClass: t.pageClass, tColors: t });
     }
   });
+
   // 设置导航栏
   wx.setNavigationBarColor({
     frontColor: t.navFront,
     backgroundColor: t.cardBg
   });
-  // 设置 tab bar
-  if (typeof pages[pages.length - 1] === 'object' && pages[pages.length - 1].getTabBar) {
-    var tabBar = pages[pages.length - 1].getTabBar();
-    if (tabBar && tabBar.setData) {
-      tabBar.setData({ tabBg: t.cardBg, tabBorder: t.cardBorder });
-    }
-  }
+
+  // 设置页面背景色（下拉刷新区域等）
+  wx.setBackgroundColor({
+    backgroundColor: t.bg,
+    backgroundColorTop: t.cardBg,
+    backgroundColorBottom: t.cardBg
+  });
+  wx.setBackgroundTextStyle({
+    textStyle: key === 'dark' ? 'light' : 'dark'
+  });
+
+  // 更新所有页面的 tab bar
+  pages.forEach(function(page) {
+    try {
+      if (typeof page.getTabBar === 'function') {
+        var tabBar = page.getTabBar();
+        if (tabBar && tabBar.setData) {
+          tabBar.setData({
+            tabBg: t.cardBg,
+            tabBorder: t.cardBorder,
+            pageThemeClass: t.pageClass
+          });
+        }
+      }
+    } catch(e) {}
+  });
+}
+
+// 初始化：app.onLaunch 调用
+function initTheme() {
+  var key = getTheme();
+  syncGlobalData(key);
+  return key;
 }
 
 module.exports = {
@@ -76,5 +113,6 @@ module.exports = {
   setTheme: setTheme,
   getThemeColors: getThemeColors,
   getThemeList: getThemeList,
-  applyTheme: applyTheme
+  applyTheme: applyTheme,
+  initTheme: initTheme
 };

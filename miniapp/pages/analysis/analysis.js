@@ -68,8 +68,7 @@ Page({
     var app = getApp();
     var tc = app.globalData.themeColors;
     if (tc) wx.setNavigationBarColor({ frontColor: tc.navFront || '#000000', backgroundColor: tc.cardBg });
-    var themeClass = require('../../utils/theme').getThemeColors().pageClass || '';
-    this.setData({ tColors: tc, pageThemeClass: themeClass });
+    this.setData({ tColors: tc, pageThemeClass: app.globalData.pageThemeClass || '' });
     this.refresh();
   },
 
