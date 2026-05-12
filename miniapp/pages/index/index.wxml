@@ -1,5 +1,5 @@
 <!--pages/index/index.wxml - 安心总览（时间轴版）-->
-<view class="container">
+<view class="container page-enter">
   <!-- 隐私弹窗 -->
   <view class="privacy-modal" wx:if="{{ !privacyAccepted }}">
     <view class="privacy-content card-elevated">
@@ -16,7 +16,12 @@
 
   <!-- 空状态 -->
   <view class="empty-state entrance-item entrance-1" wx:if="{{ stats.members === 0 }}">
-    <view class="empty-illustration"><view class="ei-house"></view></view>
+    <view class="empty-illustration">
+      <view class="ei-book-left"></view>
+      <view class="ei-book-right"></view>
+      <view class="ei-book-spine"></view>
+      <view class="ei-pen"></view>
+    </view>
     <text class="empty-title">开始搭建你的家庭安心家册</text>
     <text class="empty-desc">添加家人、宠物和重要资料，我们会帮你留意到期和待完善的事项</text>
     <button class="btn btn-gold" bindtap="onAddMember">添加第一位家人</button>
@@ -24,6 +29,23 @@
   </view>
 
   <block wx:else>
+    <!-- 骨架屏 -->
+    <view wx:if="{{ loading }}">
+      <view class="skeleton skeleton-title" style="margin:8px 0 16px;"></view>
+      <view class="skeleton skeleton-card" style="margin-bottom:14px;"></view>
+      <view style="display:flex;gap:8px;margin-bottom:18px;">
+        <view class="skeleton" style="flex:1;height:64px;border-radius:14px;"></view>
+        <view class="skeleton" style="flex:1;height:64px;border-radius:14px;"></view>
+        <view class="skeleton" style="flex:1;height:64px;border-radius:14px;"></view>
+      </view>
+      <view class="skeleton" style="height:60px;margin-bottom:14px;border-radius:14px;"></view>
+      <view class="skeleton skeleton-card"></view>
+      <view class="skeleton skeleton-card"></view>
+      <view class="skeleton skeleton-card" style="height:60px;"></view>
+    </view>
+
+    <!-- 实际内容 -->
+    <view wx:else>
     <!-- 时段问候 -->
     <view class="greeting-block entrance-item entrance-1">
       <text class="gr-wave">{{ greetingEmoji }}</text>
@@ -44,7 +66,7 @@
     </view>
 
     <!-- 家庭概况条 -->
-    <view class="overview-strip entrance-item entrance-3">
+    <view class="overview-strip page-curl entrance-item entrance-3">
       <view class="ovs-item"><text class="ovs-num">{{ stats.members }}</text><text class="ovs-lbl">家人</text></view>
       <view class="ovs-item"><text class="ovs-num">{{ stats.pets }}</text><text class="ovs-lbl">宠物</text></view>
       <view class="ovs-item"><text class="ovs-num">{{ stats.policies }}</text><text class="ovs-lbl">资料</text></view>
@@ -52,7 +74,9 @@
     </view>
 
     <!-- 主动入口 -->
-    <view class="main-actions entrance-item entrance-4">
+    <view class="main-actions has-tape entrance-item entrance-4">
+      <view class="washi-tape left gold"></view>
+      <view class="washi-tape right green"></view>
       <view class="ma-btn" bindtap="onAddMember"><text class="ma-icon">👤</text><text class="ma-label">添加家人</text></view>
       <view class="ma-btn" bindtap="onAddPet"><text class="ma-icon">🐾</text><text class="ma-label">添加宠物</text></view>
       <view class="ma-btn" bindtap="onAddRecord"><text class="ma-icon">📋</text><text class="ma-label">添加资料</text></view>
@@ -63,7 +87,8 @@
       <text class="tl-section-title">近期提醒</text>
       <view class="tl-item entrance-item entrance-{{ 5 + index }}" wx:for="{{ timelineItems }}" wx:key="key" wx:if="{{ index < 8 }}">
         <view class="tl-dot {{ item.urgent ? 'urgent' : item.expired ? 'urgent' : item.priority === 0 ? 'normal' : 'muted' }} {{ item.expired ? 'pulse-dot' : '' }}"></view>
-        <view class="tl-card {{ item.expired ? 'urgent' : item.urgent ? 'urgent' : '' }}" bindtap="onTapAlert" data-type="{{ item.dataType }}" data-member-id="{{ item.memberId }}">
+        <view class="tl-card page-curl {{ item.expired ? 'urgent has-clip' : item.urgent ? 'urgent has-clip' : '' }}" bindtap="onTapAlert" data-type="{{ item.dataType }}" data-member-id="{{ item.memberId }}">
+          <view class="paperclip" wx:if="{{ item.expired || item.urgent }}"></view>
           <view class="tlc-top">
             <text class="tlc-title">{{ item.title }}</text>
             <text class="tlc-tag {{ item.expired ? 'urgent' : item.urgent ? 'normal' : 'muted' }}">{{ item.tag }}</text>
@@ -81,10 +106,14 @@
       <text>暂无待提醒事项，一切安心 ✓</text>
     </view>
 
+    <!-- 页脚 -->
+    <view class="page-footer">· 1 ·</view>
+
     <!-- 演示提示 -->
     <view class="demo-tip" wx:if="{{ isDemo }}">
       <text>演示数据 · 可自由修改</text>
       <text class="demo-reset" bindtap="onLoadDemo">重置</text>
+    </view>
     </view>
   </block>
 

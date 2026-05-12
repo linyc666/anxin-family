@@ -31,6 +31,7 @@ Page({
     stats: { members:0, pets:0, policies:0, premium:0, gaps:0, p0Gaps:0 },
     attentionCount: 0,
     timelineItems: [],
+    loading: true,
     isDemo: false,
     familyName: '我的家庭',
     privacyAccepted: false,
@@ -134,7 +135,8 @@ Page({
           gaps: result.stats.totalGaps
         },
         attentionCount: attentionCount,
-        timelineItems: alerts
+        timelineItems: alerts,
+        loading: false
       });
     });
   },

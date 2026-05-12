@@ -13,16 +13,17 @@
 
   <view class="empty-state entrance-item entrance-2" wx:if="{{ visibleMembers.length === 0 }}">
     <view class="empty-illustration">
-      <view class="ei-circle {{ activeKind === 'pet' ? 'pet' : '' }}">
-        <text class="ei-icon">{{ activeKind === 'pet' ? '🐾' : '👤' }}</text>
-      </view>
+      <view class="ei-paper p1"></view>
+      <view class="ei-paper p2"></view>
+      <view class="ei-paper p3"></view>
+      <view class="ei-folder"></view>
     </view>
     <text class="empty-text" wx:if="{{ activeKind === 'person' }}">还没有家人档案</text>
     <text class="empty-text" wx:else>还没有宠物档案</text>
     <text class="empty-hint">添加后可记录重要资料、年度支出和到期提醒</text>
   </view>
 
-  <view class="folder-card entrance-item entrance-{{ 2 + index }}" wx:for="{{ visibleMembers }}" wx:key="id">
+  <view class="folder-card photo-corners entrance-item entrance-{{ 2 + index }}" wx:for="{{ visibleMembers }}" wx:key="id">
     <view class="fc-header" bindtap="onToggleFolder" data-id="{{ item.id }}">
       <view class="fc-avatar {{ item.isPet ? 'pet' : '' }}">
         <text>{{ item.isPet ? '🐾' : '👤' }}</text>
@@ -114,5 +115,6 @@
     <button class="btn btn-gold" bindtap="onAddPet" wx:else>添加宠物</button>
   </view>
 
+  <view class="page-footer">· 2 ·</view>
   <view class="bottom-space"></view>
 </view>

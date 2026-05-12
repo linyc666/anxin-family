@@ -147,19 +147,52 @@
 .add-bar { margin-top: 12px; }
 .add-bar .btn { width: 100%; }
 
-/* ===== 空状态 ===== */
+/* ===== 空状态：档案夹+纸页 ===== */
 .empty-state { text-align: center; padding: 50px 16px; }
+.empty-illustration { width: 90px; height: 72px; margin: 0 auto 20px; position: relative; }
 
-/* CSS 插画：人物 */
-.empty-illustration { margin: 0 auto 20px; position: relative; }
-.ei-circle {
-  width: 56px; height: 56px; border-radius: 50%; margin: 0 auto;
-  background: var(--gold-bg);
-  box-shadow: 0 0 0 8px rgba(142,107,62,.03);
-  display: flex; align-items: center; justify-content: center;
+/* 飘落的纸页 */
+.ei-paper {
+  position: absolute;
+  background: var(--card);
+  border-radius: 3px;
+  box-shadow: var(--shadow-1);
 }
-.ei-circle.pet { background: var(--green-bg); box-shadow: 0 0 0 8px rgba(90,138,110,.03); }
-.ei-icon { font-size: 24px; line-height: 1; }
+.ei-paper.p1 {
+  width: 32px; height: 40px; left: 8px; top: 12px;
+  transform: rotate(-8deg);
+  background: linear-gradient(160deg, var(--card) 0%, var(--bg-warm) 100%);
+}
+.ei-paper.p2 {
+  width: 28px; height: 36px; right: 10px; top: 8px;
+  transform: rotate(6deg);
+  background: linear-gradient(200deg, var(--card) 0%, var(--bg-warm) 100%);
+}
+.ei-paper.p3 {
+  width: 24px; height: 32px; left: 14px; bottom: 12px;
+  transform: rotate(-3deg);
+  background: linear-gradient(180deg, var(--card) 0%, var(--bg-warm) 100%);
+}
+
+/* 档案夹主体 */
+.ei-folder {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px; height: 52px;
+  background: linear-gradient(180deg, var(--gold-bg) 0%, rgba(142,107,62,.02) 100%);
+  border-radius: 4px 4px 8px 8px;
+  box-shadow: var(--shadow-1);
+  border: 1.5px solid var(--gold-border);
+  z-index: 1;
+}
+.ei-folder::before {
+  content: ''; position: absolute; top: -6px; left: 4px;
+  width: 18px; height: 7px;
+  background: rgba(142,107,62,.1);
+  border-radius: 3px 3px 0 0;
+  border: 1.5px solid var(--gold-border);
+  border-bottom: none;
+}
 
 .empty-text { font-size: 16px; font-weight: 600; color: var(--text-primary); display: block; }
 .empty-hint { font-size: 12px; color: var(--text-light); display: block; margin-top: 6px; }

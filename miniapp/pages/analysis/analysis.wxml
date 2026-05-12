@@ -14,7 +14,10 @@
 
   <view class="empty-state entrance-item entrance-3" wx:if="{{ filteredGaps.length === 0 }}">
     <view class="empty-illustration">
-      <view class="ei-check-circle">✓</view>
+      <view class="ei-scroll-left"></view>
+      <view class="ei-scroll-right"></view>
+      <view class="ei-scroll-paper"></view>
+      <view class="ei-scroll-check"></view>
     </view>
     <text class="empty-text">未检测到明显待完善项</text>
     <text class="empty-hint">确保年龄、角色、医保、家庭责任信息完整，可获得更清晰的安心清单</text>
@@ -97,5 +100,6 @@
     <text class="note-link" bindtap="onGoMine">反馈建议</text>
   </view>
 
+  <view class="page-footer">· 3 ·</view>
   <view class="bottom-space"></view>
 </view>

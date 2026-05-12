@@ -47,10 +47,22 @@ page {
   --ease-spring: .3s cubic-bezier(.34,1.56,.64,1);
 
   background:
+    /* 书脊中缝阴影 */
+    linear-gradient(90deg,
+      transparent 0%,
+      transparent 48%,
+      rgba(74,80,73,.015) 49%,
+      rgba(74,80,73,.025) 50%,
+      rgba(74,80,73,.015) 51%,
+      transparent 52%,
+      transparent 100%
+    ),
+    /* 纸纤维纹 */
     repeating-linear-gradient(
       0deg, transparent, transparent 2px,
       rgba(142,107,62,.006) 2px, rgba(142,107,62,.006) 4px
     ),
+    /* 暖光晕 */
     radial-gradient(ellipse at 25% 40%, rgba(142,107,62,.025) 0%, transparent 55%),
     radial-gradient(ellipse at 75% 15%, rgba(90,127,150,.015) 0%, transparent 45%),
     var(--bg);
@@ -388,3 +400,140 @@ page {
 .link-gold { color: var(--gold); font-size: 11px; }
 .link-gray { color: var(--text-light); font-size: 11px; }
 .link-red { color: var(--red); font-size: 11px; }
+
+/* ===== 手账质感：和纸胶带 ===== */
+.washi-tape {
+  position: absolute; top: -4px;
+  width: 42px; height: 16px; border-radius: 1px;
+  opacity: .55; z-index: 1;
+}
+.washi-tape.left  { left: 14px; transform: rotate(-3deg); }
+.washi-tape.right { right: 14px; transform: rotate(2deg); }
+.washi-tape.gold  { background: rgba(166,134,84,.35); }
+.washi-tape.green { background: rgba(90,138,110,.25); }
+.washi-tape.blue  { background: rgba(90,127,150,.22); }
+.washi-tape.rose  { background: rgba(192,107,96,.2); }
+
+/* 胶带齿轮边效果 */
+.washi-tape::before, .washi-tape::after {
+  content: ''; position: absolute; top: 0; width: 3px; height: 100%;
+  background: inherit; opacity: .4;
+}
+.washi-tape::before { left: -1px; }
+.washi-tape::after  { right: -1px; }
+
+/* 胶带容器（需要 relative 定位的父元素上加此类） */
+.has-tape { position: relative; overflow: visible; }
+
+/* ===== 手账质感：回形针 ===== */
+.paperclip {
+  position: absolute; top: -8px; right: 16px;
+  width: 8px; height: 20px; z-index: 2;
+  border: 2px solid rgba(142,107,62,.22);
+  border-radius: 6px 6px 3px 3px;
+  border-bottom: none;
+}
+.paperclip::after {
+  content: ''; position: absolute;
+  width: 6px; height: 12px;
+  border: 2px solid rgba(142,107,62,.15);
+  border-radius: 4px 4px 2px 2px;
+  border-bottom: none;
+  top: 2px; left: -1px;
+}
+
+/* ===== 手账质感：照片角贴 ===== */
+.photo-corners::before, .photo-corners::after {
+  content: ''; position: absolute;
+  width: 10px; height: 10px;
+  border: 2px solid rgba(142,107,62,.12);
+  z-index: 0;
+}
+.photo-corners::before {
+  top: -1px; left: -1px;
+  border-right: none; border-bottom: none;
+  border-radius: 4px 0 0 0;
+}
+.photo-corners::after {
+  top: -1px; right: -1px;
+  border-left: none; border-bottom: none;
+  border-radius: 0 4px 0 0;
+}
+
+/* ===== 手账质感：纸页微卷 ===== */
+.page-curl {
+  position: relative;
+}
+.page-curl::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(74,80,73,.03) 40%,
+    rgba(74,80,73,.05) 100%
+  );
+  border-radius: 0 0 var(--radius) var(--radius);
+  pointer-events: none;
+}
+
+/* ===== 手账质感：虚线分隔 ===== */
+.divider-dot {
+  border: none;
+  height: 2px;
+  background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+  background-size: 6px 6px;
+  background-repeat: repeat-x;
+  background-position: center;
+  margin: 12px 0;
+}
+
+/* ===== 手账质感：页脚页码 ===== */
+.page-footer {
+  text-align: center; padding: 20px 0 8px;
+  font-size: 10px; color: var(--border);
+  letter-spacing: 3px;
+}
+.page-footer::before {
+  content: ''; display: block;
+  width: 20px; height: 1px;
+  background: var(--border-soft);
+  margin: 0 auto 6px;
+}
+
+/* ===== 骨架屏 ===== */
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg,
+    var(--bg-warm) 25%,
+    var(--card) 37%,
+    var(--bg-warm) 63%
+  );
+  background-size: 200px 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius);
+}
+.skeleton-line {
+  height: 14px; margin-bottom: 8px; border-radius: 7px;
+}
+.skeleton-line.short { width: 60%; }
+.skeleton-card {
+  height: 80px; margin-bottom: 10px; border-radius: var(--radius);
+}
+.skeleton-circle {
+  width: 40px; height: 40px; border-radius: 50%;
+}
+.skeleton-title { height: 20px; width: 45%; margin-bottom: 12px; border-radius: 10px; }
+
+/* ===== 数字跳动 ===== */
+@keyframes numberPop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+.num-pop {
+  display: inline-block;
+  animation: numberPop .4s var(--ease-spring);
+}
