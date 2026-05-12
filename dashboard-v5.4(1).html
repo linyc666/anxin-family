@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes">
+<title>林家保险看板 v5.6</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0e17;color:#e2e8f0;line-height:1.6;min-height:100vh}
+header{background:linear-gradient(135deg,#141923,#1a2332);padding:20px 16px;border-bottom:1px solid #1e293b}
+header h1{font-size:22px;color:#d4a853;margin-bottom:4px}
+header .sub{font-size:13px;color:#94a3b8}
+nav{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;background:#0f131c;border-bottom:1px solid #1e293b}
+nav a{color:#94a3b8;text-decoration:none;font-size:12px;white-space:nowrap;padding:5px 10px;border-radius:16px;background:#141923;border:1px solid #1e293b;transition:.2s;flex-shrink:0}
+nav a:hover,nav a.active{color:#d4a853;border-color:#d4a853;background:#1a2332}
+section{padding:16px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+.stat-card{background:linear-gradient(145deg,#141923,#1a2332);border-radius:16px;padding:16px;text-align:center;border:1px solid #1e293b}
+.stat-card .num{font-size:28px;font-weight:700;color:#d4a853;display:block}
+.stat-card .label{font-size:12px;color:#94a3b8;margin-top:4px}
+.stat-card.alert{border-color:#ef4444;box-shadow:0 0 20px rgba(239,68,68,.1)}
+.p0{background:rgba(239,68,68,.12);border-left:3px solid #ef4444;border-radius:0 12px 12px 0}
+.p1{background:rgba(245,158,11,.08);border-left:3px solid #f59e0b;border-radius:0 12px 12px 0}
+.p2{background:rgba(234,179,8,.06);border-left:3px solid #eab308;border-radius:0 12px 12px 0}
+.ok{background:rgba(16,185,129,.06);border-left:3px solid #10b981;border-radius:0 12px 12px 0}
+.tag{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:600}
+.tag-red{background:rgba(239,68,68,.2);color:#f87171}
+.tag-orange{background:rgba(245,158,11,.2);color:#fbbf24}
+.tag-yellow{background:rgba(234,179,8,.2);color:#facc15}
+.tag-green{background:rgba(16,185,129,.2);color:#34d399}
+.tag-blue{background:rgba(59,130,246,.2);color:#93c5fd}
+.member-card{background:#141923;border-radius:16px;padding:20px;margin-bottom:20px;border:1px solid #1e293b}
+.member-card .header{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.member-card .name{font-size:18px;font-weight:700;color:#f1f5f9}
+.member-card .info{font-size:13px;color:#94a3b8}
+.member-card .premium{font-size:22px;font-weight:700;color:#d4a853;margin-left:auto}
+.policy-card{background:#1a2332;border-radius:14px;padding:16px;margin-bottom:10px;border:1px solid #2a3344}
+.policy-card .pc-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.policy-card .pc-title{font-weight:700;font-size:15px;color:#f1f5f9}
+.policy-card .pc-company{font-size:12px;color:#64748b}
+.policy-card .pc-premium{font-size:20px;font-weight:700;color:#d4a853;text-align:right}
+.policy-card .pc-premium .yr{font-size:11px;color:#64748b;font-weight:400}
+.policy-details{list-style:none;padding:0}
+.policy-details li{font-size:13px;padding:4px 0 4px 18px;color:#cbd5e1;position:relative}
+.policy-details li::before{content:'•';position:absolute;left:0;color:#d4a853}
+.policy-details li.hl::before{content:'⭐';color:#f59e0b}
+.policy-details li.warn::before{content:'⚠️';color:#ef4444}
+.policy-assessment{font-size:12px;color:#94a3b8;margin-top:8px;padding:8px 12px;background:rgba(212,168,83,.06);border-radius:8px;line-height:1.7}
+.policy-assessment strong{color:#d4a853}
+.policy-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.policy-tag{font-size:11px;padding:3px 8px;border-radius:8px;background:rgba(30,41,59,.8);border:1px solid #2a3344;color:#94a3b8}
+.policy-tag.green{color:#34d399;border-color:rgba(16,185,129,.3)}
+.policy-tag.orange{color:#fbbf24;border-color:rgba(245,158,11,.3)}
+.policy-tag.red{color:#f87171;border-color:rgba(239,68,68,.3)}
+.status-bar{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.status-dot{width:8px;height:8px;border-radius:50%}
+.status-dot.green{background:#10b981;box-shadow:0 0 6px rgba(16,185,129,.5)}
+.status-dot.orange{background:#f59e0b;box-shadow:0 0 6px rgba(245,158,11,.5)}
+.status-dot.red{background:#ef4444;box-shadow:0 0 6px rgba(239,68,68,.5)}
+.date-bar{display:flex;justify-content:space-between;font-size:12px;color:#64748b;margin-top:10px;padding-top:8px;border-top:1px solid #1e293b}
+.gap-box{background:#141923;border-radius:12px;padding:16px;margin-top:14px;border:1px solid #2a3344}
+.gap-box h4{color:#d4a853;font-size:14px;margin-bottom:8px}
+.gap-box p{font-size:13px;color:#94a3b8;margin-bottom:8px}
+
+/* ===== 推荐产品卡片（可折叠·多维度对比）===== */
+.rec-card{background:#1a2332;border-radius:12px;padding:14px;border:1px solid #2a3344;margin-bottom:8px;transition:border-color .2s}
+.rec-card:hover{border-color:rgba(212,168,83,.3)}
+.rec-card .rc-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:6px;position:relative}
+.rec-card .rc-name{font-weight:700;font-size:14px;color:#f1f5f9}
+.rec-card .rc-company{font-size:11px;color:#64748b}
+.rec-card .rc-price{font-size:19px;font-weight:700;color:#d4a853;text-align:right}
+.rec-card .rc-price .yr{font-size:11px;color:#64748b;font-weight:400}
+.rec-card .rc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.rec-card .rc-tags .tag{font-size:10px}
+.rec-toggle-btn{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#64748b;cursor:pointer;padding:2px 0;margin-top:4px;user-select:none;border:none;background:none}
+.rec-toggle-btn:hover{color:#d4a853}
+.rec-toggle-btn::after{content:' ▸';font-size:10px;transition:transform .2s}
+.rec-toggle-btn.expanded::after{content:' ▾'}
+.rec-card.collapsed .rec-detail-wrap{display:none}
+.rec-detail-wrap{margin-top:10px;padding-top:10px;border-top:1px solid #1e293b}
+.rec-detail-grid{display:grid;grid-template-columns:1fr;gap:4px}
+@media(min-width:500px){.rec-detail-grid{grid-template-columns:1fr 1fr}}
+.rec-dim{display:flex;gap:4px;font-size:11px;line-height:1.6}
+.rec-dim .dim-label{color:#64748b;white-space:nowrap;min-width:42px;font-size:10px}
+.rec-dim .dim-val{color:#cbd5e1}
+.rec-dim .dim-val.good{color:#34d399}
+.rec-dim .dim-val.warn{color:#fbbf24}
+.rec-assessment{font-size:11px;color:#94a3b8;margin-top:8px;padding:8px 10px;background:rgba(212,168,83,.05);border-radius:8px;line-height:1.6}
+.rec-assessment strong{color:#d4a853}
+.rec-rec{background:rgba(212,168,83,.04);border:1px solid rgba(212,168,83,.15);border-radius:8px;padding:6px 10px;margin-top:8px;font-size:11px;color:#d4a853}
+
+/* 医保定价提醒 */
+.insure-note{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:8px;padding:8px 12px;margin-top:8px;font-size:11px;color:#93c5fd;line-height:1.6}
+.insure-note strong{color:#60a5fa}
+.insure-note .bad{color:#f87171}
+
+h2{font-size:18px;color:#d4a853;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid #1e293b}
+.note{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:12px;margin:12px 0;font-size:13px;color:#f87171}
+.note-info{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:10px;padding:12px;margin:12px 0;font-size:13px;color:#93c5fd}
+.summary-bar{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.timeline{padding-left:20px;border-left:2px solid #2a3344}
+.tl-item{margin-bottom:16px;position:relative;padding:4px 8px}
+.tl-item::before{content:'';position:absolute;left:-26px;top:8px;width:10px;height:10px;border-radius:50%;background:#d4a853}
+.tl-item.urgent::before{background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,.5)}
+.tl-item.warn::before{background:#f59e0b;box-shadow:0 0 8px rgba(245,158,11,.5)}
+.tl-item .tl-date{font-size:13px;color:#94a3b8}
+.tl-item .tl-event{font-size:14px;color:#f1f5f9;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+th{text-align:left;padding:10px 8px;color:#94a3b8;font-weight:500;border-bottom:1px solid #1e293b;font-size:12px}
+td{padding:10px 8px;border-bottom:1px solid #1a2332}
+tr:last-child td{border-bottom:none}
+footer{text-align:center;padding:24px;color:#475569;font-size:12px;border-top:1px solid #1e293b;margin-top:32px}
+
+@media (max-width:480px){
+  nav{padding:8px 10px;gap:4px}
+  nav a{font-size:11px;padding:4px 8px}
+  #member-nav{padding:8px 10px;gap:4px}
+  #member-nav span{font-size:11px}
+  .mn-btn{font-size:11px;padding:4px 8px}
+  section{padding:12px}
+  h2{font-size:16px}
+  .stat-card{padding:12px}
+  .stat-card .num{font-size:22px}
+  .policy-card{padding:12px}
+  .policy-card .pc-title{font-size:13px}
+  .policy-card .pc-premium{font-size:16px}
+  .policy-details li{font-size:11px}
+  .member-card .header{flex-direction:column;align-items:flex-start}
+  .member-card .premium{align-self:flex-end}
+  .grid4{grid-template-columns:repeat(2,1fr)}
+  table{font-size:12px}
+  th,td{padding:8px 4px}
+  .rec-detail-grid{grid-template-columns:1fr}
+  .policy-assessment{font-size:11px}
+}
+
+.hidden{display:none !important}
+
+.policy-card.collapsed .policy-details,
+.policy-card.collapsed .policy-assessment,
+.policy-card.collapsed .policy-tags,
+.policy-card.collapsed .date-bar{display:none}
+
+.policy-toggle-btn{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#64748b;cursor:pointer;padding:2px 0;margin-top:4px;user-select:none;border:none;background:none;width:100%}
+.policy-toggle-btn:hover{color:#d4a853}
+.policy-toggle-btn::after{content:' ▸';font-size:10px;transition:transform .2s}
+.policy-toggle-btn.expanded::after{content:' ▾'}
+
+.coverage-bar{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid #1e293b;font-size:12px}
+.cov-ok{color:#34d399;background:rgba(16,185,129,.1);padding:2px 8px;border-radius:10px;white-space:nowrap}
+.cov-warn{color:#fbbf24;background:rgba(245,158,11,.1);padding:2px 8px;border-radius:10px;white-space:nowrap}
+.cov-bad{color:#f87171;background:rgba(239,68,68,.1);padding:2px 8px;border-radius:10px;white-space:nowrap}
+
+.mn-btn{font-size:12px;padding:6px 12px;border-radius:16px;border:1px solid #1e293b;background:#141923;color:#94a3b8;cursor:pointer;transition:.2s;white-space:nowrap;flex-shrink:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
+.mn-btn:hover,.mn-btn.active{color:#d4a853;border-color:#d4a853;background:#1a2332}
+.mn-btn.btn-danger:hover,.mn-btn.btn-danger.active{color:#f87171;border-color:#ef4444;background:rgba(239,68,68,.1)}
+
+.rec-compare-table{width:100%;margin:8px 0;font-size:11px;border-radius:8px;overflow:hidden;border:1px solid #1e293b}
+.rec-compare-table th{font-size:10px;padding:6px 4px;text-align:center;background:#141923}
+.rec-compare-table td{font-size:11px;padding:6px 4px;text-align:center}
+.rec-compare-table td:first-child{text-align:left;color:#f1f5f9;font-weight:500}
+.rec-compare-table .winner{color:#34d399;font-weight:600}
+
+/* 财产险专用样式 */
+.prop-card{background:#1a2332;border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid #2a3344}
+.prop-card .prop-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.prop-card .prop-name{font-weight:700;font-size:15px;color:#f1f5f9}
+.prop-card .prop-addr{font-size:12px;color:#64748b}
+.prop-card .prop-est{font-size:13px;color:#94a3b8;margin-top:4px}
+.prop-card .prop-detail{display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:12px;margin-top:10px;padding-top:10px;border-top:1px solid #1e293b}
+@media(max-width:480px){.prop-card .prop-detail{grid-template-columns:1fr}}
+.prop-card .prop-detail .pd-label{color:#64748b;font-size:11px}
+.prop-card .prop-detail .pd-val{color:#cbd5e1}
+.prop-rec{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:8px;padding:10px 14px;margin-top:12px;font-size:12px;color:#34d399;line-height:1.6}
+.prop-rec strong{color:#10b981}
+</style>
+</head>
+<body>
+
+<div style="position:sticky;top:0;z-index:100">
+  <header>
+    <h1>🛡️ 林家保险看板</h1>
+    <div class="sub">v5.6 · 10位成员 · 18份人身险 · 财产含车险+房险 · 2026-05-02</div>
+  </header>
+  <nav>
+    <a href="#overview">概览</a>
+    <a href="#members">保单核查</a>
+    <a href="#property">财产险</a>
+    <a href="#swap">置换方案</a>
+    <a href="#gaps">缺口总览</a>
+    <a href="#renewal">续保风险</a>
+    <a href="#timeline">时间轴</a>
+    <a href="#summary">保费汇总</a>
+  </nav>
+  <div id="member-nav" style="padding:8px 12px;display:flex;gap:6px;align-items:center;overflow-x:auto;-webkit-overflow-scrolling:touch;border-top:1px solid #1e293b;background:#0f131c">
+    <span style="font-size:13px;color:#94a3b8;white-space:nowrap">👤</span>
+    <button class="mn-btn active" data-member="all" id="btn-all">全部</button>
+    <button class="mn-btn" data-member="cong" id="btn-cong">聪</button>
+    <button class="mn-btn" data-member="xin" id="btn-xin">欣</button>
+    <button class="mn-btn" data-member="mom" id="btn-mom">老妈</button>
+    <button class="mn-btn" data-member="ya" id="btn-ya">雅</button>
+    <button class="mn-btn" data-member="jia" id="btn-jia">嘉</button>
+    <button class="mn-btn" data-member="wei" id="btn-wei">微</button>
+    <button class="mn-btn" data-member="yuefu" id="btn-yuefu">岳父</button>
+    <button class="mn-btn" data-member="yuemu" id="btn-yuemu">岳母</button>
+    <button class="mn-btn btn-danger" data-member="baba" id="btn-baba">老爸</button>
+    <button class="mn-btn" data-member="quan" id="btn-quan">权</button>
+  </div>
+</div>
+
+<!-- 移除下方独立的 member-nav，已并入上面的 sticky 容器 -->
+
+<section id="overview">
+  <div class="grid4">
+    <div class="stat-card"><span class="num">10</span><span class="label">家庭成员</span></div>
+    <div class="stat-card"><span class="num">18</span><span class="label">人身险保单</span></div>
+    <div class="stat-card"><span class="num">¥8,106</span><span class="label">人身险年保费</span></div>
+    <div class="stat-card alert"><span class="num">6</span><span class="label">项紧急待办</span></div>
+  </div>
+  <div class="summary-bar">
+    <span class="tag tag-red">🔴 P0 ×2 立即处理</span>
+    <span class="tag tag-orange">🟠 P1 ×3 尽快配置</span>
+    <span class="tag tag-yellow">🟡 P2 ×4 短期补充</span>
+    <span class="tag tag-green">🟢 已完善</span>
+  </div>
+  <div class="note-info">
+    <strong>📋 社保/医保对保险的影响：</strong><br>
+    ① <strong>百万医疗：</strong>有社保费率更低（约60-70%），且理赔先从社保报再走商保；无社保买百万医疗<strong>保费贵约2倍</strong>且报销比例降至<strong>60%</strong>。<br>
+    ② <strong>惠民保：</strong>要求参保当地医保（职工/居民）才能投保。<br>
+    ③ <strong>意外险/重疾险/定寿：</strong>不受社保影响。<br><br>
+    <strong>👨‍👩‍👧‍👦 林家医保现状：</strong><br>
+    聪/欣 深圳一档✅ · 老妈 汕尾居民医保✅ · 岳父/岳母 深圳二档✅ · 雅 广州灵活就业✅ · 嘉 深圳灵活就业✅ · 微 汕尾城乡✅ · 老爸 <strong style="color:#f87171">零医保🔴</strong> · 权 军队体系✅
+  </div>
+</section>
+
+<section id="members">
+<h2>各成员保单逐条核查</h2>
+
+<!-- ============ 聪 ============ -->
+<div class="member-card p0" data-member="cong">
+  <div class="header">
+    <div><div class="name">林永聪（聪）</div><div class="info">30岁 · 深圳一档医保 · 户主 · PDF核验</div></div>
+    <span class="tag tag-red">风险评分 45/100</span><span class="premium">¥1,736/年</span>
+  </div>
+  <div class="coverage-bar">
+    <span class="cov-ok">✅ 医疗400万·20年保证</span><span class="cov-ok">✅ 意外100万</span><span class="cov-ok">✅ 惠民保300万</span>
+    <span class="cov-bad">🔴 缺定寿·负债241万</span><span class="cov-warn">⚠️ 重疾1年期·12月到期</span>
+  </div>
+  <div class="note">🔴 负债241万（房贷65万+公积金贷176万）—— 定寿归零。一旦身故，全部债务+家庭开支落在欣一人身上。</div>
+
+  <div class="policy-card">
+    <div class="pc-header"><div><div class="pc-title">太保互联网个人长期B款医疗保险</div><div class="pc-company">太平洋健康 · 保单号 019422611361839</div></div><div class="pc-premium">¥443<span class="yr">/年</span></div></div>
+    <div class="policy-tags"><span class="policy-tag green">400万总保额</span><span class="policy-tag">1万免赔</span><span class="policy-tag green">含CAR-T</span><span class="policy-tag orange">外购药100万</span><span class="policy-tag green">20年保证续保</span></div>
+    <ul class="policy-details">
+      <li>一般医疗200万/年 · 重疾400万/年（含质子重离子）</li>
+      <li>恶性肿瘤院外特药200万/年（含CAR-T）· 外购药100万</li>
+      <li>免赔额：一般1万·重疾0免赔</li><li class="warn">等待期90天</li>
+    </ul>
+    <div class="policy-assessment">📌 30岁¥443/年锁定20年保证续保。外购药条款在癌症靶向药场景价值极大。</div>
+    <div class="insure-note">💡 有深圳一档医保，百万医疗按「有社保」费率 ¥443/年。若无社保则需¥700+/年且报销比例降至60%。</div>
+    <div class="date-bar"><span>生效 2026-04-21</span><span>到期 2027-04-20</span></div>
+  </div>
+
+  <div class="policy-card">
+    <div class="pc-header"><div><div class="pc-title">小蜜蜂6号尊享版</div><div class="pc-company">太平洋产险</div></div><div class="pc-premium">¥298<span class="yr">/年</span></div></div>
+    <div class="policy-tags"><span class="policy-tag green">100万意外</span><span class="policy-tag green">50万猝死</span><span class="policy-tag">10.5万医疗·0免赔</span><span class="policy-tag">航空500万</span></div>
+    <ul class="policy-details">
+      <li>意外身故/伤残100万 · 猝死50万</li>
+      <li>意外医疗10.5万（0免赔·不限社保·100%报销）</li>
+      <li class="hl">航空500万 · 火车/轮船/地铁50万</li>
+      <li>住院津贴150元/天 · 第三者责任5万</li>
+    </ul>
+    <div class="policy-assessment">📌 298元/年拿100万意外+50万猝死+10.5万医疗0免赔不限社保，性价比天花板。</div>
+    <div class="date-bar"><span>生效 2026-04-23</span><span>到期 2027-04-22</span></div>
+  </div>
+
+  <div class="policy-card" style="border-color:rgba(239,68,68,.3)">
+    <div class="pc-header"><div><div class="pc-title">健康福·重疾险（1年期）</div><div class="pc-company">国泰产险</div></div><div class="pc-premium">¥907<span class="yr">/年</span></div></div>
+    <div class="policy-tags"><span class="policy-tag orange">重疾80万</span><span class="policy-tag red">1年不保证续保</span><span class="policy-tag red">12月到期</span></div>
+    <ul class="policy-details">
+      <li>重疾80万(120种) · 特定重症额外24万(10种)</li>
+      <li>轻症24万(50种·1次) · 等待期90天</li>
+      <li class="warn">1年期，患病后次年拒保</li>
+      <li class="warn">50岁时费率涨至5000+/年</li>
+    </ul>
+    <div class="policy-assessment">📌 <strong>严重风险：</strong>一旦确诊任何疾病次年无法续保。12月前必须置换终身重疾。</div>
+    <div class="date-bar"><span>生效 2025-12-17</span><span style="color:#ef4444">🔴 到期 2026-12-16</span></div>
+  </div>
+
+  <div class="policy-card">
+    <div class="pc-header"><div><div class="pc-title">深圳惠民保2026</div><div class="pc-company">深圳市医保局指导</div></div><div class="pc-premium">¥88<span class="yr">/年</span></div></div>
+    <ul class="policy-details"><li>医保内住院300万 · 医保外住院300万 · 特药100万 · 抗癌针纳入2026版</li></ul>
+    <div class="insure-note">⚠️ 惠民保要求参保当地医保。聪有深圳一档✅。无医保则无法投惠民保。</div>
+    <div class="date-bar"><span>生效 2026-07-01</span><span>到期 2027-06-30</span></div>
+  </div>
+
+  <div class="gap-box">
+    <h4>🔴 核心缺口：定期寿险 200万</h4>
+    <p>负债241万→一旦身故欣独自承担全部债务。定寿是经济支柱最后防线。</p>
+
+    <!-- 推荐1：华贵大麦 -->
+    <div class="rec-card">
+      <div class="rc-header">
+        <div><div class="rc-name">🥇 华贵大麦2026A款</div><div class="rc-company">华贵人寿 · AA评级 · 定寿市场领导者</div></div>
+        <div class="rc-price">¥2,426<span class="yr">/年</span></div>
+      </div>
+      <div class="rc-tags">
+        <span class="tag tag-green">30岁男·200万·保至60岁·30年交</span>
+        <span class="tag">仅年缴</span>
+      </div>
+      <div class="rec-detail-wrap">
+        <div class="rec-detail-grid">
+          <div class="rec-dim"><span class="dim-label">续保：</span><span class="dim-val good">保至60岁·锁定30年·无需续保核保</span></div>
+          <div class="rec-dim"><span class="dim-label">时间：</span><span class="dim-val good">30→60岁覆盖核心责任期</span></div>
+          <div class="rec-dim"><span class="dim-label">保障：</span><span class="dim-val good">200万身故/全残 + 猝死额外50万</span></div>
+          <div class="rec-dim"><span class="dim-label">价格：</span><span class="dim-val">¥2,426/年 · 30年总¥72,780</span></div>
+          <div class="rec-dim"><span class="dim-label">健告：</span><span class="dim-val good">仅3条·无结节/血压/血糖询问·通过率高</span></div>
+          <div class="rec-dim"><span class="dim-label">公司：</span><span class="dim-val good">华贵人寿AA·定寿专项·行业第一</span></div>
+        </div>
+        <div class="rec-table-wrap"></div>
+        <div class="rec-assessment">📌 <strong>最优选：</strong>华贵大麦定寿市场领导品牌，条款简洁理赔口碑好。200万匹配241万负债+缓冲。健告仅3条通过率极高。</div>
+        <div class="insure-note">💡 定寿是<strong>给付型</strong>，不受社保/医保影响。含小蜜蜂航空500万无需航空附加。</div>
+      </div>
+    </div>
+
+    <!-- 推荐2：国富定海柱8号 -->
+    <div class="rec-card">
+      <div class="rc-header">
+        <div><div class="rc-name">🥈 国富定海柱8号</div><div class="rc-company">国富人寿 · 45岁前额外赔50%</div></div>
+        <div class="rc-price">¥2,348<span class="yr">/年</span></div>
+      </div>
+      <div class="rc-tags">
+        <span class="tag tag-green">30岁男·200万·保至60岁·30年交</span>
+        <span class="tag tag-blue">45岁前身故→300万</span>
+        <span class="tag">仅年缴</span>
+      </div>
+      <div class="rec-detail-wrap">
+        <div class="rec-detail-grid">
+          <div class="rec-dim"><span class="dim-label">续保：</span><span class="dim-val good">保至60岁·锁定30年</span></div>
+          <div class="rec-dim"><span class="dim-label">时间：</span><span class="dim-val good">30年保障·45岁前额外50%</span></div>
+          <div class="rec-dim"><span class="dim-label">保障：</span><span class="dim-val good">200万→45岁前300万身故/全残</span></div>
+          <div class="rec-dim"><span class="dim-label">价格：</span><span class="dim-val good">¥2,348/年·比大麦便宜¥78</span></div>
+          <div class="rec-dim"><span class="dim-label">健告：</span><span class="dim-val warn">5-7条·需确认无结节囊肿史</span></div>
+          <div class="rec-dim"><span class="dim-label">优势：</span><span class="dim-val good">30→45岁家庭重担期赔300万</span></div>
+        </div>
+        <table class="rec-compare-table"><tr><th></th><th>华贵大麦</th><th>国富定海柱</th></tr>
+          <tr><td>年保费</td><td>¥2,426</td><td class="winner">¥2,348 ✓</td></tr>
+          <tr><td>健告</td><td class="winner">3条 ✓</td><td>5-7条</td></tr>
+          <tr><td>45岁前额外赔</td><td>无</td><td class="winner">+50%=300万 ✓</td></tr>
+          <tr><td>保险公司</td><td class="winner">AA级 ✓</td><td>—</td></tr>
+          <tr><td>已有航空</td><td colspan="2">小蜜蜂已含500万·无需航空附加</td></tr></table>
+        <div class="rec-assessment">📌 <strong>备选：</strong>45岁前身故300万更有安全感。聪30→45岁正是家庭责任最重期。比大麦便宜¥78但健告更严格。</div>
+        <div class="rec-rec">🏆 健告能通过→选定海柱（便宜+45岁前多赔50%）。健告不通过→选大麦（仅3条健告·宽松）</div>
+      </div>
+    </div>
+
+    <h4 style="margin-top:14px">🟡 次要缺口：重疾1年期→终身置换</h4>
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">🥇 完美人生8号 终身重疾</div><div class="rc-company">复星联合健康 · A类·偿付175%</div></div><div class="rc-price">¥5,800<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-green">50万终身·30年交·女性特疾10%</span><span class="tag tag-blue">12月前置换</span></div>
+      <div class="rec-detail-wrap">
+        <div class="rec-detail-grid">
+          <div class="rec-dim"><span class="dim-label">续保：</span><span class="dim-val good">终身保证·费率锁定·无需续保核保</span></div>
+          <div class="rec-dim"><span class="dim-label">时间：</span><span class="dim-val good">30岁锁定·越早越便宜（35岁¥7,000+）</span></div>
+          <div class="rec-dim"><span class="dim-label">保障：</span><span class="dim-val good">50万重疾+30万中症(60%)+15万轻症(30%)</span></div>
+          <div class="rec-dim"><span class="dim-label">价格：</span><span class="dim-val">¥5,800/年·30年总¥174,000</span></div>
+          <div class="rec-dim"><span class="dim-label">公司：</span><span class="dim-val good">复星联合·A类·偿付175%</span></div>
+          <div class="rec-dim"><span class="dim-label"> vs 1年期：</span><span class="dim-val good">30年累计节省50%+</span></div>
+        </div>
+        <div class="rec-assessment">📌 终身重疾费率锁定在30岁时价值最高。与1年期相比30年总支出更少且终身保障。</div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">🥈 超级玛丽16号 终身重疾</div><div class="rc-company">君龙人寿 · 结节友好</div></div><div class="rc-price">¥6,500<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-green">50万终身·癌症多次赔付</span></div>
+      <div class="rec-detail-wrap">
+        <div class="rec-dim"><span class="dim-label">保障：</span><span class="dim-val good">50万重疾+癌症多次+住院报销</span></div>
+        <div class="rec-dim"><span class="dim-label">价格：</span><span class="dim-val">¥6,500/年·比完美人生贵¥700</span></div>
+        <div class="rec-assessment">📌 有癌症家族史或结节史→超级玛丽核保更友好。否则完美人生性价比更高。</div>
+      </div>
+    </div>
+    <div class="insure-note">💡 重疾险是<strong>给付型</strong>——不受社保/医保影响。确诊即赔，赔款自由支配。</div>
+  </div>
+</div>
+
+<!-- ============ 欣 ============ -->
+<div class="member-card p1" data-member="xin">
+  <div class="header">
+    <div><div class="name">马静欣（欣）</div><div class="info">31岁 · 深圳一档 · 配偶 · PDF核验</div></div>
+    <span class="tag tag-orange">风险评分 55/100</span><span class="premium">¥790/年</span>
+  </div>
+  <div class="coverage-bar">
+    <span class="cov-ok">✅ 医疗400万·0免赔</span><span class="cov-ok">⭐ 防癌险·终身保证</span><span class="cov-ok">✅ 惠民保300万</span>
+    <span class="cov-bad">🔴 缺重疾</span><span class="cov-bad">🔴 缺意外</span>
+    
+  </div>
+
+  <div class="policy-card">
+    <div class="pc-header"><div><div class="pc-title">人保悠享健康·长期医疗（0免赔版）</div><div class="pc-company">人保健康 · 保单号 20231026095097E</div></div><div class="pc-premium">¥453<span class="yr">/年</span></div></div>
+    <div class="policy-tags"><span class="policy-tag green">400万·0免赔</span><span class="policy-tag green">含质子重离子</span><span class="policy-tag green">含CAR-T</span><span class="policy-tag orange">6年保证续保</span></div>
+    <ul class="policy-details">
+      <li>一般医疗200万·重疾400万（含质子重离子100万）</li>
+      <li class="hl">0免赔：1万内30%报销·超1万100%·重疾100%</li>
+      <li>肿瘤特药(CAR-T)·院外特药100万·等待期30天</li>
+      <li class="warn">6年保证续保·到期需重新核保</li>
+    </ul>
+    <div class="policy-assessment">📌 <strong>「0免赔」是核心亮点。</strong>癌症放化疗反复多次住院时优势明显。6年保证续保到期（2026年10月）需重新健告。</div>
+    <div class="date-bar"><span>生效 2025-10-29</span><span style="color:#f59e0b">到期 2026-10-28</span></div>
+  </div>
+
+  <div class="policy-card">
+    <div class="pc-header"><div><div class="pc-title">人保温暖悠长防癌医疗保险</div><div class="pc-company">人保健康 · 保单号 20250623038276E</div></div><div class="pc-premium">¥249<span class="yr">/年</span></div></div>
+    <div class="policy-tags"><span class="policy-tag green">⭐ 终身保证续保</span><span class="policy-tag green">癌症400万·0免赔</span><span class="policy-tag green">含质子重离子</span></div>
+    <ul class="policy-details"><li>癌症医疗400万·质子重离子100万·特药100万·0免赔100%报销</li><li class="hl">终身保证续保——理赔多少次都终身可续</li></ul>
+    <div class="policy-assessment">📌 <strong>战略性保单：</strong>249元终身锁定癌症保障。31岁→到80岁总约¥12,200，癌症一发生就能赔几百万。</div>
+    <div class="date-bar"><span>生效 2025-06-24</span><span style="color:#10b981">终身</span></div>
+  </div>
+
+
+
+  <div class="policy-card">
+    <div class="pc-header"><div><div class="pc-title">深圳惠民保2026</div><div class="pc-company">深圳市医保局指导</div></div><div class="pc-premium">¥88<span class="yr">/年</span></div></div>
+    <ul class="policy-details"><li>医保内住院300万 · 医保外住院300万 · 特药100万 · 抗癌针纳入2026版</li></ul>
+    <div class="insure-note">⚠️ 惠民保要求参保当地医保。欣有深圳一档✅。</div>
+    <div class="date-bar"><span>生效 2026-07-01</span><span>到期 2027-06-30</span></div>
+  </div>
+
+  <div class="gap-box">
+    <h4>🟠 缺口：无重疾+无意外</h4>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">🥇 完美人生8号 终身重疾</div><div class="rc-company">复星联合健康 · A类·偿付175%</div></div><div class="rc-price">¥5,800<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-green">50万终身·30年交·女性特疾额外10%</span></div>
+      <div class="rec-detail-wrap">
+        <div class="rec-detail-grid">
+          <div class="rec-dim"><span class="dim-label">续保：</span><span class="dim-val good">终身保证·费率锁定</span></div>
+          <div class="rec-dim"><span class="dim-label">时间：</span><span class="dim-val good">31岁锁定·越早越便宜</span></div>
+          <div class="rec-dim"><span class="dim-label">保障：</span><span class="dim-val good">50万重疾+30万中症+15万轻症+女性特疾额外5万</span></div>
+          <div class="rec-dim"><span class="dim-label">价格：</span><span class="dim-val">¥5,800/年·30年总¥174,000</span></div>
+          <div class="rec-dim"><span class="dim-label">公司：</span><span class="dim-val good">复星联合·A类·偿付175%</span></div>
+        </div>
+        <div class="rec-assessment">📌 欣已有0免赔医疗+终身防癌+惠民保，缺的是确诊重疾后的<strong>收入补偿</strong>。50万可覆盖2-3年康复期+家庭开支。</div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">🥈 超级玛丽16号 终身重疾</div><div class="rc-company">君龙人寿·癌症多次</div></div><div class="rc-price">¥6,800<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-green">50万终身·癌症多次赔付</span></div>
+      <div class="rec-detail-wrap">
+        <div class="rec-dim"><span class="dim-label">保障：</span><span class="dim-val good">50万重疾+癌症多次+住院报销</span></div>
+        <div class="rec-dim"><span class="dim-label">价格：</span><span class="dim-val">¥6,800/年</span></div>
+        <div class="rec-assessment">📌 若欣有癌症家族史则超级玛丽更有价值。否则完美人生女性特疾更优。</div>
+      </div>
+    </div>
+
+    <div class="rec-card" style="margin-top:8px">
+      <div class="rc-header"><div><div class="rc-name">小蜜蜂6号典藏版 意外</div><div class="rc-company">太平洋产险</div></div><div class="rc-price">¥156<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-green">50万意外+30万猝死+5万医疗·0免赔不限社保</span></div>
+      <div class="rec-detail-wrap">
+        <div class="rec-dim"><span class="dim-label">保障：</span><span class="dim-val good">意外50万+猝死30万+医疗5万·0免赔不限社保</span></div>
+        <div class="rec-dim"><span class="dim-label">价格：</span><span class="dim-val good">¥156/年·性价比极高</span></div>
+        <div class="rec-dim"><span class="dim-label">优势：</span><span class="dim-val good">31岁填补意外空白·日常磕碰也能报</span></div>
+        <div class="rec-assessment">📌 156元/年即可填补意外险空白。0免赔不限社保是决定性优势。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 老妈 ============ -->
+<div class="member-card ok" data-member="mom">
+  <div class="header">
+    <div><div class="name">林香莲（老妈）</div><div class="info">51岁 · 汕尾居民医保 · 织造工人 · PDF核验</div></div>
+    <span class="tag tag-green">风险评分 85/100</span><span class="premium">¥2,586/年</span>
+  </div>
+  <div class="coverage-bar">
+    <span class="cov-ok">✅ 医疗400万·20年保证·含特需</span><span class="cov-ok">✅ 意外含骨折</span><span class="cov-ok">✅ 居民医保</span>
+  </div>
+
+  <div class="policy-card">
+    <div class="pc-header"><div><div class="pc-title">太保互联网个人长期B款医疗保险</div><div class="pc-company">太平洋健康 · 保单号 019422611409111</div></div><div class="pc-premium">¥2,358<span class="yr">/年（月交¥196.47）</span></div></div>
+    <div class="policy-tags"><span class="policy-tag green">400万·20年保证续保</span><span class="policy-tag green">含特需部</span><span class="policy-tag green">CAR-T·特药200万</span></div>
+    <ul class="policy-details">
+      <li>一般医疗200万·重疾400万（含特需部/国际部）</li>
+      <li>恶性肿瘤院外特药200万（含CAR-T）</li>
+      <li>免赔额：一般1万·重疾0免赔·等待期90天</li>
+    </ul>
+    <div class="policy-assessment">📌 51岁¥2,358/年锁定20年保证续保。51→71岁重疾高发期全覆盖。含特需部可升级病房环境。</div>
+    <div class="insure-note">
+      💡 老妈有汕尾<strong>居民医保 ✅</strong>，百万医疗按「有社保」费率 ¥2,358/年。<br>
+      <span class="bad">若无医保：</span>保费需¥4,000+/年 且 报销比例降至60%。先走居民医保→余下百万医疗100%报销。
+    </div>
+    <div class="date-bar"><span>生效 2026-04-24</span><span>到期 2027-04-23</span></div>
+  </div>
+
+  <div class="policy-card">
+    <div class="pc-header"><div><div class="pc-title">大护甲8号高龄版</div><div class="pc-company">人保财险 · 投保人：林于嘉</div></div><div class="pc-premium">¥228<span class="yr">/年</span></div></div>
+    <ul class="policy-details"><li>意外身故10万·驾驶/乘车额外30万(合计40万)·意外医疗5万·骨折5千·住院津贴50元/天</li></ul>
+    <div class="policy-assessment">📌 51岁织造工人跌倒风险高。骨折保障有价值。医疗报销限社保内+100元免赔，中规中矩。</div>
+    <div class="date-bar"><span>生效 2026-04-27</span><span>到期 2027-04-26</span></div>
+  </div>
+
+  <div class="gap-box">
+    <h4>🟢 轻度缺口：汕尾惠民保</h4>
+    <p>¥100-150/年，投保窗口9-12月。补充医保目录外药品。</p>
+    <div class="insure-note">
+      💡 <strong>惠民保要求必须先有当地医保</strong>才能投保。老妈有汕尾居民医保 ✅ → 可直接投保汕尾惠民保。<br>
+      报销顺序：居民医保→惠民保→百万医疗→最终个人自付极少。
+    </div>
+  </div>
+</div>
+
+<!-- ============ 雅 ============ -->
+<div class="member-card p2" data-member="ya">
+  <div class="header">
+    <div><div class="name">林于雅（雅/猫猫）</div><div class="info">29岁 · 广州灵活就业 · 7只猫 · 截图核验</div></div>
+    <span class="tag tag-yellow">风险评分 50/100</span><span class="premium">¥1,621/年</span>
+  </div>
+  <div class="coverage-bar">
+    <span class="cov-ok">✅ 医疗400万</span><span class="cov-ok">✅ 意外20万</span><span class="cov-ok">✅ 宠物险1只</span>
+    <span class="cov-bad">🔴 缺重疾·仅1万</span><span class="cov-warn">⚠️ 医疗1年期</span><span class="cov-warn">⚠️ 6只猫无保险</span>
+  </div>
+
+  <div class="policy-card" style="border-color:rgba(245,158,11,.3)">
+    <div class="pc-header"><div><div class="pc-title">人保悠遥保（臻爱/臻佑版）</div><div class="pc-company">人保健康</div></div><div class="pc-premium">¥412<span class="yr">/年</span></div></div>
+    <div class="policy-tags"><span class="policy-tag orange">400万</span><span class="policy-tag red">1年不保证续保</span><span class="policy-tag orange">重疾仅1万</span></div>
+    <ul class="policy-details"><li>一般医疗400万·重疾仅1万元·1年期不保证续保</li></ul>
+    <div class="policy-assessment">📌 最大的问题是<strong>重疾仅1万元</strong>——象征性数字。1年期不保证续保→患病后可能断保。</div>
+    <div class="insure-note">💡 雅有广州灵活就业医保 ✅ 百万医疗按有社保费率。若无医保→保费¥600+/年且报销60%。</div>
+    <div class="date-bar"><span>生效 2026-04-24</span><span>到期 2027-04-23</span></div>
+  </div>
+
+  <div class="policy-card">
+    <div class="pc-header"><div><div class="pc-title">骏业白领保</div><div class="pc-company">中国人寿</div></div><div class="pc-premium">¥388<span class="yr">/年</span></div></div>
+    <ul class="policy-details"><li>意外20万·猝死2万·医疗5万·定寿3万·疾病住院8千</li></ul>
+    <div class="policy-assessment">📌 保额偏低。到期后换小蜜蜂6号尊享版（¥298·100万意外+50万猝死），保额提升3-5倍且保费更低。</div>
+    <div class="date-bar"><span>生效 2026-01-18</span><span>到期 2027-01-17</span></div>
+  </div>
+
+  <div class="gap-box">
+    <h4>🟡 缺口：重疾仅1万+医疗1年期+6猫</h4>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">🥇 太保B款百万医疗 → 置换悠遥保</div><div class="rc-company">太平洋健康</div></div><div class="rc-price">~¥380<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-green">400万·20年保证·比悠遥保还便宜</span></div>
+      <div class="rec-detail-wrap">
+        <div class="rec-detail-grid">
+          <div class="rec-dim"><span class="dim-label">续保：</span><span class="dim-val good">20年保证 ← 悠遥保1年不保证</span></div>
+          <div class="rec-dim"><span class="dim-label">时间：</span><span class="dim-val good">29→49岁20年锁定</span></div>
+          <div class="rec-dim"><span class="dim-label">保障：</span><span class="dim-val good">400万+特药200万+CAR-T</span></div>
+          <div class="rec-dim"><span class="dim-label">价格：</span><span class="dim-val good">¥380 vs 悠遥保¥412·反便宜</span></div>
+          <div class="rec-dim"><span class="dim-label">公司：</span><span class="dim-val good">太平洋健康·A类·偿付175%</span></div>
+        </div>
+        <div class="rec-rec">🏆 质变升级：保费几乎不变，保障稳定性从1年→20年。</div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">🥇 达尔文12号 终身重疾</div><div class="rc-company">三峡人寿</div></div><div class="rc-price">¥3,700<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-green">30万终身·29岁费率优势·轻中症豁免</span></div>
+      <div class="rec-detail-wrap">
+        <div class="rec-dim"><span class="dim-label">续保：</span><span class="dim-val good">终身保证·费率锁定</span></div>
+        <div class="rec-dim"><span class="dim-label">时间：</span><span class="dim-val good">29岁锁定·比30岁便宜5-8%</span></div>
+        <div class="rec-dim"><span class="dim-label">保障：</span><span class="dim-val good">30万重疾+18万中症+9万轻症</span></div>
+        <div class="rec-dim"><span class="dim-label">价格：</span><span class="dim-val">¥3,700/年·30年总¥111,000</span></div>
+        <div class="rec-assessment">📌 性价比最高的成人终身重疾之一。29岁¥3,700比30岁投保便宜约¥200/年。</div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">🥈 超级玛丽16号 终身重疾</div><div class="rc-company">君龙人寿·结节友好</div></div><div class="rc-price">¥4,200<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-green">30万终身·结节友好·癌症多次</span></div>
+      <div class="rec-detail-wrap">
+        <div class="rec-dim"><span class="dim-label">保障：</span><span class="dim-val good">30万重疾+癌症多次+住院报销</span></div>
+        <div class="rec-dim"><span class="dim-label">价格：</span><span class="dim-val">¥4,200/年</span></div>
+        <div class="rec-assessment">📌 雅有乳腺/甲状腺结节或家族癌史→超级玛丽核保更友好。否则达尔文12号更实惠。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 嘉 ============ -->
+<div class="member-card p2" data-member="jia">
+  <div class="header">
+    <div><div class="name">林于嘉（嘉）</div><div class="info">26岁 · 深圳灵活就业 · PDF核验</div></div>
+    <span class="tag tag-yellow">风险评分 55/100</span><span class="premium">¥559/年</span>
+  </div>
+  <div class="coverage-bar">
+    <span class="cov-ok">✅ 医疗400万</span><span class="cov-ok">✅ 意外50万</span>
+    <span class="cov-bad">🔴 缺重疾</span><span class="cov-bad">🔴 缺惠民保</span><span class="cov-warn">⚠️ 医疗1年期</span>
+  </div>
+  <div class="note-info">⏰ 5月25日27岁生日 —— 27岁前投保重疾可锁定更低费率</div>
+
+  <div class="policy-card" style="border-color:rgba(245,158,11,.3)">
+    <div class="pc-header"><div><div class="pc-title">好医保·长期医疗旗舰版（2025版）</div><div class="pc-company">人保健康</div></div><div class="pc-premium">¥403<span class="yr">/年</span></div></div>
+    <div class="policy-tags"><span class="policy-tag orange">400万</span><span class="policy-tag red">1年不保证续保</span></div>
+    <ul class="policy-details"><li>一般医疗400万·重疾400万·重疾津贴1万·1年期</li></ul>
+    <div class="policy-assessment">📌 26岁¥403费率低，但1年期不保证续保是核心风险。一旦确诊任何疾病次年可能断保。</div>
+    <div class="date-bar"><span>生效 2026-04-23</span><span>到期 2027-04-22</span></div>
+  </div>
+
+  <div class="policy-card">
+    <div class="pc-header"><div><div class="pc-title">小蜜蜂6号典藏版</div><div class="pc-company">太平洋产险</div></div><div class="pc-premium">¥156<span class="yr">/年</span></div></div>
+    <ul class="policy-details"><li>意外50万·猝死30万·医疗5万0免赔不限社保·航空300万</li></ul>
+    <div class="date-bar"><span>生效 2026-04-23</span><span>到期 2027-04-22</span></div>
+  </div>
+
+  <div class="gap-box">
+    <h4>🟡 核心缺口：无重疾+无惠民保+医疗1年期</h4>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">🥇 太保B款百万医疗 → 置换好医保</div><div class="rc-company">太平洋健康</div></div><div class="rc-price">~¥250<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-green">400万·20年保证·省¥153</span></div>
+      <div class="rec-detail-wrap">
+        <div class="rec-rec">🏆 <strong>又便宜又稳定。</strong>¥250/年锁定20年 vs ¥403/年1年期——没有理由不换。</div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">🥇 达尔文12号 终身重疾</div><div class="rc-company">三峡人寿</div></div><div class="rc-price">¥3,700<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-green">30万终身·⏰5月25日前投保锁定26岁费率</span></div>
+      <div class="rec-detail-wrap">
+        <div class="rec-dim"><span class="dim-label">时间：</span><span class="dim-val good">26岁锁定·比27岁投保便宜5-8%</span></div>
+        <div class="rec-dim"><span class="dim-label">保障：</span><span class="dim-val good">30万重疾+18万中症+9万轻症</span></div>
+        <div class="rec-dim"><span class="dim-label">价格：</span><span class="dim-val">¥3,700/年·30年总¥111,000</span></div>
+        <div class="rec-rec">⏰ <strong>5月25日生日前投保</strong>——差一年差出上万元。26岁→27岁费率涨5-8%。</div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">深圳惠民保2027</div><div class="rc-company">深圳市医保局指导</div></div><div class="rc-price">¥88<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag">4-6月开放·需深圳医保</span></div>
+      <div class="insure-note">💡 需深圳灵活就业医保才能投。嘉有深圳灵活就业医保 ✅ 可直接投保。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 微 ============ -->
+<div class="member-card p2" data-member="wei">
+  <div class="header">
+    <div><div class="name">林于婷（微）</div><div class="info">25岁 · 汕尾城乡医保 · 广州工作 · 截图核验</div></div>
+    <span class="tag tag-yellow">风险评分 35/100</span><span class="premium">¥388/年</span>
+  </div>
+  <div class="coverage-bar">
+    <span class="cov-ok">✅ 意外20万</span><span class="cov-bad">🔴 缺百万医疗</span><span class="cov-bad">🔴 缺重疾</span><span class="cov-warn">⚠️ 汕尾城乡医保</span>
+  </div>
+
+  <div class="policy-card" style="border-color:rgba(239,68,68,.3)">
+    <div class="pc-header"><div><div class="pc-title">骏业白领保</div><div class="pc-company">中国人寿</div></div><div class="pc-premium">¥388<span class="yr">/年</span></div></div>
+    <ul class="policy-details"><li>意外20万·猝死2万·医疗5万·定寿3万·疾病住院8千</li></ul>
+    <div class="policy-assessment">📌 25岁仅1份意外险，<strong>没有任何百万医疗保障</strong>——致命缺口。一次阑尾炎手术需几千到一万，完全自费。</div>
+    <div class="date-bar"><span>生效 2026-01-18</span><span>到期 2027-01-17</span></div>
+  </div>
+
+  <div class="note">🔴 <strong>核心缺口：无百万医疗。</strong>25岁仅一份意外险，没有任何住院保障。</div>
+
+  <div class="gap-box">
+    <h4>🟡 推荐：百万医疗+医保转移</h4>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">🥇 太保B款百万医疗</div><div class="rc-company">太平洋健康</div></div><div class="rc-price">~¥250<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-green">400万·20年保证·25岁超低费率</span><span class="tag tag-blue">含CAR-T·外购药</span></div>
+      <div class="rec-detail-wrap">
+        <div class="rec-detail-grid">
+          <div class="rec-dim"><span class="dim-label">续保：</span><span class="dim-val good">20年保证·25→45岁锁定</span></div>
+          <div class="rec-dim"><span class="dim-label">时间：</span><span class="dim-val good">25岁最佳投保年龄·费率最低</span></div>
+          <div class="rec-dim"><span class="dim-label">保障：</span><span class="dim-val good">400万+200万特药+CAR-T+外购药100万</span></div>
+          <div class="rec-dim"><span class="dim-label">价格：</span><span class="dim-val good">¥250/年·一顿饭钱换20年大病保障</span></div>
+          <div class="rec-dim"><span class="dim-label">公司：</span><span class="dim-val good">太平洋健康·A类·偿付175%</span></div>
+        </div>
+        <div class="rec-assessment">📌 全家庭最低费率。25岁¥250/年锁定20年百万医疗，性价比无可匹敌。</div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">医保转移：汕尾城乡→广州灵活就业</div><div class="rc-company">微在广州工作·建议转广州医保</div></div>
+      <div class="rc-price">—</div></div>
+      <div class="rc-tags"><span class="tag tag-blue">转广州后·惠民保¥49 + 报销比例提升</span></div>
+      <div class="rec-detail-wrap">
+        <div class="rec-detail-grid">
+          <div class="rec-dim"><span class="dim-label">现状：</span><span class="dim-val warn">汕尾城乡医保在广州属异地·报销比例低</span></div>
+          <div class="rec-dim"><span class="dim-label">目标：</span><span class="dim-val good">广州灵活就业医保·本地就医·报销比例高</span></div>
+          <div class="rec-dim"><span class="dim-label">惠民保：</span><span class="dim-val good">广州惠民保¥49（有广州医保）</span></div>
+          <div class="rec-dim"><span class="dim-label">百万医疗：</span><span class="dim-val good">按有社保费率¥250</span></div>
+        </div>
+        <div class="insure-note">💡 <strong>无医保的代价：</strong>若微无医保买百万医疗→保费¥500+/年且报销降至60%。有汕尾城乡医保至少能按社保费率投保，但广州就医报销比广州医保低。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 岳父 ============ -->
+<div class="member-card p1" data-member="yuefu">
+  <div class="header">
+    <div><div class="name">马伟雄（岳父）</div><div class="info">54岁 · 深圳二档</div></div>
+    <span class="tag tag-orange">风险评分 20/100</span><span class="premium">¥88/年</span>
+  </div>
+  <div class="coverage-bar">
+    <span class="cov-ok">✅ 惠民保300万</span><span class="cov-bad">🔴 缺百万医疗·54岁最后窗口</span><span class="cov-bad">🔴 缺意外</span>
+  </div>
+  <div class="note">🟠 <strong>54岁——百万医疗最后免体检窗口！</strong>超55岁需体检，通过率大幅下降。</div>
+
+  <div class="policy-card">
+    <div class="pc-header"><div><div class="pc-title">深圳惠民保2026</div><div class="pc-company">深圳市医保局指导</div></div><div class="pc-premium">¥88<span class="yr">/年</span></div></div>
+    <ul class="policy-details"><li>医保内住院300万 · 医保外住院300万 · 特药100万 · 抗癌针纳入2026版</li></ul>
+    <div class="insure-note">⚠️ 惠民保要求参保当地医保。岳父有深圳二档✅。</div>
+    <div class="date-bar"><span>生效 2026-07-01</span><span>到期 2027-06-30</span></div>
+  </div>
+
+  <div class="gap-box">
+    <h4>🟠 推荐：百万医疗+意外</h4>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">🥇 太保B款百万医疗</div><div class="rc-company">太平洋健康</div></div><div class="rc-price">~¥600<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-red">54岁最后免体检窗口</span><span class="tag tag-green">20年保证续保</span><span class="tag tag-green">400万+CAR-T</span></div>
+      <div class="rec-detail-wrap">
+        <div class="rec-detail-grid">
+          <div class="rec-dim"><span class="dim-label">续保：</span><span class="dim-val good">20年保证·54→74岁覆盖重疾高发期</span></div>
+          <div class="rec-dim"><span class="dim-label">时间：</span><span class="dim-val good">54岁投保·免体检·超55岁需体检</span></div>
+          <div class="rec-dim"><span class="dim-label">保障：</span><span class="dim-val good">400万+特药200万+CAR-T+外购药100万</span></div>
+          <div class="rec-dim"><span class="dim-label">价格：</span><span class="dim-val">¥600/年·深圳二档有社保费率</span></div>
+          <div class="rec-dim"><span class="dim-label">公司：</span><span class="dim-val good">太平洋健康·A类·偿付175%</span></div>
+        </div>
+        <div class="rec-rec">🔴 <strong>54岁是最后免体检窗口</strong>——超55岁需体检，任何异常都可能导致拒保。</div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">🥈 众安尊享e生（备选）</div><div class="rc-company">众安保险·70岁可投</div></div><div class="rc-price">~¥500<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-yellow">不保证续保·但核保更宽松</span></div>
+      <div class="rec-detail-wrap">
+        <div class="rec-dim"><span class="dim-label">续保：</span><span class="dim-val warn">不保证续保</span></div>
+        <div class="rec-dim"><span class="dim-label">价格：</span><span class="dim-val good">¥500/年·便宜¥100</span></div>
+        <div class="rec-assessment">📌 太保B款若因体况通不过→选众安作备选。</div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">孝心安6号 意外险</div><div class="rc-company">太平洋产险</div></div><div class="rc-price">¥198<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-green">50-80岁专享·骨折额外赔</span></div>
+    </div>
+
+    <div class="insure-note">💡 岳父有<strong>深圳二档医保 ✅</strong> 百万医疗按有社保费率约¥600/年。若无医保则需¥1,100+/年且报销降至60%。惠民保也需深圳医保才可投。</div>
+  </div>
+</div>
+
+<!-- ============ 岳母 ============ -->
+<div class="member-card p1" data-member="yuemu">
+  <div class="header">
+    <div><div class="name">陈奕宜（岳母）</div><div class="info">55岁 · 深圳二档 · 子宫息肉(良性)</div></div>
+    <span class="tag tag-orange">风险评分 20/100</span><span class="premium">¥88/年</span>
+  </div>
+  <div class="coverage-bar">
+    <span class="cov-ok">✅ 惠民保300万</span><span class="cov-bad">🔴 缺百万医疗·55岁+息肉需核保</span><span class="cov-bad">🔴 缺意外</span>
+  </div>
+
+  <div class="policy-card">
+    <div class="pc-header"><div><div class="pc-title">深圳惠民保2026</div><div class="pc-company">深圳市医保局指导</div></div><div class="pc-premium">¥88<span class="yr">/年</span></div></div>
+    <ul class="policy-details"><li>医保内住院300万 · 医保外住院300万 · 特药100万 · 抗癌针纳入2026版</li></ul>
+    <div class="insure-note">⚠️ 惠民保要求参保当地医保。岳母有深圳二档✅。</div>
+    <div class="date-bar"><span>生效 2026-07-01</span><span>到期 2027-06-30</span></div>
+  </div>
+
+  <div class="gap-box">
+    <h4>🟠 推荐：百万医疗（需核保）+意外</h4>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">🥇 太保B款百万医疗（智能核保）</div><div class="rc-company">太平洋健康</div></div><div class="rc-price">~¥800<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-orange">需告知子宫息肉</span><span class="tag tag-green">20年保证续保</span></div>
+      <div class="rec-detail-wrap">
+        <div class="rec-dim"><span class="dim-label">核保：</span><span class="dim-val warn">子宫息肉·良性→可能除外子宫相关疾病</span></div>
+        <div class="rec-dim"><span class="dim-label">价格：</span><span class="dim-val">¥800/年·深圳二档有社保费率</span></div>
+        <div class="rec-rec">⚠️ 子宫息肉良性大概率通过但可能除外。即使除外，其他重疾仍正常保障。</div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">🥈 众安尊享e生（备选）</div><div class="rc-company">众安保险·核保更宽松</div></div><div class="rc-price">~¥600<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-yellow">不保证续保·息肉大概率标体</span></div>
+      <div class="rec-detail-wrap">
+        <div class="rec-dim"><span class="dim-label">核保：</span><span class="dim-val good">比太保宽松·子宫息肉大概率标体承保</span></div>
+        <div class="rec-dim"><span class="dim-label">缺点：</span><span class="dim-val warn">不保证续保</span></div>
+        <div class="rec-assessment">📌 太保B款通不过→众安备选。核保更宽松但无保证续保。</div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rc-header"><div><div class="rc-name">孝心安6号 意外险</div><div class="rc-company">太平洋产险</div></div><div class="rc-price">¥198<span class="yr">/年</span></div></div>
+      <div class="rc-tags"><span class="tag tag-green">50-80岁专享·意外骨折额外赔</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 老爸 ============ -->
+<div class="member-card p0" style="border:2px solid rgba(239,68,68,.4)" data-member="baba">
+  <div class="header">
+    <div><div class="name">老爸</div><div class="info">~50岁 · 境外务工 · 零保障 · 仅城乡户口</div></div>
+    <span class="tag tag-red">风险评分 0/100</span><span class="premium">¥0</span>
+  </div>
+  <div class="coverage-bar">
+    <span class="cov-bad">🔴 零保障</span><span class="cov-bad">🔴 无医保</span><span class="cov-bad">🔴 境外务工中</span>
+  </div>
+  <div class="note" style="background:rgba(239,68,68,.15);border-color:#ef4444;color:#fca5a5">
+    🔴🔴 <strong>全家庭最高风险！</strong>境外务工期+无居民医保+无任何商业保险=完全暴露。
+  </div>
+  <table>
+    <tr><th>阶段</th><th>行动</th><th>预估年费</th><th>关键说明</th></tr>
+    <tr><td>现在·境外</td><td>短期境外意外+紧急救援</td><td>~¥200</td><td>回国前临时保障</td></tr>
+    <tr><td style="color:#d4a853;font-weight:600">7月回国</td><td style="color:#d4a853;font-weight:600">汕尾城乡居民医保登记</td><td style="color:#d4a853;font-weight:600">~¥350</td><td>第一优先——所有其他保险的基础</td></tr>
+    <tr><td>回国后</td><td>百万医疗（55岁前窗口·太保B款）</td><td>~¥900</td><td>有居民医保后按社保费率</td></tr>
+    <tr><td>回国后</td><td>孝心安6号意外险</td><td>¥198</td><td>不受医保影响</td></tr>
+    <tr><td>9-12月</td><td>汕尾惠民保</td><td>~¥150</td><td>需先有汕尾居民医保</td></tr>
+    <tr style="font-weight:700"><td>合计</td><td colspan="3">~¥1,800/年</td></tr>
+  </table>
+  <div class="insure-note" style="margin-top:10px">
+    💡 <strong>老爸的医保逻辑链：</strong>居民医保(¥350) → 百万医疗按社保费率(~¥900 vs 无医保¥1,600+) → 惠民保(需有医保) → 三层防护搭建完毕。<br>
+    <strong class="bad">如果没有居民医保：</strong>① 百万医疗保费翻倍且报销降至60% ② 无法投惠民保 ③ 全部住院自费。<br>
+    <strong>→ 回国第一件事：办理汕尾城乡居民医保！</strong>
+  </div>
+</div>
+
+<!-- ============ 权 ============ -->
+<div class="member-card ok" data-member="quan">
+  <div class="header">
+    <div><div class="name">权</div><div class="info">29岁 · 军队体系内 · 2029年9月转业</div></div>
+    <span class="tag tag-green">体系内</span><span class="premium">¥0</span>
+  </div>
+  <div class="coverage-bar">
+    <span class="cov-ok">✅ 军队体系内免费医疗</span><span class="cov-ok">✅ 暂无需商业险</span>
+  </div>
+  <p style="font-size:13px;color:#94a3b8">军队体系内免费医疗，覆盖本人及配偶（嘉）部分。2029年转业前1年（2028年）配置商业百万医疗+意外险。</p>
+  <div class="insure-note">💡 2029年转业后军队医保断开→需立即配置地方医保+商业百万医疗。提前1年（2028年）锁定太保B款（20年保证续保），转业时无缝衔接。</div>
+</div>
+</section>
+
+<!-- ============ 财产险 ============ -->
+<section id="property">
+<h2>🏠 财产险 · 房屋 + 车辆</h2>
+
+<!-- ============ 欣·车辆保险 ============ -->
+<h3 style="font-size:15px;color:#93c5fd;margin:20px 0 12px;padding-bottom:6px;border-bottom:1px solid #1e293b">🚗 马静欣（欣）· 车辆保险 — 平安产险 · 精灵Li7000BEV757纯电 · 粤B·CQ8776</h3>
+
+<div class="grid4" style="margin-bottom:12px">
+  <div class="stat-card"><span class="num">¥5,161</span><span class="label">车险年保费</span></div>
+  <div class="stat-card"><span class="num">300万</span><span class="label">三者险保额</span></div>
+  <div class="stat-card"><span class="num">¥191,765</span><span class="label">车损险保额</span></div>
+  <div class="stat-card"><span class="num">2026-10-22</span><span class="label">到期日</span></div>
+</div>
+
+<div class="policy-card" style="border-left:3px solid #3b82f6">
+  <div class="pc-header"><div><div class="pc-title">🚗 交强险 — 平安产险</div><div class="pc-company">保单号 10578003903179575747 · 被保险人：马静欣</div></div><div class="pc-premium">¥855<span class="yr">/年（含税）</span></div></div>
+  <div class="policy-tags"><span class="policy-tag green">死亡伤残18万</span><span class="policy-tag green">医疗1.8万</span><span class="policy-tag">财产2千</span></div>
+  <ul class="policy-details">
+    <li>死亡伤残18万 · 医疗1.8万 · 财产损失2千</li>
+    <li>无责任赔付：死亡1.8万 · 医疗1800 · 财产100 · 含救助基金¥16.36</li>
+  </ul>
+  <div class="policy-assessment">📌 法定交强险，保障基础但额度低。重大事故远不够用，靠商业三者险补充。</div>
+  <div class="date-bar"><span>生效 2025-10-23</span><span style="color:#f59e0b">到期 2026-10-22</span></div>
+</div>
+
+<div class="policy-card">
+  <div class="pc-header"><div><div class="pc-title">🚗 商业险 — 平安产险</div><div class="pc-company">保单号 1057830093179573746 · 被保险人：马静欣</div></div><div class="pc-premium">¥4,306<span class="yr">/年（含税）</span></div></div>
+  <div class="policy-tags"><span class="policy-tag green">三者300万 💪</span><span class="policy-tag green">车损19.2万</span><span class="policy-tag green">医保外医疗50万</span><span class="policy-tag orange">座位险1万/座</span><span class="policy-tag green">道路救援7次</span></div>
+  <ul class="policy-details">
+    <li class="hl">新能源车损险：保额¥191,765 · 保费¥2,974</li>
+    <li class="hl">三者险 300万 · 保费¥1,246</li>
+    <li>司机座位险 1万 · ¥12 · 乘客×4座各1万 · ¥23</li>
+    <li>附加医保外医疗(三者) 50万 · ¥41</li>
+    <li>附加医保外医疗(车上人员) · ¥9（司机+乘客）</li>
+    <li class="hl">服务：代送检1次 · 代驾1次 · 安全检测1次 · 道路救援7次</li>
+  </ul>
+  <div class="policy-assessment">
+    📌 <strong>保单评估：</strong><br>
+    ✅ <strong>三者300万 — 优秀。</strong>深圳豪车多、人伤赔偿标准高，300万合理。<br>
+    ✅ <strong>医保外医疗50万 — 关键。</strong>人伤事故中自费药/进口器材不计入医保，无此附加需自掏腰包。<br>
+    ⚠️ <strong>座位险仅1万/座 — 偏低。</strong>建议提升至5-10万/座，或补一份驾乘意外险（¥100-200/年）。<br>
+    ✅ <strong>道路救援7次 — 实用。</strong>纯电车续航焦虑场景下拖车/搭电服务价值高。
+  </div>
+  <div class="date-bar"><span>生效 2025-10-23</span><span style="color:#f59e0b">到期 2026-10-22</span></div>
+</div>
+
+<hr style="border:none;border-top:2px solid #1e293b;margin:24px 0">
+
+<h3 style="font-size:15px;color:#d4a853;margin-bottom:12px">🏠 房屋财产险</h3>
+<div class="note-info">
+  <strong>📋 家财险要点：</strong><br>
+  ① <strong>房屋主体：</strong>赔付火灾/爆炸/自然灾害（台风/暴雨/洪水）造成的房屋结构损失，按重置成本或约定保额<br>
+  ② <strong>室内财产：</strong>家具/家电/衣物等，注意贵重物品（金银首饰/古董字画）通常单独列明限额<br>
+  ③ <strong>水管爆裂：</strong>南方潮湿+老旧小区管道老化——水管爆裂是高频出险项，超重要<br>
+  ④ <strong>第三者责任：</strong>花盆坠落伤人/漏水淹楼下邻居——住高层的必选项<br>
+  ⑤ <strong>保费低廉：</strong>家财险通常¥200-500/年即可获得50-200万房屋+10-50万财产保障
+</div>
+
+<!-- 汕尾瑞景豪庭 -->
+<div class="member-card" style="border-left:3px solid #d4a853">
+  <div class="header">
+    <div><div class="name">🏠 汕尾·瑞景豪庭</div><div class="info">聪名下 · 143㎡ · 汕尾城区</div></div>
+    <span class="tag tag-green">已入住</span>
+  </div>
+
+  <div class="prop-card">
+    <div class="prop-header">
+      <div><div class="prop-name">房屋概况</div></div>
+    </div>
+    <div class="prop-detail">
+      <div><span class="pd-label">面积</span><span class="pd-val">143㎡</span></div>
+      <div><span class="pd-label">类型</span><span class="pd-val">住宅（高层/电梯？）</span></div>
+      <div><span class="pd-label">估值</span><span class="pd-val">预估 ¥80-120万（汕尾均价约6,000-8,000/㎡）</span></div>
+      <div><span class="pd-label">风险</span><span class="pd-val" style="color:#fbbf24">汕尾为台风登陆高发区·暴雨+内涝风险</span></div>
+      <div><span class="pd-label">家财险</span><span class="pd-val" style="color:#ef4444">🔴 未配置</span></div>
+      <div><span class="pd-label">年保费预估</span><span class="pd-val">¥300-500</span></div>
+    </div>
+    <div class="prop-rec">
+      💡 <strong>推荐：太平洋家财险（基础版）</strong> — 房屋主体100万+室内财产20万+水管爆裂5万+第三者10万 ≈ ¥350/年<br>
+      ⚠️ 汕尾台风频发，务必确认条款含<strong>台风/暴雨</strong>责任（多数家财险已包含，但建议购买前核对免责条款）。<br>
+      ⚠️ 143㎡大户型建议适当提高室内财产保额至30-50万。
+    </div>
+  </div>
+</div>
+
+<!-- 深圳安居悦桐湾 -->
+<div class="member-card" style="border-left:3px solid #3b82f6">
+  <div class="header">
+    <div><div class="name">🏠 深圳·安居悦桐湾</div><div class="info">聪名下 · 安居型商品房（人才房/安居房）</div></div>
+    <span class="tag tag-blue">安居房 · 限售期内</span>
+  </div>
+
+  <div class="prop-card">
+    <div class="prop-header">
+      <div><div class="prop-name">房屋概况</div></div>
+    </div>
+    <div class="prop-detail">
+      <div><span class="pd-label">类型</span><span class="pd-val">安居型商品房（低于市场价配售）</span></div>
+      <div><span class="pd-label">估值</span><span class="pd-val">安居房价格约市场价50-60% · 具体以购房合同为准</span></div>
+      <div><span class="pd-label">限售</span><span class="pd-val" style="color:#fbbf24">⚠️ 10年限售期 · 不可转让/抵押</span></div>
+      <div><span class="pd-label">风险</span><span class="pd-val">建筑质量+火灾+水管爆裂+楼上漏水</span></div>
+      <div><span class="pd-label">家财险</span><span class="pd-val" style="color:#ef4444">🔴 未配置</span></div>
+      <div><span class="pd-label">年保费预估</span><span class="pd-val">¥200-400</span></div>
+    </div>
+    <div class="prop-rec">
+      💡 <strong>推荐：平安家财险（经典版）</strong> — 房屋主体100万+室内财产15万+水管爆裂3万+第三者10万 ≈ ¥250/年<br>
+      ⚠️ <strong>安居房特别注意：</strong>① 确认保单是否接受安居房/政策房（多数接受，但需核实）；② 10年限售期内房屋不可变现，火灾/自然灾害导致的损失无其他补偿途径，家财险尤为重要。<br>
+      ⚠️ 高层住宅需确认第三者责任——花盆/空调外机坠落致人伤亡需赔付。
+    </div>
+  </div>
+</div>
+
+<div class="gap-box" style="margin-top:12px">
+  <h4>🏠 家庭财产险配置建议总结</h4>
+  <table>
+    <tr><th>房产</th><th>估值</th><th>推荐产品</th><th>估算年费</th><th>重点覆盖</th></tr>
+    <tr>
+      <td>汕尾瑞景豪庭</td><td>¥80-120万</td><td>太平洋家财险基础版</td><td>¥350</td>
+      <td>台风/暴雨+水管爆裂</td>
+    </tr>
+    <tr>
+      <td>深圳安居悦桐湾</td><td>安居房价</td><td>平安家财险经典版</td><td>¥250</td>
+      <td>第三者+水管爆裂</td>
+    </tr>
+    <tr style="font-weight:700">
+      <td>合计</td><td colspan="2">两处房产全覆盖</td><td style="color:#d4a853">¥600/年</td>
+      <td>每年一杯咖啡钱保两套房子</td>
+    </tr>
+  </table>
+  <p style="font-size:12px;color:#64748b;margin-top:8px">
+    ⚠️ 以上保费为市场估算，实际以投保时保险公司报价为准。建议通过支付宝/微信保险或线下产险公司询价后投保。<br>
+    ⚠️ 如房屋出租→需购买「出租型」家财险，保费略高但覆盖租客造成的损失。
+  </p>
+</div>
+</section>
+
+<section id="swap">
+<h2>🔁 短期→长期置换方案</h2>
+<div class="note-info">14份1年期保单 vs 仅3份长期保证续保。短期保单随年龄增长、健康状况变化，断保风险逐年递增。以下为每人量身定制的置换方案。</div>
+
+<div class="member-card">
+  <div class="header"><div class="name">林永聪 — 置换方案</div><span class="tag tag-red">3份1年期需置换2份</span></div>
+  <table>
+    <tr><th>现有1年期</th><th>风险</th><th>置换为</th><th>保费变化</th><th>收益</th></tr>
+    <tr><td><span class="tag tag-red">健康福重疾80万</span> ¥907·12月到期</td><td>患病→拒保</td><td><strong>完美人生8号 50万终身</strong>或超级玛丽16号</td><td>¥907→¥5,800 <span style="color:#f87171">+¥4,893</span></td><td>终身保证·费率锁定·30年累计省50%+</td></tr>
+    <tr><td><span class="tag tag-yellow">小蜜蜂6号 ¥298</span></td><td>低</td><td><strong>保持</strong></td><td>—</td><td>意外险1年期续保风险极低</td></tr>
+  </table>
+</div>
+
+<div class="member-card">
+  <div class="header"><div class="name">林于雅 — 置换方案</div><span class="tag tag-red">3份1年期·全部需关注</span></div>
+  <table>
+    <tr><th>现有</th><th>风险</th><th>置换为</th><th>保费</th><th>理由</th></tr>
+    <tr><td><span class="tag tag-red">悠遥保 ¥412</span></td><td>1年不保证</td><td><strong>太保B款</strong> 20年保证</td><td>~¥380</td><td>质变升级·保费反降</td></tr>
+    <tr><td><span class="tag tag-yellow">骏业白领保 ¥388</span></td><td>保额低</td><td><strong>小蜜蜂6号 ¥298</strong></td><td>省¥90</td><td>保额3-5倍提升</td></tr>
+  </table>
+</div>
+
+<div class="member-card">
+  <div class="header"><div class="name">林于嘉 — 置换方案</div><span class="tag tag-red">核心风险：好医保1年不保证</span></div>
+  <table>
+    <tr><th>现有</th><th>风险</th><th>置换为</th><th>保费</th></tr>
+    <tr><td><span class="tag tag-red">好医保 ¥403</span></td><td>1年不保证</td><td><strong>太保B款 ¥250</strong></td><td><span style="color:#10b981">省¥153</span></td></tr>
+  </table>
+  <div class="policy-assessment">又便宜又稳定，没有理由不换。5月25日生日前完成。</div>
+</div>
+</section>
+
+<section id="gaps">
+<h2>风险缺口总览</h2>
+<table>
+  <tr><th>优先级</th><th>成员</th><th>当前</th><th>缺口</th><th>推荐产品</th><th>年费</th><th>续保优势</th><th>医保条件</th></tr>
+  <tr class="p0"><td><span class="tag tag-red">P0</span></td><td>聪</td><td>医疗✓意外✓重疾△</td><td>定寿归零·负债241万</td><td>华贵大麦200万·保至60岁</td><td>¥2,426</td><td>30年锁定</td><td>无需</td></tr>
+  <tr class="p0"><td><span class="tag tag-red">P0</span></td><td>老爸</td><td>全无</td><td>境外零保障+无医保</td><td>回国居民医保+百万医疗</td><td>¥255</td><td>20年(回国后)</td><td><span class="tag tag-red">需先办居民医保</span></td></tr>
+  <tr class="p1"><td><span class="tag tag-orange">P1</span></td><td>岳父</td><td>惠民保</td><td>54岁仅惠民保</td><td>太保B款+孝心安意外</td><td>¥800</td><td>20年保证</td><td>深圳二档✅</td></tr>
+  <tr class="p1"><td><span class="tag tag-orange">P1</span></td><td>岳母</td><td>惠民保</td><td>55岁+息肉</td><td>太保B款(核保)+意外</td><td>¥1,000</td><td>20年保证</td><td>需智能核保</td></tr>
+  <tr class="p1"><td><span class="tag tag-orange">P1</span></td><td>欣</td><td>医疗✓防癌✓</td><td>无重疾+无意外</td><td>完美人生50万+小蜜蜂</td><td>¥5,956</td><td>终身+1年</td><td>无需</td></tr>
+  <tr class="p2"><td><span class="tag tag-yellow">P2</span></td><td>微</td><td>意外</td><td>无百万医疗</td><td>太保B款百万医疗</td><td>¥250</td><td>20年保证</td><td>有城乡医保·按社保费率</td></tr>
+  <tr class="p2"><td><span class="tag tag-yellow">P2</span></td><td>嘉</td><td>医疗△意外✓</td><td>无重疾+医疗1年期</td><td>达尔文12号30万+惠民保</td><td>¥3,788</td><td>终身保证</td><td>深圳灵活就业✅</td></tr>
+  <tr class="p2"><td><span class="tag tag-yellow">P2</span></td><td>雅</td><td>医疗△意外△</td><td>重疾仅1万+6猫</td><td>达尔文12号30万+太保B款</td><td>¥4,200</td><td>终身+20年</td><td>广州灵活就业✅</td></tr>
+  <tr style="border-top:2px solid #d4a853"><td><span class="tag tag-blue">新增</span></td><td>家庭财产</td><td>两处房产</td><td>家财险全无</td><td>太平洋+平安家财险</td><td>¥600</td><td>1年期·续保容易</td><td>无需</td></tr>
+</table>
+</section>
+
+<section id="renewal">
+<h2>续保风险总览</h2>
+<div class="note">⚠️ 18份保单仅<strong>3份</strong>有长期保证续保。一旦被保险人患病，14份1年期保单可能面临断保或大幅加费。</div>
+<table>
+  <tr><th>成员</th><th>终身/20年</th><th>6年保证</th><th>1年/年度</th><th>风险</th><th>最脆弱保单</th></tr>
+  <tr><td>聪</td><td>1（太保B款）</td><td>0</td><td>3</td><td>🟡</td><td>健康福重疾·12月到期</td></tr>
+  <tr><td>欣</td><td>1（防癌）</td><td>1（悠享）</td><td>1</td><td>🟡</td><td>10月悠享到期需核保</td></tr>
+  <tr><td>老妈</td><td>1（太保B款）</td><td>0</td><td>1</td><td>🟢</td><td>大护甲·意外险续保门槛低</td></tr>
+  <tr><td>雅</td><td>0</td><td>0</td><td>3</td><td>🔴</td><td>悠遥保·1年不保证</td></tr>
+  <tr><td>嘉</td><td>0</td><td>0</td><td>2</td><td>🔴</td><td>好医保·1年不保证</td></tr>
+  <tr><td>微</td><td>0</td><td>0</td><td>1</td><td>🔴</td><td>仅骏业白领保·无医疗险</td></tr>
+  <tr><td>岳父</td><td>0</td><td>0</td><td>1</td><td>🔴</td><td>仅惠民保·54岁最后窗口</td></tr>
+  <tr><td>岳母</td><td>0</td><td>0</td><td>1</td><td>🔴</td><td>仅惠民保·55岁核保更难</td></tr>
+  <tr><td>老爸</td><td>0</td><td>0</td><td>0</td><td>🔴🔴</td><td>零保障</td></tr>
+</table>
+</section>
+
+<section id="timeline">
+<h2>时间轴</h2>
+<div class="timeline">
+  <div class="tl-item warn"><div class="tl-date">🟡 2026年5月</div><div class="tl-event">嘉27岁前投保终身重疾（达尔文12号·30万·锁定26岁费率）</div></div>
+  <div class="tl-item warn"><div class="tl-date">🟠 2026年6月上旬</div><div class="tl-event">聪·欣·岳父·岳母：深圳惠民保续保（¥88×4=¥352）</div></div>
+  <div class="tl-item urgent"><div class="tl-date">🔴 2026年7月</div><div class="tl-event">老爸回国 → 居民医保登记+太保B款百万医疗+孝心安意外</div></div>
+  <div class="tl-item"><div class="tl-date">🟡 2026年9-12月</div><div class="tl-event">老妈·老爸·微：汕尾惠民保投保窗口</div></div>
+  <div class="tl-item warn"><div class="tl-date">🟠 2026年10月28日</div><div class="tl-event">欣悠享健康到期续保（6年保证·需重新健康告知）</div></div>
+  <div class="tl-item urgent"><div class="tl-date">🔴 2026年12月16日</div><div class="tl-event">聪健康福重疾到期 → <strong>必须在此之前置换终身重疾</strong></div></div>
+  <div class="tl-item warn"><div class="tl-date">🟠 2026年12月</div><div class="tl-event">欣车贷尾款2万结清 + 聪公积金贷月供启动</div></div>
+  <div class="tl-item"><div class="tl-date">🟡 2027年1月17日</div><div class="tl-event">雅·微骏业白领保到期 → 换投小蜜蜂6号尊享版</div></div>
+  <div class="tl-item"><div class="tl-date">🟡 2029年9月</div><div class="tl-event">权转业 → 提前配置商业百万医疗+意外</div></div>
+</div>
+</section>
+
+<section id="summary">
+<h2>保费汇总</h2>
+<table>
+  <tr><th>成员</th><th>已付年保费</th><th>缺口预估</th><th>完成后年保费</th></tr>
+  <tr><td>聪</td><td>¥1,736</td><td>+¥8,226</td><td>¥9,962</td></tr>
+  <tr><td>欣</td><td>¥790</td><td>+¥5,956</td><td>¥6,746</td></tr>
+  <tr><td>老妈</td><td>¥2,586</td><td>+¥150</td><td>¥2,736</td></tr>
+  <tr><td>雅</td><td>¥1,621</td><td>+¥4,200</td><td>¥5,821</td></tr>
+  <tr><td>嘉</td><td>¥559</td><td>+¥4,038</td><td>¥4,597</td></tr>
+  <tr><td>微</td><td>¥388</td><td>+¥970</td><td>¥1,358</td></tr>
+  <tr><td>岳父</td><td>¥88</td><td>+¥1,400</td><td>¥1,488</td></tr>
+  <tr><td>岳母</td><td>¥88</td><td>+¥1,400</td><td>¥1,488</td></tr>
+  <tr><td>老爸</td><td>¥0</td><td>+¥1,800</td><td>¥1,800</td></tr>
+  <tr><td>权</td><td>¥0</td><td>—</td><td>¥0</td></tr>
+  <tr style="font-weight:700;border-top:2px solid #d4a853"><td>人险合计</td><td style="color:#d4a853;font-size:16px">¥8,106</td><td style="color:#f87171;font-size:16px">+¥28,140</td><td style="color:#d4a853;font-size:16px">¥36,246</td></tr>
+</table>
+
+<h2 style="margin-top:24px">🏠 财产险年费预估</h2>
+<table>
+  <tr><th>房产</th><th>产品</th><th>年费</th></tr>
+  <tr><td>汕尾瑞景豪庭</td><td>太平洋家财险</td><td>¥350</td></tr>
+  <tr><td>深圳安居悦桐湾</td><td>平安家财险</td><td>¥250</td></tr>
+  <tr style="font-weight:700;border-top:2px solid #d4a853"><td>合计</td><td>2处</td><td style="color:#d4a853">¥600/年</td></tr>
+</table>
+
+<h2 style="margin-top:24px">保险公司风控</h2>
+<table>
+  <tr><th>公司</th><th>评级</th><th>偿付</th><th>家庭涉及</th></tr>
+  <tr><td>太平洋健康</td><td><span class="tag tag-green">A类</span></td><td>175%</td><td>聪医疗·老妈医疗·推荐品</td></tr>
+  <tr><td>人保健康</td><td><span class="tag tag-green">A类</span></td><td>156%</td><td>欣医疗·欣防癌·雅医疗·嘉医疗</td></tr>
+  <tr><td>太平洋产险</td><td><span class="tag tag-green">A类</span></td><td>—</td><td>聪意外·嘉意外·推荐意外·推荐家财</td></tr>
+  <tr><td>华贵人寿</td><td><span class="tag tag-green">AA</span></td><td>—</td><td>定寿推荐品</td></tr>
+  <tr><td>复星联合健康</td><td><span class="tag tag-green">A类</span></td><td>175%</td><td>重疾推荐品</td></tr>
+  <tr><td>三峡人寿</td><td>B类</td><td>—</td><td>达尔文12号推荐品</td></tr>
+  <tr><td>平安产险</td><td><span class="tag tag-green">A类</span></td><td>—</td><td>家财险推荐品</td></tr>
+</table>
+</section>
+
+<footer>
+  林家保险看板 v5.6 · 财产险板块含车险+房险 · 惠民保补全 · 2026-05-02<br>
+  🚗 欣车险：平安产险 交强¥855+商业¥4,306=¥5,161/年 · 三者300万✅ · 到期2026-10-22<br>
+  ✅ 欣/岳父/岳母 惠民保保单已补 · 🏠 汕尾瑞景豪庭143㎡ + 深圳安居悦桐湾 家财险推荐<br>
+  数据源：5份PDF+11份截图+42条飞书多维表格记录 · 本报告仅供参考<br>
+  🔴 P0立即处理 🟠 P1尽快配置 🟡 P2短期补充 🟢 已完善
+</footer>
+
+<script>
+var memberStats = {
+  cong:{members:1,policies:4,premium:1736,urgent:2},
+  xin:{members:1,policies:3,premium:790,urgent:0},
+  mom:{members:1,policies:2,premium:2586,urgent:0},
+  ya:{members:1,policies:3,premium:1621,urgent:0},
+  jia:{members:1,policies:2,premium:559,urgent:0},
+  wei:{members:1,policies:1,premium:388,urgent:1},
+  yuefu:{members:1,policies:1,premium:88,urgent:1},
+  yuemu:{members:1,policies:1,premium:88,urgent:1},
+  baba:{members:1,policies:0,premium:0,urgent:2},
+  quan:{members:1,policies:0,premium:0,urgent:0}
+};
+var globalStats={members:10,policies:18,premium:8106,urgent:6};
+
+function updateStats(s){
+  var ns=document.querySelectorAll('.stat-card .num');
+  if(ns[0])ns[0].textContent=s.members;
+  if(ns[1])ns[1].textContent=s.policies;
+  if(ns[2])ns[2].textContent='¥'+s.premium.toLocaleString();
+  if(ns[3])ns[3].textContent=s.urgent;
+}
+
+function showMember(id){
+  var cards=document.querySelectorAll('.member-card');
+  for(var i=0;i<cards.length;i++)cards[i].classList.add('hidden');
+  var ms=document.querySelectorAll('.member-card[data-member="'+id+'"]');
+  for(var i=0;i<ms.length;i++)ms[i].classList.remove('hidden');
+  document.querySelectorAll('.mn-btn').forEach(function(b){b.classList.remove('active')});
+  var btn=document.getElementById('btn-'+id);
+  if(btn){btn.classList.add('active');btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'})}
+  updateStats(memberStats[id]||globalStats);
+  if(ms[0])ms[0].scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function showAll(){
+  document.querySelectorAll('.member-card').forEach(function(c){c.classList.remove('hidden')});
+  document.querySelectorAll('.mn-btn').forEach(function(b){b.classList.remove('active')});
+  var btn=document.getElementById('btn-all');
+  if(btn)btn.classList.add('active');
+  updateStats(globalStats);
+}
+
+function togglePolicy(el){
+  var card=el.closest('.policy-card');if(!card)return;
+  card.classList.toggle('collapsed');
+  if(card.classList.contains('collapsed')){el.textContent='展开详情';el.classList.remove('expanded')}
+  else{el.textContent='收起详情';el.classList.add('expanded')}
+}
+
+function toggleRec(el){
+  var card=el.closest('.rec-card');if(!card)return;
+  card.classList.toggle('collapsed');
+  if(card.classList.contains('collapsed')){el.textContent='展开对比';el.classList.remove('expanded')}
+  else{el.textContent='收起对比';el.classList.add('expanded')}
+}
+
+// ===== 人员导航（桌面+手机统一 click 事件委托）=====
+function initMemberNav(){
+  var mnav=document.getElementById('member-nav');
+  if(!mnav)return;
+  mnav.addEventListener('click',function(e){
+    var btn=e.target.closest('.mn-btn');
+    if(!btn)return;
+    var m=btn.getAttribute('data-member');
+    if(!m)return;
+    if(m==='all')showAll();else if(memberStats[m])showMember(m);
+  });
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  initMemberNav();
+  document.querySelectorAll('.policy-card').forEach(function(card){
+    card.classList.add('collapsed');
+    var btn=document.createElement('span');
+    btn.className='policy-toggle-btn';btn.textContent='展开详情';
+    btn.onclick=function(e){e.stopPropagation();togglePolicy(btn)};
+    var h=card.querySelector('.pc-header');if(h)h.appendChild(btn);
+  });
+  document.querySelectorAll('.rec-card').forEach(function(card){
+    card.classList.add('collapsed');
+    var btn=document.createElement('span');
+    btn.className='rec-toggle-btn';btn.textContent='展开对比';
+    btn.onclick=function(e){e.stopPropagation();toggleRec(btn)};
+    var h=card.querySelector('.rc-header');if(h)h.appendChild(btn);
+  });
+});
+</script>
+</body>
+</html>

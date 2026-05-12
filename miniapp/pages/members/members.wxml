@@ -1,0 +1,107 @@
+<!--pages/members/members.wxml - 家庭档案-->
+<view class="container" style="background-color:{{ tColors ? tColors.bg : '#F8F4EC' }}">
+  <view class="folder-tabs">
+    <view class="ftab {{ activeKind === 'person' ? 'active' : '' }}" bindtap="onSwitchKind" data-kind="person">
+      <text>家人</text>
+      <text class="ftab-count">{{ peopleCount }}</text>
+    </view>
+    <view class="ftab {{ activeKind === 'pet' ? 'active' : '' }}" bindtap="onSwitchKind" data-kind="pet">
+      <text>宠物</text>
+      <text class="ftab-count">{{ petCount }}</text>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{ visibleMembers.length === 0 }}">
+    <text class="empty-icon">+</text>
+    <text class="empty-text" wx:if="{{ activeKind === 'person' }}">还没有家人档案</text>
+    <text class="empty-text" wx:else>还没有宠物档案</text>
+    <text class="empty-hint">添加后可记录重要资料、年度支出和到期提醒</text>
+  </view>
+
+  <view class="folder-card" wx:for="{{ visibleMembers }}" wx:key="id">
+    <view class="fc-header" bindtap="onToggleFolder" data-id="{{ item.id }}">
+      <view class="fc-avatar {{ item.isPet ? 'pet' : '' }}">{{ item.isPet ? '宠' : '人' }}</view>
+      <view class="fc-info">
+        <text class="fc-name">{{ item.name }}</text>
+        <text class="fc-meta" wx:if="{{ !item.isPet }}">{{ item.age }}岁 · {{ item.role || '-' }} · {{ item.yibao || '-' }}</text>
+        <text class="fc-meta" wx:else>{{ item.age }}岁 · {{ item.petType || '宠物' }} · {{ item.breed || '-' }}</text>
+      </view>
+      <view class="fc-stats">
+        <text class="fcs-count">{{ item.policies.length }} 条资料</text>
+        <text class="fcs-attention {{ item.p0Gaps > 0 ? 'has' : '' }}" wx:if="{{ item.gapCount > 0 }}">{{ item.gapCount }} 项待关注</text>
+        <text class="fcs-attention ok" wx:else>已完善</text>
+      </view>
+      <text class="fc-arrow {{ item.collapsed ? '' : 'open' }}">{{ item.collapsed ? '展开' : '收起' }}</text>
+    </view>
+
+    <view class="fc-pet-reminders" wx:if="{{ item.isPet && item.petReminders && item.petReminders.hasAlert && !item.collapsed }}">
+      <view class="fpr-item {{ r.expired ? 'expired' : 'urgent' }}" wx:for="{{ item.petReminders.items }}" wx:key="type" wx:for-item="r" wx:if="{{ r.urgent }}">
+        <text>{{ r.typeLabel }}：{{ r.label }}</text>
+      </view>
+    </view>
+
+    <view class="fc-body" wx:if="{{ !item.collapsed }}">
+      <view class="fc-empty" wx:if="{{ item.policies.length === 0 }}">
+        <text>暂无重要资料</text>
+      </view>
+
+      <view class="fc-record {{ p.expired ? 'expired' : p.expSoon ? 'soon' : '' }}" wx:for="{{ item.policies }}" wx:key="id" wx:for-item="p">
+        <view class="fcr-top">
+          <view class="fcr-title-wrap">
+            <text class="fcr-title" bindtap="onViewPolicy" data-id="{{ p.id }}">{{ p.displayName }}</text>
+            <text class="fcr-subtitle">{{ p.displayCompany }} · {{ p.profile.categoryLabel || p.displayType }}</text>
+          </view>
+          <view class="fcr-status">
+            <text class="fcr-days {{ p.expired ? 'red' : p.expSoon ? 'gold' : '' }}" wx:if="{{ p.daysLeft !== null }}">
+              {{ p.expired ? '已过期 '+p.absDays+' 天' : p.daysLeft+' 天后到期' }}
+            </text>
+            <text class="fcr-verify {{ !p.verified ? 'warn' : '' }}">{{ p.verified ? '已核对' : '待核对' }}</text>
+          </view>
+        </view>
+
+        <text class="fcr-summary">{{ p.profile.summaryLine || p.profileSummary }}</text>
+        <text class="fcr-boundary" wx:if="{{ p.boundaryLine }}">{{ p.boundaryLine }}</text>
+
+        <view class="fcr-grid" wx:if="{{ p.highlightItems.length > 0 }}">
+          <view class="fcr-field {{ ci.status }}" wx:for="{{ p.highlightItems }}" wx:key="key" wx:for-item="ci" bindtap="onEditPolicy" data-id="{{ p.id }}" data-field="{{ ci.key }}">
+            <text class="fcr-field-label">{{ ci.label }}</text>
+            <text class="fcr-field-value">{{ ci.value }}</text>
+            <text class="fcr-field-source" wx:if="{{ ci.source === 'product_db' }}">参考待确认</text>
+          </view>
+        </view>
+
+        <text class="fcr-match-note" wx:if="{{ p.productMatchName }}">已按资料库相似记录补充展示，建议核对原文</text>
+
+        <view class="fcr-review" wx:if="{{ p.reviewTags.length > 0 }}">
+          <text class="fcr-review-label">建议核对：</text>
+          <text class="fcr-review-tag" wx:for="{{ p.reviewTags }}" wx:key="*this" wx:for-item="tag">{{ tag }}</text>
+        </view>
+
+        <view class="fcr-foot">
+          <text class="fcr-complete" bindtap="onCheckPolicy" data-id="{{ p.id }}">完整度 {{ p.completeness.filled }}/{{ p.completeness.total }} ›</text>
+          <text class="fcr-cost" wx:if="{{ p.premium && p.premium !== '0' }}">年度支出 ¥{{ p.premium }}</text>
+        </view>
+
+        <view class="fcr-actions">
+          <text class="fcr-check" bindtap="onEditPolicy" data-id="{{ p.id }}">编辑</text>
+          <text class="fcr-check" bindtap="onCheckPolicy" data-id="{{ p.id }}">核对</text>
+          <text class="fcr-check" bindtap="onViewPolicy" data-id="{{ p.id }}">详情</text>
+          <text class="fcr-del" bindtap="onDeletePolicy" data-id="{{ p.id }}">删除</text>
+        </view>
+      </view>
+
+      <view class="fc-footer">
+        <button class="btn btn-gold btn-sm" bindtap="onAddPolicy" data-member-id="{{ item.id }}">添加资料</button>
+        <button class="btn btn-sm" bindtap="onEditMember" data-id="{{ item.id }}">编辑</button>
+        <button class="btn btn-sm" bindtap="onDeleteMember" data-id="{{ item.id }}">删除</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="add-bar">
+    <button class="btn btn-gold" bindtap="onAddMember" wx:if="{{ activeKind === 'person' }}">添加家人</button>
+    <button class="btn btn-gold" bindtap="onAddPet" wx:else>添加宠物</button>
+  </view>
+
+  <view class="bottom-space"></view>
+</view>

@@ -1,0 +1,892 @@
+[
+  {
+    "id": "med_taibao_b",
+    "type": "百万医疗",
+    "name": "太保互联网个人长期B款医疗保险",
+    "company": "太平洋健康",
+    "companyRating": "A类",
+    "solvency": "175%",
+    "prices": [
+      {
+        "ageMin": 0,
+        "ageMax": 5,
+        "price": 380
+      },
+      {
+        "ageMin": 6,
+        "ageMax": 20,
+        "price": 200
+      },
+      {
+        "ageMin": 21,
+        "ageMax": 25,
+        "price": 250
+      },
+      {
+        "ageMin": 26,
+        "ageMax": 30,
+        "price": 380
+      },
+      {
+        "ageMin": 31,
+        "ageMax": 35,
+        "price": 450
+      },
+      {
+        "ageMin": 36,
+        "ageMax": 40,
+        "price": 600
+      },
+      {
+        "ageMin": 41,
+        "ageMax": 45,
+        "price": 900
+      },
+      {
+        "ageMin": 46,
+        "ageMax": 50,
+        "price": 1400
+      },
+      {
+        "ageMin": 51,
+        "ageMax": 55,
+        "price": 2358
+      },
+      {
+        "ageMin": 56,
+        "ageMax": 60,
+        "price": 3500
+      },
+      {
+        "ageMin": 61,
+        "ageMax": 65,
+        "price": 4800
+      }
+    ],
+    "priceNoSocialFactor": 1.7,
+    "guaranteeYears": 20,
+    "guaranteeType": "保证续保",
+    "coverage": "一般200万·重疾400万",
+    "deductible": "一般1万·重疾0免赔",
+    "waitingDays": 90,
+    "features": [
+      "含CAR-T",
+      "外购药100万",
+      "含质子重离子",
+      "含特需部可选",
+      "20年保证"
+    ],
+    "ageRange": "0-65岁",
+    "healthCheck": "智能核保",
+    "healthStrictness": 2,
+    "needSocialIns": true,
+    "purchaseLink": "",
+    "score": 92,
+    "active": true
+  },
+  {
+    "id": "med_haoyibao_20y",
+    "type": "百万医疗",
+    "name": "好医保·长期医疗（20年版）",
+    "company": "人保健康",
+    "companyRating": "A类",
+    "solvency": "156%",
+    "prices": [
+      {
+        "ageMin": 0,
+        "ageMax": 5,
+        "price": 350
+      },
+      {
+        "ageMin": 6,
+        "ageMax": 25,
+        "price": 220
+      },
+      {
+        "ageMin": 26,
+        "ageMax": 30,
+        "price": 350
+      },
+      {
+        "ageMin": 31,
+        "ageMax": 40,
+        "price": 420
+      },
+      {
+        "ageMin": 41,
+        "ageMax": 50,
+        "price": 850
+      },
+      {
+        "ageMin": 51,
+        "ageMax": 55,
+        "price": 2200
+      },
+      {
+        "ageMin": 56,
+        "ageMax": 60,
+        "price": 3200
+      }
+    ],
+    "priceNoSocialFactor": 1.7,
+    "guaranteeYears": 20,
+    "guaranteeType": "保证续保",
+    "coverage": "一般200万·重疾400万",
+    "deductible": "一般1万·重疾0免赔",
+    "waitingDays": 90,
+    "features": [
+      "含CAR-T",
+      "含质子重离子",
+      "20年保证",
+      "支付宝平台"
+    ],
+    "ageRange": "0-60岁",
+    "healthCheck": "智能核保",
+    "healthStrictness": 2,
+    "needSocialIns": true,
+    "purchaseLink": "",
+    "score": 90,
+    "active": true
+  },
+  {
+    "id": "med_renbao_0deduct",
+    "type": "百万医疗",
+    "name": "人保悠享健康·长期医疗（0免赔版）",
+    "company": "人保健康",
+    "companyRating": "A类",
+    "solvency": "156%",
+    "prices": [
+      {
+        "ageMin": 0,
+        "ageMax": 5,
+        "price": 500
+      },
+      {
+        "ageMin": 6,
+        "ageMax": 25,
+        "price": 300
+      },
+      {
+        "ageMin": 26,
+        "ageMax": 30,
+        "price": 453
+      },
+      {
+        "ageMin": 31,
+        "ageMax": 40,
+        "price": 550
+      },
+      {
+        "ageMin": 41,
+        "ageMax": 50,
+        "price": 1100
+      },
+      {
+        "ageMin": 51,
+        "ageMax": 55,
+        "price": 2600
+      }
+    ],
+    "priceNoSocialFactor": 1.8,
+    "guaranteeYears": 6,
+    "guaranteeType": "6年保证续保",
+    "coverage": "一般200万·重疾400万",
+    "deductible": "0免赔（1万内30%报销）",
+    "waitingDays": 30,
+    "features": [
+      "0免赔",
+      "含质子重离子",
+      "含CAR-T",
+      "等待期仅30天",
+      "6年保证"
+    ],
+    "ageRange": "0-55岁",
+    "healthCheck": "健康告知",
+    "healthStrictness": 2,
+    "needSocialIns": true,
+    "purchaseLink": "",
+    "score": 85,
+    "active": true
+  },
+  {
+    "id": "med_zhongan_zunxiang",
+    "type": "百万医疗",
+    "name": "众安尊享e生2026",
+    "company": "众安保险",
+    "companyRating": "B类",
+    "solvency": "—",
+    "prices": [
+      {
+        "ageMin": 0,
+        "ageMax": 25,
+        "price": 200
+      },
+      {
+        "ageMin": 26,
+        "ageMax": 30,
+        "price": 300
+      },
+      {
+        "ageMin": 31,
+        "ageMax": 40,
+        "price": 380
+      },
+      {
+        "ageMin": 41,
+        "ageMax": 50,
+        "price": 700
+      },
+      {
+        "ageMin": 51,
+        "ageMax": 55,
+        "price": 1500
+      },
+      {
+        "ageMin": 56,
+        "ageMax": 60,
+        "price": 2200
+      },
+      {
+        "ageMin": 61,
+        "ageMax": 70,
+        "price": 3500
+      }
+    ],
+    "priceNoSocialFactor": 1.6,
+    "guaranteeYears": null,
+    "guaranteeType": "不保证续保",
+    "coverage": "一般300万·重疾600万",
+    "deductible": "一般1万·重疾0免赔",
+    "waitingDays": 30,
+    "features": [
+      "保额高",
+      "70岁可投",
+      "含质子重离子",
+      "核保相对宽松"
+    ],
+    "ageRange": "0-70岁",
+    "healthCheck": "智能核保(较宽松)",
+    "healthStrictness": 1,
+    "needSocialIns": true,
+    "purchaseLink": "",
+    "score": 72,
+    "active": true
+  },
+  {
+    "id": "ci_wanmei8",
+    "type": "重疾险",
+    "name": "完美人生8号（终身）",
+    "company": "复星联合健康",
+    "companyRating": "A类",
+    "solvency": "175%",
+    "prices": [
+      {
+        "ageMin": 0,
+        "ageMax": 5,
+        "price": 2200
+      },
+      {
+        "ageMin": 6,
+        "ageMax": 17,
+        "price": 2800
+      },
+      {
+        "ageMin": 18,
+        "ageMax": 25,
+        "price": 4500
+      },
+      {
+        "ageMin": 26,
+        "ageMax": 30,
+        "price": 5800
+      },
+      {
+        "ageMin": 31,
+        "ageMax": 35,
+        "price": 7200
+      },
+      {
+        "ageMin": 36,
+        "ageMax": 40,
+        "price": 9000
+      },
+      {
+        "ageMin": 41,
+        "ageMax": 45,
+        "price": 11500
+      },
+      {
+        "ageMin": 46,
+        "ageMax": 50,
+        "price": 14500
+      }
+    ],
+    "priceNoSocialFactor": 1,
+    "guaranteeYears": null,
+    "guaranteeType": "终身保证·费率锁定",
+    "coverage": "50万重疾+30万中症(60%)+15万轻症(30%)",
+    "deductible": "给付型·无免赔",
+    "waitingDays": 180,
+    "features": [
+      "终身保证",
+      "费率锁定",
+      "女性特疾额外10%",
+      "中症60%赔付",
+      "身故返保费"
+    ],
+    "ageRange": "0-55岁",
+    "healthCheck": "健康告知+智能核保",
+    "healthStrictness": 2,
+    "needSocialIns": false,
+    "purchaseLink": "",
+    "score": 90,
+    "active": true
+  },
+  {
+    "id": "ci_supermary16",
+    "type": "重疾险",
+    "name": "超级玛丽16号（终身）",
+    "company": "君龙人寿",
+    "companyRating": "B+类",
+    "solvency": "—",
+    "prices": [
+      {
+        "ageMin": 0,
+        "ageMax": 5,
+        "price": 2400
+      },
+      {
+        "ageMin": 6,
+        "ageMax": 17,
+        "price": 3000
+      },
+      {
+        "ageMin": 18,
+        "ageMax": 25,
+        "price": 5000
+      },
+      {
+        "ageMin": 26,
+        "ageMax": 30,
+        "price": 6500
+      },
+      {
+        "ageMin": 31,
+        "ageMax": 35,
+        "price": 8000
+      },
+      {
+        "ageMin": 36,
+        "ageMax": 40,
+        "price": 10000
+      },
+      {
+        "ageMin": 41,
+        "ageMax": 50,
+        "price": 13000
+      }
+    ],
+    "priceNoSocialFactor": 1,
+    "guaranteeYears": null,
+    "guaranteeType": "终身保证·费率锁定",
+    "coverage": "50万重疾+癌症多次赔付+住院报销",
+    "deductible": "给付型·无免赔",
+    "waitingDays": 180,
+    "features": [
+      "终身保证",
+      "癌症多次赔付",
+      "结节友好·核保宽松",
+      "住院报销附加"
+    ],
+    "ageRange": "0-50岁",
+    "healthCheck": "健康告知(结节友好)",
+    "healthStrictness": 1,
+    "needSocialIns": false,
+    "purchaseLink": "",
+    "score": 85,
+    "active": true
+  },
+  {
+    "id": "ci_darwin12",
+    "type": "重疾险",
+    "name": "达尔文12号（终身）",
+    "company": "三峡人寿",
+    "companyRating": "B类",
+    "solvency": "—",
+    "prices": [
+      {
+        "ageMin": 0,
+        "ageMax": 5,
+        "price": 1800
+      },
+      {
+        "ageMin": 6,
+        "ageMax": 17,
+        "price": 2200
+      },
+      {
+        "ageMin": 18,
+        "ageMax": 25,
+        "price": 3200
+      },
+      {
+        "ageMin": 26,
+        "ageMax": 30,
+        "price": 3700
+      },
+      {
+        "ageMin": 31,
+        "ageMax": 35,
+        "price": 4800
+      },
+      {
+        "ageMin": 36,
+        "ageMax": 40,
+        "price": 6200
+      },
+      {
+        "ageMin": 41,
+        "ageMax": 50,
+        "price": 8500
+      }
+    ],
+    "priceNoSocialFactor": 1,
+    "guaranteeYears": null,
+    "guaranteeType": "终身保证·费率锁定",
+    "coverage": "30万重疾+18万中症(60%)+9万轻症(30%)",
+    "deductible": "给付型·无免赔",
+    "waitingDays": 180,
+    "features": [
+      "终身保证",
+      "性价比高",
+      "轻中症豁免",
+      "30万起步档"
+    ],
+    "ageRange": "0-50岁",
+    "healthCheck": "健康告知",
+    "healthStrictness": 2,
+    "needSocialIns": false,
+    "purchaseLink": "",
+    "score": 83,
+    "active": true
+  },
+  {
+    "id": "acc_littlebee_zx",
+    "type": "意外险",
+    "name": "小蜜蜂6号尊享版",
+    "company": "太平洋产险",
+    "companyRating": "A类",
+    "solvency": "—",
+    "prices": [
+      {
+        "ageMin": 18,
+        "ageMax": 55,
+        "price": 298
+      }
+    ],
+    "priceNoSocialFactor": 1,
+    "guaranteeYears": null,
+    "guaranteeType": "1年期(续保稳定)",
+    "coverage": "意外100万+猝死50万+医疗10.5万",
+    "deductible": "0免赔·不限社保·100%报销",
+    "waitingDays": 0,
+    "features": [
+      "100万意外",
+      "50万猝死",
+      "航空500万",
+      "0免赔不限社保",
+      "住院津贴150元/天"
+    ],
+    "ageRange": "18-55岁",
+    "healthCheck": "无需健告",
+    "healthStrictness": 1,
+    "needSocialIns": false,
+    "purchaseLink": "",
+    "score": 95,
+    "active": true
+  },
+  {
+    "id": "acc_littlebee_dc",
+    "type": "意外险",
+    "name": "小蜜蜂6号典藏版",
+    "company": "太平洋产险",
+    "companyRating": "A类",
+    "solvency": "—",
+    "prices": [
+      {
+        "ageMin": 18,
+        "ageMax": 55,
+        "price": 156
+      }
+    ],
+    "priceNoSocialFactor": 1,
+    "guaranteeYears": null,
+    "guaranteeType": "1年期(续保稳定)",
+    "coverage": "意外50万+猝死30万+医疗5万",
+    "deductible": "0免赔·不限社保",
+    "waitingDays": 0,
+    "features": [
+      "50万意外",
+      "30万猝死",
+      "航空300万",
+      "0免赔不限社保",
+      "性价比极高"
+    ],
+    "ageRange": "18-55岁",
+    "healthCheck": "无需健告",
+    "healthStrictness": 1,
+    "needSocialIns": false,
+    "purchaseLink": "",
+    "score": 88,
+    "active": true
+  },
+  {
+    "id": "acc_dahuba8_elder",
+    "type": "意外险",
+    "name": "大护甲8号高龄版",
+    "company": "人保财险",
+    "companyRating": "A类",
+    "solvency": "—",
+    "prices": [
+      {
+        "ageMin": 50,
+        "ageMax": 60,
+        "price": 228
+      },
+      {
+        "ageMin": 61,
+        "ageMax": 70,
+        "price": 328
+      },
+      {
+        "ageMin": 71,
+        "ageMax": 85,
+        "price": 488
+      }
+    ],
+    "priceNoSocialFactor": 1,
+    "guaranteeYears": null,
+    "guaranteeType": "1年期(续保稳定)",
+    "coverage": "意外10-20万+医疗5万+骨折5千",
+    "deductible": "100元免赔·限社保内",
+    "waitingDays": 0,
+    "features": [
+      "含骨折保障",
+      "驾驶额外30万",
+      "住院津贴50元/天",
+      "高龄专享"
+    ],
+    "ageRange": "50-85岁",
+    "healthCheck": "无需健告",
+    "healthStrictness": 1,
+    "needSocialIns": false,
+    "purchaseLink": "",
+    "score": 80,
+    "active": true
+  },
+  {
+    "id": "acc_xiaoanxin6",
+    "type": "意外险",
+    "name": "孝心安6号",
+    "company": "太平洋产险",
+    "companyRating": "A类",
+    "solvency": "—",
+    "prices": [
+      {
+        "ageMin": 50,
+        "ageMax": 60,
+        "price": 198
+      },
+      {
+        "ageMin": 61,
+        "ageMax": 70,
+        "price": 288
+      },
+      {
+        "ageMin": 71,
+        "ageMax": 80,
+        "price": 398
+      }
+    ],
+    "priceNoSocialFactor": 1,
+    "guaranteeYears": null,
+    "guaranteeType": "1年期(续保稳定)",
+    "coverage": "意外10-15万+骨折额外赔+医疗3万",
+    "deductible": "0免赔",
+    "waitingDays": 0,
+    "features": [
+      "骨折额外赔",
+      "意外医疗",
+      "高龄专享",
+      "0免赔"
+    ],
+    "ageRange": "50-80岁",
+    "healthCheck": "无需健告",
+    "healthStrictness": 1,
+    "needSocialIns": false,
+    "purchaseLink": "",
+    "score": 82,
+    "active": true
+  },
+  {
+    "id": "term_damai2026",
+    "type": "定寿",
+    "name": "华贵大麦2026A款",
+    "company": "华贵人寿",
+    "companyRating": "AA",
+    "solvency": "—",
+    "prices": [
+      {
+        "ageMin": 18,
+        "ageMax": 25,
+        "price": 1500
+      },
+      {
+        "ageMin": 26,
+        "ageMax": 30,
+        "price": 2426
+      },
+      {
+        "ageMin": 31,
+        "ageMax": 35,
+        "price": 3200
+      },
+      {
+        "ageMin": 36,
+        "ageMax": 40,
+        "price": 4500
+      },
+      {
+        "ageMin": 41,
+        "ageMax": 45,
+        "price": 6200
+      }
+    ],
+    "priceNoSocialFactor": 1,
+    "guaranteeYears": 30,
+    "guaranteeType": "保至60岁·锁定30年",
+    "coverage": "200万身故/全残+猝死额外50万",
+    "deductible": "给付型",
+    "waitingDays": 90,
+    "features": [
+      "健告仅3条",
+      "AA级公司",
+      "定寿市场领导者",
+      "200万保额"
+    ],
+    "ageRange": "18-50岁",
+    "healthCheck": "3条健告(极简)",
+    "healthStrictness": 1,
+    "needSocialIns": false,
+    "purchaseLink": "",
+    "score": 93,
+    "active": true
+  },
+  {
+    "id": "term_dinghaizhu8",
+    "type": "定寿",
+    "name": "国富定海柱8号",
+    "company": "国富人寿",
+    "companyRating": "B类",
+    "solvency": "—",
+    "prices": [
+      {
+        "ageMin": 18,
+        "ageMax": 25,
+        "price": 1400
+      },
+      {
+        "ageMin": 26,
+        "ageMax": 30,
+        "price": 2348
+      },
+      {
+        "ageMin": 31,
+        "ageMax": 35,
+        "price": 3100
+      },
+      {
+        "ageMin": 36,
+        "ageMax": 40,
+        "price": 4300
+      }
+    ],
+    "priceNoSocialFactor": 1,
+    "guaranteeYears": 30,
+    "guaranteeType": "保至60岁·锁定30年",
+    "coverage": "200万身故/全残·45岁前300万",
+    "deductible": "给付型",
+    "waitingDays": 90,
+    "features": [
+      "45岁前额外50%",
+      "比大麦便宜¥78/年",
+      "45岁前=300万"
+    ],
+    "ageRange": "18-40岁",
+    "healthCheck": "5-7条健告",
+    "healthStrictness": 2,
+    "needSocialIns": false,
+    "purchaseLink": "",
+    "score": 88,
+    "active": true
+  },
+  {
+    "id": "cancer_renbao_warm",
+    "type": "防癌险",
+    "name": "人保温暖悠长防癌医疗保险",
+    "company": "人保健康",
+    "companyRating": "A类",
+    "solvency": "156%",
+    "prices": [
+      {
+        "ageMin": 0,
+        "ageMax": 30,
+        "price": 150
+      },
+      {
+        "ageMin": 31,
+        "ageMax": 40,
+        "price": 249
+      },
+      {
+        "ageMin": 41,
+        "ageMax": 50,
+        "price": 500
+      },
+      {
+        "ageMin": 51,
+        "ageMax": 60,
+        "price": 900
+      },
+      {
+        "ageMin": 61,
+        "ageMax": 70,
+        "price": 1800
+      }
+    ],
+    "priceNoSocialFactor": 1,
+    "guaranteeYears": null,
+    "guaranteeType": "终身保证续保",
+    "coverage": "癌症医疗400万+质子重离子100万+特药100万",
+    "deductible": "0免赔·100%报销",
+    "waitingDays": 90,
+    "features": [
+      "终身保证续保",
+      "癌症400万",
+      "0免赔100%报销",
+      "战略性保单",
+      "理赔后仍可续"
+    ],
+    "ageRange": "0-70岁",
+    "healthCheck": "健康告知",
+    "healthStrictness": 2,
+    "needSocialIns": false,
+    "purchaseLink": "",
+    "score": 91,
+    "active": true
+  },
+  {
+    "id": "hm_shenzhen_2026",
+    "type": "惠民保",
+    "name": "深圳惠民保2026",
+    "company": "深圳市医保局指导",
+    "companyRating": "政府指导",
+    "solvency": "—",
+    "prices": [
+      {
+        "ageMin": 0,
+        "ageMax": 120,
+        "price": 88
+      }
+    ],
+    "priceNoSocialFactor": 1,
+    "guaranteeYears": null,
+    "guaranteeType": "1年期(年度续保)",
+    "coverage": "医保内300万+医保外300万+特药100万",
+    "deductible": "较高(各地不同)",
+    "waitingDays": 0,
+    "features": [
+      "政府指导",
+      "无健告",
+      "抗癌针纳入",
+      "既往症可投"
+    ],
+    "ageRange": "不限",
+    "healthCheck": "无需健告·无等待期",
+    "healthStrictness": 1,
+    "needSocialIns": true,
+    "purchaseLink": "",
+    "score": 75,
+    "active": true,
+    "regionRestrict": "深圳医保"
+  },
+  {
+    "id": "hm_guangzhou_2026",
+    "type": "惠民保",
+    "name": "广州惠民保2026",
+    "company": "广州市医保局指导",
+    "companyRating": "政府指导",
+    "solvency": "—",
+    "prices": [
+      {
+        "ageMin": 0,
+        "ageMax": 120,
+        "price": 49
+      }
+    ],
+    "priceNoSocialFactor": 1,
+    "guaranteeYears": null,
+    "guaranteeType": "1年期(年度续保)",
+    "coverage": "医保内200万+医保外100万+特药100万",
+    "deductible": "较高",
+    "waitingDays": 0,
+    "features": [
+      "政府指导",
+      "无健告",
+      "¥49超低价",
+      "既往症可投"
+    ],
+    "ageRange": "不限",
+    "healthCheck": "无需健告",
+    "healthStrictness": 1,
+    "needSocialIns": true,
+    "purchaseLink": "",
+    "score": 73,
+    "active": true,
+    "regionRestrict": "广州医保"
+  },
+  {
+    "id": "hm_shanwei_2026",
+    "type": "惠民保",
+    "name": "汕尾惠民保",
+    "company": "汕尾市医保局指导",
+    "companyRating": "政府指导",
+    "solvency": "—",
+    "prices": [
+      {
+        "ageMin": 0,
+        "ageMax": 120,
+        "price": 100
+      }
+    ],
+    "priceNoSocialFactor": 1,
+    "guaranteeYears": null,
+    "guaranteeType": "1年期",
+    "coverage": "医保内200万+医保外100万",
+    "deductible": "较高",
+    "waitingDays": 0,
+    "features": [
+      "政府指导",
+      "无健告",
+      "既往症可投"
+    ],
+    "ageRange": "不限",
+    "healthCheck": "无需健告",
+    "healthStrictness": 1,
+    "needSocialIns": true,
+    "purchaseLink": "",
+    "score": 70,
+    "active": true,
+    "regionRestrict": "汕尾医保"
+  }
+]

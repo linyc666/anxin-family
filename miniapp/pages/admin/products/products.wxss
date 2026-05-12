@@ -1,0 +1,52 @@
+.container{padding:14px;padding-bottom:80px}
+.search-bar{margin-bottom:12px}
+.search-input{width:100%;padding:10px 14px;border-radius:10px;border:1px solid #2a3344;background:#1a2332;color:#e2e8f0;font-size:14px;box-sizing:border-box}
+.type-tabs{display:flex;gap:6px;margin-bottom:12px;white-space:nowrap}
+.type-tab{padding:5px 12px;border-radius:14px;font-size:12px;color:#94a3b8;background:#141923;border:1px solid #1e293b;flex-shrink:0}
+.type-tab.active{color:#d4a853;border-color:#d4a853;background:#1a2332;font-weight:600}
+.action-row{display:flex;gap:6px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.toggle-row{display:flex;align-items:center;gap:6px;font-size:11px;color:#94a3b8;margin-left:auto}
+.toggle{width:32px;height:18px;border-radius:9px;background:#1e293b;border:1px solid #2a3344;transition:.2s}.toggle.on{background:rgba(212,168,83,.3);border-color:#d4a853}
+.stats-text{font-size:11px;color:#64748b;margin-bottom:10px}
+.product-card{background:#141923;border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid #1e293b}
+.product-card.inactive{opacity:.5;border-color:rgba(239,68,68,.2)}
+.pc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.pc-info{flex:1;min-width:0}
+.pc-name{font-size:14px;font-weight:700;color:#f1f5f9;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pc-company{font-size:11px;color:#64748b;display:block;margin-top:2px}
+.pc-right{text-align:right;flex-shrink:0}
+.pc-score{font-size:12px;font-weight:700;color:#d4a853;display:block}
+.pc-score.high{color:#34d399}.pc-score.ok{color:#d4a853}.pc-score.low{color:#f87171}
+.pc-level{font-size:10px;color:#64748b;display:block;margin-top:2px}
+.pc-meta{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.pc-review{font-size:10px;color:#64748b}
+.pc-status{font-size:10px}.pc-status.on{color:#34d399}.pc-status.off{color:#f87171}
+.pc-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid #1e293b}
+.pc-detail{font-size:10px;color:#64748b;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pc-btns{display:flex;gap:4px;flex-shrink:0}
+.btn-review{background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.25)}
+.pc-detail{font-size:10px;color:#94a3b8}
+.btn{padding:7px 14px;border-radius:20px;border:1px solid #2a3344;background:#1a2332;color:#e2e8f0;font-size:13px;line-height:1.4}
+.btn-gold{background:#d4a853;color:#0a0e17;border-color:#d4a853;font-weight:600}
+.btn-sm{padding:5px 10px;font-size:11px;border-radius:14px}
+.btn-xs{padding:3px 8px;font-size:10px;border-radius:12px}
+.empty-state{text-align:center;padding:40px 12px}.empty-icon{font-size:36px;display:block}.empty-text{font-size:13px;color:#64748b;margin-top:6px;display:block}
+/* 健康监测面板 */
+.health-toggle{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;margin-bottom:10px;background:#141923;border-radius:10px;border:1px solid #1e293b;font-size:13px;color:#d4a853}
+.health-arrow{font-size:10px;color:#64748b}.health-arrow.up{color:#d4a853}
+.health-panel{margin-bottom:14px}
+.hp-row{display:flex;gap:8px;margin-bottom:10px}
+.hp-card{flex:1;text-align:center;padding:10px 4px;border-radius:10px}
+.hp-risk{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2)}
+.hp-warn{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2)}
+.hp-ok{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2)}
+.hp-num{font-size:20px;font-weight:700;display:block}.hp-risk .hp-num{color:#f87171}.hp-warn .hp-num{color:#fbbf24}.hp-ok .hp-num{color:#34d399}
+.hp-label{font-size:10px;color:#64748b}
+.hp-section{margin-bottom:8px}
+.hp-section-title{font-size:12px;font-weight:600;color:#f1f5f9;display:block;margin-bottom:6px}
+.hp-item{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;margin-bottom:4px;background:#1a2332;border-radius:8px}
+.hpi-info{flex:1;min-width:0}
+.hpi-name{font-size:11px;color:#e2e8f0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hpi-risks{font-size:9px;color:#f87171;display:block}
+.hp-actions{display:flex;gap:6px;margin-top:8px}
+.btn-red{background:rgba(239,68,68,.15);border-color:#ef4444;color:#f87171}

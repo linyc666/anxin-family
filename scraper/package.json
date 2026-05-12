@@ -1,0 +1,20 @@
+{
+  "name": "insurance-scraper",
+  "version": "1.0.0",
+  "description": "保险产品数据库爬虫工具 - 抓取公开保险产品信息",
+  "main": "scrape-sources.js",
+  "scripts": {
+    "scrape": "node scrape-sources.js",
+    "transform": "node transform.js",
+    "validate": "node validate.js",
+    "upload": "node upload-cloudbase.js"
+  },
+  "dependencies": {
+    "axios": "^1.16.0",
+    "cheerio": "^1.2.0",
+    "puppeteer": "^22.0.0"
+  },
+  "devDependencies": {
+    "@cloudbase/node-sdk": "^2.0.0"
+  }
+}

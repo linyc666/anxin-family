@@ -1,0 +1,9 @@
+{
+  "name": "adminProducts",
+  "version": "1.0.0",
+  "description": "产品库管理云函数",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

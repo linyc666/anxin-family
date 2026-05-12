@@ -1,0 +1,79 @@
+<!--pages/policy-detail/policy-detail.wxml - 资料详情-->
+<view class="container">
+  <view class="pd-header">
+    <text class="pd-name">{{ recordName }}</text>
+    <view class="pd-status-row">
+      <text class="pd-member" wx:if="{{ memberName }}">所属：{{ memberName }}</text>
+      <text class="pd-verify-tag {{ verified ? 'ok' : 'warn' }}">{{ verified ? '已核对' : '待核对' }}</text>
+    </view>
+  </view>
+
+  <view class="pd-profile" wx:if="{{ ownedSummary }}">
+    <text class="pdp-label">{{ ownedSummary.label }}</text>
+    <text class="pdp-summary">{{ ownedSummary.summary }}</text>
+  </view>
+
+  <view class="pd-detail-card" wx:if="{{ profile }}">
+    <!-- 核心摘要 -->
+    <view class="pdd-summary" wx:if="{{ profile.summaryLine }}">
+      <text class="pdd-summary-text">{{ profile.summaryLine }}</text>
+    </view>
+    <!-- 关键边界 -->
+    <view class="pdd-boundary" wx:if="{{ contentItems.length > 0 }}">
+      <text class="pdd-section-label">关键边界</text>
+      <view class="pdd-boundary-list">
+        <text class="pdd-b-item" wx:for="{{ contentItems }}" wx:key="key" wx:for-item="ci" wx:if="{{ index < 6 }}">{{ ci.label }}：{{ ci.value }}</text>
+      </view>
+    </view>
+    <!-- 时间与支出 -->
+    <view class="pdd-meta">
+      <text class="pdd-section-label">时间与支出</text>
+      <view class="pdd-meta-row">
+        <text wx:if="{{ profile.sections.length > 0 }}"><block wx:for="{{ profile.sections }}" wx:key="title" wx:for-item="sec"><block wx:if="{{ sec.title === '时间' }}">{{ sec.text }}</block></block></text>
+        <text wx:if="{{ profile.sections.length > 0 }}"><block wx:for="{{ profile.sections }}" wx:key="title" wx:for-item="sec"><block wx:if="{{ sec.title === '支出' }}">{{ sec.text }}</block></block></text>
+      </view>
+    </view>
+    <!-- 重点核对 -->
+    <view class="pdd-review" wx:if="{{ reviewItems.length > 0 || profile.sections.length > 0 }}">
+      <text class="pdd-section-label">重点核对</text>
+      <view class="pdd-review-tags">
+        <text class="pdd-rt" wx:for="{{ reviewItems }}" wx:key="label" wx:for-item="r" wx:if="{{ index < 5 }}">{{ r.label || r }}</text>
+        <block wx:if="{{ reviewItems.length === 0 }}">
+          <block wx:for="{{ profile.sections }}" wx:key="title" wx:for-item="sec"><block wx:if="{{ sec.title === '重点核对' }}"><text class="pdd-rt" wx:for="{{ sec.text.split('·') }}" wx:key="*this" wx:for-item="t" wx:if="{{ index < 5 }}">{{ t.trim() }}</text></block></block>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <view class="pd-fields">
+    <view class="pdf-item {{ item.full ? 'full' : '' }}" wx:for="{{ fields }}" wx:key="label">
+      <text class="pdf-label">{{ item.label }}</text>
+      <text class="pdf-value">{{ item.value }}</text>
+    </view>
+  </view>
+
+  <view class="pd-attachment" wx:if="{{ hasAttachments }}">
+    <text class="pda-title">附件</text>
+    <view class="pda-list">
+      <view class="pda-file" wx:for="{{ attachments }}" wx:key="id" data-id="{{ item.id }}" bindtap="onOpenAttachment">
+        <text class="pda-icon">{{ item.type === 'image' ? '图' : '文' }}</text>
+        <view class="pda-info">
+          <text class="pda-name">{{ item.name }}</text>
+          <text class="pda-meta">{{ item.type === 'image' ? '点击预览' : '点击打开' }} {{ item.ext || '' }} {{ item.sizeText }}</text>
+        </view>
+        <text class="pda-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="pd-empty" wx:if="{{ fields.length === 0 }}">
+    <text>暂无资料详情</text>
+  </view>
+
+  <view class="pd-actions">
+    <button class="pda-btn edit" bindtap="onEdit">编辑</button>
+    <button class="pda-btn check" bindtap="onCheck">核对</button>
+    <button class="pda-btn verify" bindtap="onMarkVerified" wx:if="{{ !verified }}">标记已核对</button>
+    <button class="pda-btn del" bindtap="onDelete">删除</button>
+  </view>
+</view>

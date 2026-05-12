@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m http.server 8080)",
+      "Bash(curl *)",
+      "Bash(npm install *)",
+      "Bash(node -e ' *)",
+      "WebSearch",
+      "Bash(sed -i 's/家庭保险匹配引擎云函数/家庭资料分析引擎云函数/' analyzeFamily/package.json)",
+      "Bash(sed -i 's/保单OCR识别+AI字段提取云函数/资料图片识别+AI字段提取云函数/' extractPolicy/package.json)",
+      "Bash(node -e \"var t=require\\('./utils/theme'\\);console.log\\(JSON.stringify\\(t.THEMES.default,null,2\\)\\)\")",
+      "Bash(node --check cloudfunctions/extractPolicy/index.js)",
+      "Bash(npm --version)",
+      "Bash(node --check \"D:\\\\AI工具软件夹\\\\claude code\\\\家庭保险管家\\\\miniapp\\\\cloudfunctions\\\\extractPolicy\\\\index.js\")",
+      "Bash(git --version)",
+      "Bash(git config *)",
+      "Bash(gh --version)",
+      "Bash(git init *)",
+      "Bash(git remote *)",
+      "Bash(git add *)"
+    ]
+  }
+}

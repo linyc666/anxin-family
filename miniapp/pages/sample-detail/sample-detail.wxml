@@ -1,0 +1,48 @@
+<!--pages/sample-detail/sample-detail.wxml - 参考样例详情-->
+<view class="container">
+  <view class="sd-header">
+    <text class="sd-kicker">公开资料归档示例</text>
+    <text class="sd-title">{{ sample.name }}</text>
+    <text class="sd-source">{{ sample.company }} · 年度支出参考 ¥{{ sample.price }}</text>
+  </view>
+
+  <view class="sd-section">
+    <text class="sd-section-title">常见记录项</text>
+    <view class="sd-list">
+      <text class="sd-item" wx:for="{{ sample.recordItems }}" wx:key="*this">{{ item }}</text>
+    </view>
+  </view>
+
+  <view class="sd-section">
+    <text class="sd-section-title">额度/范围示例</text>
+    <view class="sd-list">
+      <text class="sd-item" wx:for="{{ sample.amountExamples }}" wx:key="*this">{{ item }}</text>
+    </view>
+  </view>
+
+  <view class="sd-section">
+    <text class="sd-section-title">有效期与延续</text>
+    <view class="sd-list">
+      <text class="sd-item" wx:for="{{ sample.periodExamples }}" wx:key="*this">{{ item }}</text>
+    </view>
+  </view>
+
+  <view class="sd-section">
+    <text class="sd-section-title">注意边界</text>
+    <view class="sd-list">
+      <text class="sd-item" wx:for="{{ sample.boundaryNotes }}" wx:key="*this">{{ item }}</text>
+    </view>
+  </view>
+
+  <view class="sd-section">
+    <text class="sd-section-title">自己资料中建议核对</text>
+    <view class="sd-tags">
+      <text class="sd-tag" wx:for="{{ sample.checkFields }}" wx:key="*this">{{ item }}</text>
+    </view>
+  </view>
+
+  <view class="page-note">
+    <text>以上仅为公开资料归档示例，不构成购买或决策建议。</text>
+    <text>请以本人资料原文、附件和实际情况为准。</text>
+  </view>
+</view>

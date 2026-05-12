@@ -1,0 +1,72 @@
+<view class="container">
+  <!-- 导入方式 -->
+  <view class="form-section">
+    <text class="section-title">批量导入样例</text>
+    <text class="section-hint">粘贴JSON数组，或从微信聊天选择.json文件</text>
+
+    <view class="action-row">
+      <button class="btn btn-sm" bindtap="onPickFile">选择文件</button>
+      <view class="toggle-row" bindtap="onToggleMode">
+        <text>覆盖已有：</text>
+        <view class="toggle {{ importMode === 'overwrite' ? 'on' : '' }}"></view>
+        <text class="toggle-label">{{ importMode === 'skip' ? '跳过' : '覆盖' }}</text>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <textarea class="textarea" value="{{ jsonText }}" bindinput="onInputJSON"
+                placeholder="粘贴JSON数据，格式：[{&quot;name&quot;:&quot;样例名&quot;,&quot;type&quot;:&quot;类别&quot;,...}]" />
+    </view>
+
+    <button class="btn btn-blue" bindtap="onPreview" wx:if="{{ preview.length === 0 }}">预览</button>
+  </view>
+
+  <!-- 预览结果 -->
+  <view class="form-section" wx:if="{{ preview.length > 0 }}">
+    <text class="section-title">预览（{{ preview.length }} 款）</text>
+
+    <!-- 质量统计条 -->
+    <view class="quality-bar" wx:if="{{ qualityStats }}">
+      <view class="qb-item qb-rec"><text class="qb-num">{{ qualityStats.recommend }}</text><text class="qb-label">推荐</text></view>
+      <view class="qb-item qb-con"><text class="qb-num">{{ qualityStats.conditional }}</text><text class="qb-label">有条件</text></view>
+      <view class="qb-item qb-rej"><text class="qb-num">{{ qualityStats.reject }}</text><text class="qb-label">不推荐</text></view>
+    </view>
+
+    <!-- 门槛切换 -->
+    <view class="quality-toggle" bindtap="onQualityMinChange">
+      <text>最低入库级别：</text>
+      <text class="qlevel {{ qualityMin === 'recommend' ? 'active' : '' }}">仅推荐</text>
+      <text class="qlevel {{ qualityMin === 'conditional' ? 'active' : '' }}">含条件</text>
+      <text class="qlevel {{ qualityMin === 'reject' ? 'active' : '' }}">全部</text>
+    </view>
+
+    <view class="table-header">
+      <text class="th-name">样例</text>
+      <text class="th-status">质量</text>
+    </view>
+    <view class="preview-item {{ item.valid ? 'valid' : 'invalid' }} q-{{ item.quality.level }}"
+          wx:for="{{ preview }}" wx:key="index">
+      <view class="pi-info">
+        <text class="pi-name">{{ item.name }}</text>
+        <text class="pi-meta">{{ item.type }} · {{ item.company }}</text>
+        <text class="pi-issues" wx:if="{{ item.quality.issues.length > 0 }}">{{ item.quality.issues[0].reason }}</text>
+      </view>
+      <text class="pi-status {{ item.quality.level === 'recommend' ? 'ok' : item.quality.level === 'conditional' ? 'warn' : 'fail' }}">{{ item.quality.label }}</text>
+    </view>
+
+    <button class="btn btn-gold" bindtap="onDoImport" wx:if="{{ !importResult }}">确认导入</button>
+  </view>
+
+  <!-- 导入结果 -->
+  <view class="result-card" wx:if="{{ importResult }}">
+    <text class="result-title">导入完成</text>
+    <view class="result-stats">
+      <text class="rs-item">新增：{{ importResult.created }}</text>
+      <text class="rs-item">更新：{{ importResult.updated }}</text>
+      <text class="rs-item">跳过：{{ importResult.skipped }}</text>
+      <text class="rs-item" wx:if="{{ importResult.cloudOk !== undefined }}">☁️ 已同步云端：{{ importResult.cloudOk }}</text>
+      <text class="rs-item rs-warn" wx:if="{{ importResult.cloudFail > 0 }}">云端同步失败：{{ importResult.cloudFail }}（请稍后手动同步）</text>
+    </view>
+    <button class="btn btn-sm" bindtap="onPreview">重新预览</button>
+  </view>
+</view>

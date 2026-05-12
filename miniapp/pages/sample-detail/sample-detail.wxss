@@ -1,0 +1,12 @@
+/* pages/sample-detail/sample-detail.wxss */
+.container { padding: 18px 16px 80px; }
+.sd-header { margin-bottom: 16px; }
+.sd-kicker { display: block; font-size: 11px; color: #9B7A45; margin-bottom: 5px; }
+.sd-title { display: block; font-size: 21px; font-weight: 700; color: #29302B; line-height: 1.35; }
+.sd-source { display: block; margin-top: 8px; font-size: 12px; color: #717C73; }
+.sd-section { background: #FFFCF6; border: 1px solid #E1D7C7; border-radius: 12px; padding: 13px 14px; margin-bottom: 10px; }
+.sd-section-title { display: block; font-size: 14px; font-weight: 700; color: #29302B; margin-bottom: 8px; }
+.sd-list { display: flex; flex-direction: column; gap: 6px; }
+.sd-item { display: block; font-size: 12px; color: #48534B; line-height: 1.55; }
+.sd-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.sd-tag { font-size: 11px; color: #527F96; background: rgba(82,127,150,.10); border: 1px solid rgba(82,127,150,.20); border-radius: 12px; padding: 3px 8px; }

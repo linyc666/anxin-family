@@ -1,0 +1,155 @@
+[
+  {
+    "name": "平安家庭财产保险（经典版）",
+    "company": "平安产险",
+    "type": "财产险",
+    "companyRating": "AA",
+    "solvency": "210%",
+    "prices": [
+      { "ageMin": 18, "ageMax": 80, "price": 198 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "1年期(续保稳定)",
+    "coverage": "房屋主体500万+室内财产50万+水管爆裂10万",
+    "deductible": "1000元或损失10%取高", "waitingDays": 0,
+    "features": ["房屋保障", "室内财产", "水管爆裂", "第三者责任", "平安品牌"],
+    "ageRange": "不限", "healthCheck": "无需健告", "healthStrictness": 1,
+    "needSocialIns": false, "score": 82, "active": true
+  },
+  {
+    "name": "人保家庭财产保险（升级版）",
+    "company": "人保财险",
+    "type": "财产险",
+    "companyRating": "A类",
+    "solvency": "185%",
+    "prices": [
+      { "ageMin": 18, "ageMax": 80, "price": 268 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "1年期(续保稳定)",
+    "coverage": "房屋主体800万+室内财产80万+盗抢10万+水管爆裂20万",
+    "deductible": "1000元", "waitingDays": 0,
+    "features": ["房屋保障", "盗抢保障", "水管爆裂", "第三者责任", "人保品牌"],
+    "ageRange": "不限", "healthCheck": "无需健告", "healthStrictness": 1,
+    "needSocialIns": false, "score": 84, "active": true
+  },
+  {
+    "name": "太平洋家财险",
+    "company": "太平洋产险",
+    "type": "财产险",
+    "companyRating": "A类",
+    "solvency": "175%",
+    "prices": [
+      { "ageMin": 18, "ageMax": 80, "price": 168 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "1年期(续保稳定)",
+    "coverage": "房屋主体300万+室内财产30万+第三者责任10万",
+    "deductible": "500元", "waitingDays": 0,
+    "features": ["房屋保障", "低价入门", "第三者责任", "太平洋品牌"],
+    "ageRange": "不限", "healthCheck": "无需健告", "healthStrictness": 1,
+    "needSocialIns": false, "score": 78, "active": true
+  },
+  {
+    "name": "国寿鑫耀东方分红险",
+    "company": "中国人寿",
+    "type": "分红险",
+    "companyRating": "AA",
+    "solvency": "230%",
+    "prices": [
+      { "ageMin": 0, "ageMax": 60, "price": 10000 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "终身·分红型",
+    "coverage": "身故返保费+年度分红+满期金",
+    "deductible": "给付型", "waitingDays": 90,
+    "features": ["国寿央企", "年度分红", "满期返还", "身故保障"],
+    "ageRange": "0-60岁", "healthCheck": "健康告知", "healthStrictness": 2,
+    "needSocialIns": false, "score": 75, "active": true
+  },
+  {
+    "name": "平安金瑞人生分红险",
+    "company": "平安人寿",
+    "type": "分红险",
+    "companyRating": "AA",
+    "solvency": "215%",
+    "prices": [
+      { "ageMin": 0, "ageMax": 55, "price": 12000 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "终身·分红型",
+    "coverage": "身故返保费+保额递增+年度分红",
+    "deductible": "给付型", "waitingDays": 90,
+    "features": ["平安大品牌", "保额递增", "年度分红", "万能账户可选"],
+    "ageRange": "0-55岁", "healthCheck": "健康告知", "healthStrictness": 2,
+    "needSocialIns": false, "score": 74, "active": true
+  },
+  {
+    "name": "光明慧选养老年金险",
+    "company": "光大永明人寿",
+    "type": "年金险",
+    "companyRating": "A类",
+    "solvency": "165%",
+    "prices": [
+      { "ageMin": 0, "ageMax": 55, "price": 12000 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "终身年金·保证领取20年",
+    "coverage": "60岁起按月/年领取·保证领取20年·身故返还未领部分",
+    "deductible": "给付型", "waitingDays": 90,
+    "features": ["保证领取20年", "领取方式灵活", "养老社区对接", "光大品牌"],
+    "ageRange": "0-55岁", "healthCheck": "健康告知", "healthStrictness": 2,
+    "needSocialIns": false, "score": 82, "active": true
+  },
+  {
+    "name": "星海人生养老年金险",
+    "company": "复星保德信人寿",
+    "type": "年金险",
+    "companyRating": "A类",
+    "solvency": "—",
+    "prices": [
+      { "ageMin": 0, "ageMax": 55, "price": 10000 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "终身年金·保证领取25年",
+    "coverage": "55/60/65岁起领·保证领取25年·领取金额逐年递增3%",
+    "deductible": "给付型", "waitingDays": 90,
+    "features": ["保证领取25年", "领取金额递增3%", "养老社区", "灵活起领年龄"],
+    "ageRange": "0-55岁", "healthCheck": "健康告知", "healthStrictness": 2,
+    "needSocialIns": false, "score": 80, "active": true
+  },
+  {
+    "name": "平安车险（交强+商业险组合）",
+    "company": "平安产险",
+    "type": "车险",
+    "companyRating": "AA",
+    "solvency": "210%",
+    "prices": [
+      { "ageMin": 18, "ageMax": 80, "price": 3500 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "1年期",
+    "coverage": "交强险+三者200万+车损险+座位险每座10万",
+    "deductible": "按险种不同", "waitingDays": 0,
+    "features": ["平安品牌", "三者200万", "全国通赔", "免费道路救援"],
+    "ageRange": "18-80岁", "healthCheck": "无需健告", "healthStrictness": 1,
+    "needSocialIns": false, "score": 85, "active": true
+  },
+  {
+    "name": "人保车险（交强+商业险标准版）",
+    "company": "人保财险",
+    "type": "车险",
+    "companyRating": "A类",
+    "solvency": "185%",
+    "prices": [
+      { "ageMin": 18, "ageMax": 80, "price": 3200 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "1年期",
+    "coverage": "交强险+三者150万+车损险+座位险每座5万",
+    "deductible": "按险种不同", "waitingDays": 0,
+    "features": ["央企品牌", "全国网点", "免费拖车", "代办理赔"],
+    "ageRange": "18-80岁", "healthCheck": "无需健告", "healthStrictness": 1,
+    "needSocialIns": false, "score": 83, "active": true
+  }
+]

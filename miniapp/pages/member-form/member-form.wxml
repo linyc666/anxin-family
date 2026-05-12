@@ -1,0 +1,81 @@
+<!--pages/member-form/member-form.wxml-->
+<view class="container">
+  <view class="kind-banner {{ kind === 'pet' ? 'pet' : '' }}">
+    <text class="kind-title">{{ kind === 'pet' ? '宠物档案' : '家人档案' }}</text>
+    <text class="kind-desc">{{ kind === 'pet' ? '记录疫苗、驱虫、体检和重要资料提醒' : '记录家庭成员资料、年度支出和重要事项提醒' }}</text>
+  </view>
+
+  <!-- 智能录入模块 -->
+  <view class="smart-box">
+    <view class="smart-header">
+      <text class="smart-title">一句话快速录入</text>
+      <text class="smart-hint">系统会先帮你拆成字段，保存前仍可修改</text>
+    </view>
+    <textarea class="smart-textarea" value="{{ smartText }}" bindinput="onSmartInput" placeholder="{{ smartPlaceholder }}" maxlength="500" auto-height="true" />
+    <button class="smart-btn" bindtap="onSmartParse">智能整理</button>
+  </view>
+
+  <!-- 表单字段 -->
+  <view class="form-group">
+    <text class="label">{{ kind === 'pet' ? '名字' : '姓名' }} *</text>
+    <input class="input" value="{{ form.name }}" data-field="name" bindinput="onInput" placeholder="{{ kind === 'pet' ? '如：豆包' : '如：林永聪' }}" />
+  </view>
+  <view class="form-row">
+    <view class="form-group half">
+      <text class="label">年龄 *</text>
+      <input class="input" type="number" value="{{ form.age }}" data-field="age" bindinput="onInput" placeholder="如：30" />
+    </view>
+    <view class="form-group half" wx:if="{{ kind !== 'pet' }}">
+      <text class="label">家庭角色</text>
+      <picker mode="selector" range="{{ roleOptions }}" bindchange="onRoleChange">
+        <view class="picker">{{ form.role || '请选择' }}</view>
+      </picker>
+    </view>
+    <view class="form-group half" wx:else>
+      <text class="label">宠物类型</text>
+      <picker mode="selector" range="{{ petTypeOptions }}" bindchange="onPetTypeChange">
+        <view class="picker">{{ form.petType || '请选择' }}</view>
+      </picker>
+    </view>
+  </view>
+  <view class="form-group" wx:if="{{ kind !== 'pet' }}">
+    <text class="label">医保类型</text>
+    <picker mode="selector" range="{{ insuranceOptions }}" bindchange="onInsuranceChange">
+      <view class="picker">{{ form.yibao || '请选择' }}</view>
+    </picker>
+    <input wx:if="{{ showCustomYibao }}" class="input" value="{{ customYibao }}" bindinput="onCustomYibaoInput" placeholder="请输入城市+社保类型，如：成都职工社保" style="margin-top:8px" />
+  </view>
+  <view class="form-group" wx:if="{{ kind !== 'pet' }}">
+    <text class="label">负债情况</text>
+    <input class="input" value="{{ form.debt }}" data-field="debt" bindinput="onInput" placeholder="如：房贷65万+公积金贷176万" />
+  </view>
+  <view class="form-group" wx:if="{{ kind === 'pet' }}">
+    <text class="label">品种</text>
+    <input class="input" value="{{ form.breed }}" data-field="breed" bindinput="onInput" placeholder="如：英短、金毛、混血" />
+  </view>
+  <view class="form-row" wx:if="{{ kind === 'pet' }}">
+    <view class="form-group half">
+      <text class="label">疫苗日期</text>
+      <picker mode="date" value="{{ form.vaccineDate }}" bindchange="onDateChange" data-field="vaccineDate">
+        <view class="picker">{{ form.vaccineDate || '请选择' }}</view>
+      </picker>
+    </view>
+    <view class="form-group half">
+      <text class="label">驱虫日期</text>
+      <picker mode="date" value="{{ form.dewormDate }}" bindchange="onDateChange" data-field="dewormDate">
+        <view class="picker">{{ form.dewormDate || '请选择' }}</view>
+      </picker>
+    </view>
+  </view>
+  <view class="form-group" wx:if="{{ kind === 'pet' }}">
+    <text class="label">体检日期</text>
+    <picker mode="date" value="{{ form.checkupDate }}" bindchange="onDateChange" data-field="checkupDate">
+      <view class="picker">{{ form.checkupDate || '请选择' }}</view>
+    </picker>
+  </view>
+  <view class="form-group">
+    <text class="label">备注</text>
+    <textarea class="textarea" value="{{ form.notes }}" data-field="notes" bindinput="onInput" placeholder="{{ kind === 'pet' ? '如：过敏、常去医院、饮食注意' : '如：职业、常驻城市、重要备注' }}" auto-height="true" maxlength="500" />
+  </view>
+  <button class="save-btn" bindtap="onSave">{{ kind === 'pet' ? '保存宠物' : '保存家人' }}</button>
+</view>

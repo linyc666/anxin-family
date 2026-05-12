@@ -1,0 +1,84 @@
+<!--pages/mine/mine.wxml - 我的-->
+<view class="container" style="background-color:{{ tColors ? tColors.bg : '#F8F4EC' }}">
+  <view class="safety-bar" bindtap="onPrivacy">
+    <view class="sb-item">
+      <view class="sb-dot green"></view>
+      <text>本机保存</text>
+    </view>
+    <view class="sb-item">
+      <view class="sb-dot {{ lastBackupTime ? 'green' : 'gray' }}"></view>
+      <text>{{ lastBackupTime ? '最近备份 '+lastBackupTime.slice(5) : '暂未云备份' }}</text>
+    </view>
+    <view class="sb-item">
+      <view class="sb-dot green"></view>
+      <text>可随时导出</text>
+    </view>
+  </view>
+
+  <view class="member-card" bindtap="onUpgrade">
+    <view class="mc-left">
+      <text class="mc-plan">{{ planLabel }}</text>
+      <text class="mc-usage">{{ usageText }}</text>
+    </view>
+    <text class="mc-action">{{ plan === 'free' ? '升级 ›' : '查看 ›' }}</text>
+  </view>
+
+  <view class="menu-group">
+    <view class="menu-item" bindtap="onBackup">
+      <text class="mi-label">云备份</text>
+      <text class="mi-hint">{{ lastBackupTime ? '最近：' + lastBackupTime : '点击备份' }}</text>
+      <text class="mi-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="onRestore">
+      <text class="mi-label">恢复数据</text>
+      <text class="mi-hint">从云端恢复</text>
+      <text class="mi-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="onExport">
+      <text class="mi-label">导出数据</text>
+      <text class="mi-hint">复制JSON到剪贴板</text>
+      <text class="mi-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="onImport">
+      <text class="mi-label">导入数据</text>
+      <text class="mi-hint">从JSON恢复</text>
+      <text class="mi-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="menu-group">
+    <view class="menu-item" bindtap="onPrivacy">
+      <text class="mi-label">隐私与声明</text>
+      <text class="mi-hint">用户协议、隐私政策、免责声明</text>
+      <text class="mi-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="onAbout">
+      <text class="mi-label">关于安心家册</text>
+      <text class="mi-hint">版本 1.0.0</text>
+      <text class="mi-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="theme-section" wx:if="{{ themeList.length > 1 }}">
+    <text class="theme-label">主题</text>
+    <view class="theme-row">
+      <view class="theme-dot {{ currentTheme === item.key ? 'active' : '' }}"
+            style="background:{{ item.key === 'light' ? '#9B7A45' : '#0F1413' }}"
+            wx:for="{{ themeList }}" wx:key="key"
+            data-key="{{ item.key }}" bindtap="onSwitchTheme">
+        <text class="theme-check" wx:if="{{ currentTheme === item.key }}">✓</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="feedback-box">
+    <text class="fb-title">意见反馈</text>
+    <textarea class="fb-textarea" value="{{ feedback }}" bindinput="onFeedbackInput" placeholder="有什么建议或需求？告诉我们..." maxlength="500" />
+    <view class="fb-row">
+      <text class="fb-count">{{ feedback.length || 0 }}/500</text>
+      <button class="btn btn-gold btn-sm" bindtap="onSubmitFeedback">提交</button>
+    </view>
+  </view>
+
+  <view class="bottom-space"></view>
+</view>

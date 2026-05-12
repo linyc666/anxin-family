@@ -1,0 +1,9 @@
+{
+  "name": "analyzeFamily",
+  "version": "1.0.0",
+  "description": "家庭资料分析引擎云函数",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

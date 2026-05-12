@@ -1,0 +1,61 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/members/members",
+    "pages/analysis/analysis",
+    "pages/mine/mine",
+    "pages/mine/membership",
+    "pages/policy-form/policy-form",
+    "pages/member-form/member-form",
+    "pages/checklist/checklist",
+    "pages/policy-detail/policy-detail",
+    "pages/sample-detail/sample-detail"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#FFFCF6",
+    "navigationBarTitleText": "安心家册",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F8F4EC",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#969D92",
+    "selectedColor": "#9B7A45",
+    "backgroundColor": "#FFFCF6",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "总览"
+      },
+      {
+        "pagePath": "pages/members/members",
+        "text": "资料"
+      },
+      {
+        "pagePath": "pages/analysis/analysis",
+        "text": "清单"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的"
+      }
+    ]
+  },
+  "subPackages": [
+    {
+      "root": "pages/admin",
+      "pages": [
+        "products/products",
+        "product-edit/product-edit",
+        "import/import"
+      ]
+    }
+  ],
+  "cloud": true,
+  "lazyCodeLoading": "requiredComponents",
+  "usingComponents": {},
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

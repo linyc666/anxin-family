@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=yes">
+<title>保险匹配引擎 · 演示</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:#0a0e17;color:#e2e8f0;line-height:1.6}
+header{background:linear-gradient(135deg,#141923,#1a2332);padding:16px;border-bottom:1px solid #1e293b}
+header h1{font-size:18px;color:#d4a853}header .sub{font-size:12px;color:#94a3b8;margin-top:2px}
+section{padding:14px}
+h2{font-size:17px;color:#d4a853;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #1e293b}
+h3{font-size:15px;color:#f1f5f9;margin:16px 0 8px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.stat-card{background:linear-gradient(145deg,#141923,#1a2332);border-radius:16px;padding:14px;text-align:center;border:1px solid #1e293b}
+.stat-card .num{font-size:26px;font-weight:700;color:#d4a853}
+.stat-card .label{font-size:11px;color:#94a3b8;margin-top:4px}
+.stat-card.alert{border-color:#ef4444}
+.tag{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600}
+.tag-red{background:rgba(239,68,68,.2);color:#f87171}
+.tag-orange{background:rgba(245,158,11,.2);color:#fbbf24}
+.tag-yellow{background:rgba(234,179,8,.2);color:#facc15}
+.tag-green{background:rgba(16,185,129,.2);color:#34d399}
+.tag-blue{background:rgba(59,130,246,.2);color:#93c5fd}
+.gap-card{background:#1a2332;border-radius:12px;padding:12px;margin-bottom:8px;border-left:3px solid #ef4444}
+.gap-card.p1{border-left-color:#f59e0b}
+.gap-card.p2{border-left-color:#eab308}
+.gap-card .g-title{font-weight:700;font-size:13px;color:#f1f5f9}
+.gap-card .g-desc{font-size:12px;color:#94a3b8;margin-top:4px}
+.rec-card{background:#141923;border-radius:14px;padding:14px;margin-bottom:10px;border:1px solid #2a3344}
+.rec-card .r-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.rec-card .r-name{font-weight:700;font-size:14px;color:#f1f5f9}
+.rec-card .r-company{font-size:11px;color:#64748b}
+.rec-card .r-price{font-size:18px;font-weight:700;color:#d4a853}
+.rec-card .r-dims{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:8px;font-size:11px}
+.rec-card .r-dim-label{color:#64748b}.rec-card .r-dim-val{color:#cbd5e1}
+.rec-card .r-dim-val.good{color:#34d399}.rec-card .r-dim-val.warn{color:#fbbf24}
+.rec-card .r-reason{margin-top:8px;padding:8px 10px;background:rgba(212,168,83,.05);border-radius:8px;font-size:11px;color:#94a3b8;line-height:1.6}
+.rec-card .r-reason strong{color:#d4a853}
+.renewal-item{background:#1a2332;border-radius:10px;padding:10px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:12px}
+.renewal-item.urgent{border:1px solid rgba(239,68,68,.3)}
+.renewal-item .r-days{font-weight:700;font-size:16px}
+.renewal-item .r-days.red{color:#ef4444}.renewal-item .r-days.orange{color:#f59e0b}
+footer{text-align:center;padding:20px;color:#475569;font-size:11px;border-top:1px solid #1e293b;margin-top:24px}
+.note-info{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:10px;padding:10px;margin:10px 0;font-size:12px;color:#93c5fd;line-height:1.7}
+@media(max-width:480px){
+  header h1{font-size:16px}section{padding:10px}
+  .grid4{grid-template-columns:1fr 1fr}.stat-card{padding:10px}.stat-card .num{font-size:22px}
+  .rec-card .r-dims{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>保险匹配引擎 v1.0</h1>
+  <div class="sub">基于规则引擎 + 产品数据库的自动分析 · 林家10人16份保单演示</div>
+</header>
+
+<section>
+  <div class="note-info">
+    <strong>引擎架构说明：</strong><br>
+    ① <strong>产品数据库：</strong>15款核心产品，含年龄阶梯费率、健告严格度、续保条件、特色标签、地区限制等字段<br>
+    ② <strong>需求规则库：</strong>6条险种需求规则——根据年龄/角色/负债/医保自动判定每人应有的险种<br>
+    ③ <strong>匹配排序：</strong>按价格×0.3 + 健告友好度×0.2 + 续保条件×0.25 + 公司评级×0.25 排序<br>
+    ④ <strong>推荐卡片：</strong>每人每个缺口推荐Top2产品，含价格、评分明细和推荐理由
+  </div>
+</section>
+
+<section id="results"><div style="text-align:center;padding:40px;color:#64748b">分析中...</div></section>
+
+<footer>
+  保险匹配引擎 v1.0 · 产品数据库独立维护 · 可接入 H5 / 小程序 / Web App<br>
+  15款产品 · 6条需求规则 · 4维评分模型
+</footer>
+
+<script src="insurance-engine.js"></script>
+<script>
+// ============================================================
+//  加载林家完整数据并运行分析
+// ============================================================
+(function() {
+  // 林家10人数据（与H5演示数据一致）
+  var familyData = {
+    members: [
+      { id:'m1', name:'林永聪（聪）', age:30, role:'户主', 医保:'深圳一档', 负债:'241万（房贷65万+公积金贷176万）', notes:'' },
+      { id:'m2', name:'马静欣（欣）', age:31, role:'配偶', 医保:'深圳一档', 负债:'', notes:'' },
+      { id:'m3', name:'林香莲（老妈）', age:51, role:'母亲', 医保:'汕尾居民', 负债:'', notes:'织造工人' },
+      { id:'m4', name:'林于雅（雅/猫猫）', age:29, role:'妹妹', 医保:'广州灵活就业', 负债:'', notes:'7只猫' },
+      { id:'m5', name:'林于嘉（嘉）', age:26, role:'妹妹', 医保:'深圳灵活就业', 负债:'', notes:'5月25日27岁生日' },
+      { id:'m6', name:'林于婷（微）', age:25, role:'妹妹', 医保:'汕尾城乡', 负债:'', notes:'广州工作' },
+      { id:'m7', name:'马伟雄（岳父）', age:54, role:'岳父', 医保:'深圳二档', 负债:'', notes:'54岁最后免体检窗口' },
+      { id:'m8', name:'陈奕宜（岳母）', age:55, role:'岳母', 医保:'深圳二档', 负债:'', notes:'子宫息肉(良性)' },
+      { id:'m9', name:'老爸', age:50, role:'父亲', 医保:'零医保', 负债:'', notes:'境外务工·7月回国' },
+      { id:'m10', name:'权', age:29, role:'妹夫', 医保:'军队体系', 负债:'', notes:'2029年9月转业' }
+    ],
+    policies: [
+      { id:'p1', memberId:'m1', type:'百万医疗', name:'太保B款医疗保险', company:'太平洋健康', premium:443, coverage:'400万', guaranteedYears:'20年保证续保', effective:'2026-04-21', expiry:'2027-04-20', tags:'含CAR-T,外购药100万', detail:'一般医疗200万·重疾400万·含质子重离子' },
+      { id:'p2', memberId:'m1', type:'意外险', name:'小蜜蜂6号尊享版', company:'太平洋产险', premium:298, coverage:'意外100万+猝死50万', guaranteedYears:'1年期', effective:'2026-04-23', expiry:'2027-04-22', tags:'0免赔,不限社保', detail:'意外医疗10.5万·航空500万·住院津贴150元/天' },
+      { id:'p3', memberId:'m1', type:'重疾险', name:'健康福·重疾险（1年期）', company:'国泰产险', premium:907, coverage:'重疾80万+轻症24万', guaranteedYears:'1年不保证续保', effective:'2025-12-17', expiry:'2026-12-16', tags:'1年期,12月到期', detail:'120种重疾·50种轻症1次' },
+      { id:'p4', memberId:'m1', type:'惠民保', name:'深圳惠民保2026', company:'深圳市医保局', premium:88, coverage:'300万', guaranteedYears:'1年期', effective:'2026-07-01', expiry:'2027-06-30', tags:'', detail:'医保内300万·医保外300万·特药100万' },
+      { id:'p5', memberId:'m2', type:'百万医疗', name:'人保悠享健康(0免赔)', company:'人保健康', premium:453, coverage:'400万·0免赔', guaranteedYears:'6年保证续保', effective:'2025-10-29', expiry:'2026-10-28', tags:'0免赔,含CAR-T', detail:'1万内30%报销·超1万100%·含质子重离子' },
+      { id:'p6', memberId:'m2', type:'防癌险', name:'人保温暖悠长防癌险', company:'人保健康', premium:249, coverage:'癌症400万', guaranteedYears:'终身保证续保', effective:'2025-06-24', expiry:'终身', tags:'终身保证续保,0免赔', detail:'癌症医疗400万·质子重离子100万·特药100万' },
+      { id:'p7', memberId:'m2', type:'惠民保', name:'深圳惠民保2026', company:'深圳市医保局', premium:88, coverage:'300万', guaranteedYears:'1年期', effective:'2026-07-01', expiry:'2027-06-30', tags:'', detail:'医保内300万·医保外300万' },
+      { id:'p8', memberId:'m3', type:'百万医疗', name:'太保B款医疗保险', company:'太平洋健康', premium:2358, coverage:'400万', guaranteedYears:'20年保证续保', effective:'2026-04-24', expiry:'2027-04-23', tags:'含特需部,CAR-T', detail:'含特需部/国际部·特药200万' },
+      { id:'p9', memberId:'m3', type:'意外险', name:'大护甲8号高龄版', company:'人保财险', premium:228, coverage:'意外10万+医疗5万', guaranteedYears:'1年期', effective:'2026-04-27', expiry:'2027-04-26', tags:'含骨折保障', detail:'驾驶额外30万·骨折5千·住院津贴50元/天' },
+      { id:'p10', memberId:'m4', type:'百万医疗', name:'人保悠遥保', company:'人保健康', premium:412, coverage:'400万·重疾仅1万', guaranteedYears:'1年不保证续保', effective:'2026-04-24', expiry:'2027-04-23', tags:'重疾仅1万,1年不保证', detail:'一般医疗400万·重疾仅1万·1年期' },
+      { id:'p11', memberId:'m4', type:'意外险', name:'骏业白领保', company:'中国人寿', premium:388, coverage:'意外20万+猝死2万', guaranteedYears:'1年期', effective:'2026-01-18', expiry:'2027-01-17', tags:'保额偏低', detail:'意外20万·猝死2万·医疗5万·定寿3万·疾病住院8千' },
+      { id:'p12', memberId:'m5', type:'百万医疗', name:'好医保·长期医疗旗舰版', company:'人保健康', premium:403, coverage:'400万', guaranteedYears:'1年不保证续保', effective:'2026-04-23', expiry:'2027-04-22', tags:'1年不保证', detail:'一般医疗400万·重疾400万·1年期' },
+      { id:'p13', memberId:'m5', type:'意外险', name:'小蜜蜂6号典藏版', company:'太平洋产险', premium:156, coverage:'意外50万+猝死30万', guaranteedYears:'1年期', effective:'2026-04-23', expiry:'2027-04-22', tags:'0免赔,不限社保', detail:'意外50万·猝死30万·医疗5万·航空300万' },
+      { id:'p14', memberId:'m6', type:'意外险', name:'骏业白领保', company:'中国人寿', premium:388, coverage:'意外20万+猝死2万', guaranteedYears:'1年期', effective:'2026-01-18', expiry:'2027-01-17', tags:'仅意外险,无医疗险', detail:'意外20万·猝死2万·医疗5万·定寿3万·疾病住院8千' },
+      { id:'p15', memberId:'m7', type:'惠民保', name:'深圳惠民保2026', company:'深圳市医保局', premium:88, coverage:'300万', guaranteedYears:'1年期', effective:'2026-07-01', expiry:'2027-06-30', tags:'', detail:'医保内300万·医保外300万' },
+      { id:'p16', memberId:'m8', type:'惠民保', name:'深圳惠民保2026', company:'深圳市医保局', premium:88, coverage:'300万', guaranteedYears:'1年期', effective:'2026-07-01', expiry:'2027-06-30', tags:'', detail:'医保内300万·医保外300万' }
+    ]
+  };
+
+  var result = InsuranceEngine.analyze(familyData);
+  var priorityOrder = { P0:0, P1:1, P2:2 };
+  var priorityLabel = { P0:'🔴 P0 紧急', P1:'🟠 P1 尽快', P2:'🟡 P2 补充' };
+  var priorityTagCls = { P0:'tag-red', P1:'tag-orange', P2:'tag-yellow' };
+
+  var html = '';
+
+  // 统计
+  html += '<h2>分析概览</h2>';
+  html += '<div class="grid4">'+
+    '<div class="stat-card"><span class="num">'+result.stats.totalGaps+'</span><span class="label">风险缺口</span></div>'+
+    '<div class="stat-card alert"><span class="num">'+result.stats.p0Gaps+'</span><span class="label">P0 紧急缺口</span></div>'+
+    '<div class="stat-card"><span class="num">'+result.stats.p1Gaps+'</span><span class="label">P1 尽快处理</span></div>'+
+    '<div class="stat-card"><span class="num">'+result.recommendations.length+'</span><span class="label">推荐方案</span></div>'+
+    '</div>';
+
+  // 缺口列表
+  html += '<h2>风险缺口诊断</h2>';
+  result.gaps.forEach(function(g) {
+    html += '<div class="gap-card '+g.priority.toLowerCase()+'">'+
+      '<div class="g-title">'+priorityLabel[g.priority]+' — '+g.memberName+'：'+g.title+'</div>'+
+      '<div class="g-desc">'+g.desc+'</div></div>';
+  });
+
+  // 推荐方案
+  html += '<h2>产品推荐方案</h2>';
+  result.recommendations.forEach(function(rec) {
+    html += '<h3>'+rec.memberName+' · '+rec.gapType+' · <span class="tag '+priorityTagCls[rec.priority]+'">'+priorityLabel[rec.priority]+'</span></h3>';
+    rec.candidates.forEach(function(c, idx) {
+      var p = c.product;
+      var rankEmoji = idx === 0 ? '🥇' : '🥈';
+      html += '<div class="rec-card">'+
+        '<div class="r-header"><div><div class="r-name">'+rankEmoji+' '+p.name+'</div><div class="r-company">'+p.company+' · '+p.companyRating+' · 偿付'+p.solvency+'</div></div>'+
+        '<div class="r-price">¥'+c.price.toLocaleString()+'<span style="font-size:11px;color:#64748b;font-weight:400">/年</span></div></div>'+
+        '<div class="r-dims">'+
+          '<div><span class="r-dim-label">续保：</span><span class="r-dim-val good">'+p.guaranteeType+'</span></div>'+
+          '<div><span class="r-dim-label">保额：</span><span class="r-dim-val">'+p.coverage+'</span></div>'+
+          '<div><span class="r-dim-label">健告：</span><span class="r-dim-val '+(p.healthStrictness<=2?'good':'warn')+'">'+(p.healthStrictness===1?'宽松':p.healthStrictness===2?'中等·智能核保':'严格·需体检')+'</span></div>'+
+          '<div><span class="r-dim-label">评分：</span><span class="r-dim-val good">'+c.score.total.toFixed(2)+'</span></div>'+
+          '<div><span class="r-dim-label">免赔：</span><span class="r-dim-val">'+p.deductible+'</span></div>'+
+          '<div><span class="r-dim-label">等待期：</span><span class="r-dim-val">'+p.waitingDays+'天</span></div>'+
+        '</div>'+
+        '<div class="r-reason"><strong>推荐理由：</strong>'+p.features.slice(0,4).join(' · ')+'。<br><strong>评分明细：</strong>价格'+(c.score.breakdown.price*10).toFixed(0)+'% + 健告'+(c.score.breakdown.health*10).toFixed(0)+'% + 续保'+(c.score.breakdown.guarantee*10).toFixed(0)+'% + 公司'+(c.score.breakdown.company*10).toFixed(0)+'%</div>'+
+        '</div>';
+    });
+  });
+
+  // 续保提醒
+  html += '<h2>续保提醒（90天内）</h2>';
+  if (result.renewalAlerts.length === 0) {
+    html += '<div style="color:#64748b;font-size:13px;padding:8px 0">暂无90天内到期的保单 ✅</div>';
+  } else {
+    result.renewalAlerts.forEach(function(r) {
+      var cls = r.urgent ? 'urgent' : '';
+      var daysCls = r.expired ? 'red' : r.urgent ? 'red' : 'orange';
+      var daysText = r.expired ? '已过期'+Math.abs(r.daysLeft)+'天' : r.daysLeft+'天';
+      html += '<div class="renewal-item '+cls+'">'+
+        '<div><strong>'+r.memberName+'</strong> · '+r.policy.name+'</div>'+
+        '<div><span style="font-size:11px;color:#64748b">到期 '+r.policy.expiry+'</span></div>'+
+        '<div class="r-days '+daysCls+'">'+daysText+'</div></div>';
+    });
+  }
+
+  document.getElementById('results').innerHTML = html;
+})();
+</script>
+</body>
+</html>

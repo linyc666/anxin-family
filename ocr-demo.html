@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=yes">
+<title>保单智能识别 · OCR+AI提取演示</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:#0a0e17;color:#e2e8f0;line-height:1.6}
+header{background:linear-gradient(135deg,#141923,#1a2332);padding:16px;border-bottom:1px solid #1e293b}
+header h1{font-size:18px;color:#d4a853}header .sub{font-size:12px;color:#94a3b8;margin-top:2px}
+section{padding:14px;max-width:700px;margin:0 auto}
+h2{font-size:16px;color:#d4a853;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #1e293b}
+h3{font-size:14px;color:#f1f5f9;margin:16px 0 8px}
+.btn{padding:8px 18px;border-radius:20px;border:1px solid #2a3344;background:#1a2332;color:#e2e8f0;font-size:13px;cursor:pointer;transition:.2s;touch-action:manipulation}
+.btn:active{opacity:.7}
+.btn-gold{background:#d4a853;color:#0a0e17;border-color:#d4a853;font-weight:600}
+.btn-blue{background:rgba(59,130,246,.15);border-color:#3b82f6;color:#93c5fd}
+.btn-sm{padding:4px 12px;font-size:11px}
+/* Flow steps */
+.flow-steps{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.flow-step{flex:1;min-width:80px;background:#141923;border:1px solid #2a3344;border-radius:12px;padding:12px;text-align:center;font-size:11px;color:#64748b;transition:.2s}
+.flow-step.active{border-color:#d4a853;color:#d4a853}
+.flow-step.done{border-color:#10b981;color:#34d399}
+.flow-step .step-num{font-size:22px;font-weight:700;display:block}
+.flow-step .step-label{display:block;margin-top:4px}
+/* Upload */
+.upload-box{border:2px dashed #2a3344;border-radius:16px;padding:32px 16px;text-align:center;cursor:pointer;transition:.2s;margin-bottom:16px}
+.upload-box:hover{border-color:#d4a853}
+.upload-box input{display:none}
+.upload-box .icon{font-size:40px;margin-bottom:8px}
+.upload-box .hint{font-size:13px;color:#94a3b8}
+.upload-box img{max-width:100%;max-height:200px;border-radius:8px;margin-top:8px}
+/* Code / text blocks */
+.code-block{background:#1a2332;border:1px solid #2a3344;border-radius:10px;padding:14px;font-size:12px;font-family:'SF Mono','Consolas',monospace;color:#94a3b8;line-height:1.7;max-height:300px;overflow-y:auto;white-space:pre-wrap;word-break:break-all}
+/* Extracted fields */
+.field-table{width:100%;border-collapse:collapse;font-size:12px;margin:10px 0}
+.field-table th{text-align:left;padding:6px 8px;color:#94a3b8;font-size:11px;border-bottom:1px solid #1e293b;width:100px}
+.field-table td{padding:6px 8px;border-bottom:1px solid #1a2332}
+.field-table .f-name{color:#d4a853;font-size:10px;text-transform:uppercase}
+.field-table .f-val{color:#f1f5f9}
+.field-table .f-val.empty{color:#475569;font-style:italic}
+.field-table .f-val.high{color:#34d399}
+.field-table .f-val.low{color:#f59e0b}
+/* Tag */
+.tag{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600}
+.tag-green{background:rgba(16,185,129,.2);color:#34d399}
+.tag-orange{background:rgba(245,158,11,.2);color:#fbbf24}
+.note-info{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:10px;padding:10px;margin:10px 0;font-size:12px;color:#93c5fd;line-height:1.7}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+@media(max-width:480px){
+  header h1{font-size:16px}section{padding:10px}
+  .flow-steps{gap:4px}.flow-step{padding:8px;font-size:10px}.flow-step .step-num{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>保单智能识别</h1>
+  <div class="sub">OCR文字识别 → AI结构化提取 → 自动填充保单信息</div>
+</header>
+
+<section>
+  <!-- 流程指示器 -->
+  <div class="flow-steps" id="flow-steps">
+    <div class="flow-step active" id="step-upload"><span class="step-num">①</span><span class="step-label">上传截图</span></div>
+    <div class="flow-step" id="step-ocr"><span class="step-num">②</span><span class="step-label">OCR识别</span></div>
+    <div class="flow-step" id="step-ai"><span class="step-num">③</span><span class="step-label">AI提取</span></div>
+    <div class="flow-step" id="step-fill"><span class="step-num">④</span><span class="step-label">自动填充</span></div>
+  </div>
+
+  <!-- 演示选项 -->
+  <div class="note-info" style="margin-bottom:16px">
+    <strong>两种演示方式：</strong><br>
+    ① <strong>真实截图：</strong>上传你的保单截图/照片，先OCR再AI提取<br>
+    ② <strong>模拟演示：</strong>使用预设的保单OCR文字，直接看AI提取效果（推荐先试这个）
+  </div>
+
+  <div class="actions" style="margin-bottom:16px">
+    <button class="btn btn-gold" onclick="runSampleDemo()">📋 用模拟数据演示完整流程</button>
+    <button class="btn btn-blue" onclick="document.getElementById('file-input').click()">📷 上传真实保单截图</button>
+    <input type="file" id="file-input" accept="image/*,.pdf" style="display:none" onchange="handleUpload(this)">
+  </div>
+
+  <div class="upload-box" id="upload-box" onclick="document.getElementById('file-input').click()">
+    <div class="icon">📷</div>
+    <div class="hint">点击上传保单截图或PDF<br><span style="font-size:10px">小程序端：调用 wx.chooseImage 拍照/选图</span></div>
+    <img id="upload-preview" style="display:none">
+  </div>
+
+  <!-- 结果区 -->
+  <div id="result-area"></div>
+</section>
+
+<footer style="text-align:center;padding:20px;color:#475569;font-size:11px;border-top:1px solid #1e293b;margin-top:24px">
+  OCR+AI提取管道 · 小程序端：wx.OCR → 云函数 → Claude Vision提取 → 自动填充
+</footer>
+
+<script src="ocr-extract.js"></script>
+<script src="insurance-engine.js"></script>
+<script>
+// ============================================================
+//  流程控制
+// ============================================================
+function setStepActive(n) {
+  ['upload','ocr','ai','fill'].forEach(function(id,i){
+    var el=document.getElementById('step-'+id);
+    el.classList.remove('active','done');
+    if(i<n)el.classList.add('done');
+    else if(i===n)el.classList.add('active');
+  });
+}
+
+// ============================================================
+//  模拟演示
+// ============================================================
+function runSampleDemo() {
+  setStepActive(0);
+  var resultArea=document.getElementById('result-area');
+  var sampleOCR=PolicyExtractor.getSampleOCRText();
+
+  var h='';
+
+  // Step 1: OCR
+  setStepActive(1);
+  h+='<h3>📄 步骤1：OCR识别文字</h3>';
+  h+='<div class="code-block">'+escHtml(sampleOCR)+'</div>';
+
+  // Step 2: AI提取
+  setStepActive(2);
+  var extracted=PolicyExtractor.regexExtract(sampleOCR);
+  h+='<h3>🤖 步骤2：AI结构化提取</h3>';
+  if (extracted.confidence==='low') {
+    h+='<div class="note-info" style="margin-bottom:10px">当前使用<strong>正则表达式提取（离线模式）</strong>。连接AI API后将升级为Claude Vision提取，准确率可从60%提升至95%+。</div>';
+  }
+
+  h+='<table class="field-table">';
+  var fields=[
+    { key:'policyName', label:'产品名称', en:'policyName' },
+    { key:'company', label:'保险公司', en:'company' },
+    { key:'type', label:'保险类型', en:'type' },
+    { key:'premium', label:'年保费', en:'premium', isNum:true },
+    { key:'coverage', label:'保额', en:'coverage' },
+    { key:'deductible', label:'免赔额', en:'deductible' },
+    { key:'guaranteeYears', label:'续保条件', en:'guaranteeYears' },
+    { key:'effectiveDate', label:'生效日期', en:'effectiveDate' },
+    { key:'expiryDate', label:'到期日期', en:'expiryDate' },
+    { key:'policyNo', label:'保单号', en:'policyNo' },
+    { key:'insuredName', label:'被保险人', en:'insuredName' }
+  ];
+  fields.forEach(function(f){
+    var val=extracted[f.key];
+    var cls=val?'high':'empty';
+    var display=val||'(未提取到)';
+    if(f.isNum)display=val?('¥'+val.toLocaleString()):'(未提取到)';
+    h+='<tr><td><span class="f-name">'+f.en+'</span><br>'+f.label+'</td><td><span class="f-val '+cls+'">'+display+'</span></td></tr>';
+  });
+  h+='</table>';
+
+  // Step 3: 匹配产品库
+  setStepActive(3);
+  h+='<h3>🔗 步骤3：匹配产品库 & 自动填充</h3>';
+  var matched=null;
+  if(extracted.policyName){
+    InsuranceEngine.PRODUCTS.forEach(function(p){
+      if(!matched&&p.active&&(p.name.indexOf(extracted.policyName.substring(0,4))>-1||extracted.policyName.indexOf(p.name.substring(0,4))>-1)){
+        matched=p;
+      }
+    });
+  }
+  if(matched){
+    var price=InsuranceEngine.getProductPrice(matched,30)||'—';
+    h+='<div style="background:#141923;border:1px solid #10b981;border-radius:12px;padding:14px;margin:10px 0">'+
+      '<span class="tag tag-green" style="margin-bottom:8px">✅ 匹配到产品库</span><br>'+
+      '<strong style="color:#f1f5f9">'+matched.name+'</strong><br>'+
+      '<span style="font-size:12px;color:#94a3b8">'+matched.company+' · '+matched.type+' · 参考费率~¥'+price+'/年</span><br>'+
+      '<span style="font-size:11px;color:#64748b">'+matched.features.slice(0,4).join(' · ')+'</span>'+
+      '</div>';
+  }else{
+    h+='<div class="note-info">未匹配到产品库中的产品，将以AI提取字段填充表单。建议后续将此产品录入数据库。</div>';
+  }
+
+  h+='<h3>✅ 最终填充保单表单</h3>';
+  h+='<table class="field-table">';
+  var formFields=[
+    ['保单名称',extracted.policyName,'pf-name'],
+    ['保险公司',extracted.company,'pf-company'],
+    ['保险类型',extracted.type,'pf-type'],
+    ['年保费','¥'+(extracted.premium||0).toLocaleString(),'pf-premium'],
+    ['保额',extracted.coverage,'pf-coverage'],
+    ['续保条件',extracted.guaranteeYears,'pf-guarantee'],
+    ['生效日期',extracted.effectiveDate,'pf-effective'],
+    ['到期日期',extracted.expiryDate,'pf-expiry'],
+    ['保单号',extracted.policyNo,'pf-policyNo']
+  ];
+  formFields.forEach(function(f){
+    h+='<tr><td style="color:#64748b;font-size:11px">'+f[0]+'</td><td style="color:#d4a853">'+escHtml(f[1]||'—')+'</td><td style="font-size:10px;color:#475569">→ '+f[2]+'</td></tr>';
+  });
+  h+='</table>';
+
+  h+='<div class="note-info" style="margin-top:12px"><strong>完整流程示意（小程序端）：</strong><br>'+
+    '① wx.chooseImage 拍照/选图 → ② wx.cloud.callFunction("ocrPolicy") OCR识别 → ③ 云函数调用Claude Vision提取结构化字段 → ④ 返回JSON自动填充表单<br>'+
+    '<strong>API 调用链：</strong><br>'+
+    'OCR: 百度OCR / 腾讯OCR / 微信原生OCR<br>'+
+    'AI提取: POST https://api.anthropic.com/v1/messages → Claude Vision → 返回结构化JSON</div>';
+
+  resultArea.innerHTML=h;
+}
+
+// ============================================================
+//  真实截图上传
+// ============================================================
+function handleUpload(input) {
+  var file=input.files[0]; if(!file)return;
+  if(file.size>10*1024*1024){alert('文件不能超过10MB');input.value='';return;}
+
+  var reader=new FileReader();
+  reader.onload=function(e){
+    // 显示预览
+    var preview=document.getElementById('upload-preview');
+    var uploadBox=document.getElementById('upload-box');
+    if(file.type.indexOf('image')>-1){
+      preview.src=e.target.result; preview.style.display='block';
+      uploadBox.querySelector('.icon').style.display='none';
+      uploadBox.querySelector('.hint').style.display='none';
+    }
+
+    // 演示：使用模拟OCR文字展示流程
+    var resultArea=document.getElementById('result-area');
+    resultArea.innerHTML='<div class="note-info" style="margin-top:16px">📷 图片已上传。在实际部署中，接下来会：<br>'+
+      '① 将图片发送至OCR API → 获取文字<br>'+
+      '② 将文字发送至AI Vision → 提取结构化字段<br>'+
+      '③ 自动填充到H5工具或小程序的保单表单中<br><br>'+
+      '<strong>当前为演示模式</strong>——点击下方按钮使用模拟OCR文字查看完整提取流程。</div>'+
+      '<button class="btn btn-gold" style="margin-top:8px" onclick="runSampleDemo()">用模拟数据演示提取流程</button>';
+
+    setStepActive(0);
+    input.value='';
+  };
+  reader.readAsDataURL(file);
+}
+
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+</script>
+</body>
+</html>

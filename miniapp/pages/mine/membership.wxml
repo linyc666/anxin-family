@@ -1,0 +1,84 @@
+<!--pages/mine/membership.wxml - 安心家册会员-->
+<view class="container">
+  <!-- 结果承诺 -->
+  <view class="promise">
+    <text class="promise-title">家庭年卡 ¥68/年</text>
+    <text class="promise-desc">把家人的重要资料和宠物提醒长期管好</text>
+  </view>
+
+  <!-- 你将获得 -->
+  <view class="gain-list">
+    <view class="gain-item">
+      <text class="gain-icon">☁</text>
+      <view class="gain-info">
+        <text class="gain-label">换手机也能恢复资料</text>
+        <text class="gain-sub">云端备份，随时恢复</text>
+      </view>
+    </view>
+    <view class="gain-item">
+      <text class="gain-icon">◉</text>
+      <view class="gain-info">
+        <text class="gain-label">重要资料到期提醒</text>
+        <text class="gain-sub">不会漏掉关键的延续或更新节点</text>
+      </view>
+    </view>
+    <view class="gain-item">
+      <text class="gain-icon">♡</text>
+      <view class="gain-info">
+        <text class="gain-label">宠物疫苗、驱虫、体检提醒</text>
+        <text class="gain-sub">宠物的健康节点不再靠记忆</text>
+      </view>
+    </view>
+    <view class="gain-item">
+      <text class="gain-icon">◎</text>
+      <view class="gain-info">
+        <text class="gain-label">每月更多识别次数</text>
+        <text class="gain-sub">拍照就能提取资料信息</text>
+      </view>
+    </view>
+    <view class="gain-item">
+      <text class="gain-icon">▣</text>
+      <view class="gain-info">
+        <text class="gain-label">完整年度支出统计</text>
+        <text class="gain-sub">清楚知道家庭每年的资料支出</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 当前版本 -->
+  <view class="current-badge" wx:if="{{ currentPlan === 'free' }}">
+    <text>当前：免费版</text>
+  </view>
+  <view class="current-badge paid" wx:else>
+    <text>当前：{{ plansObj[currentPlan].name }} · 剩余 {{ daysLeft }} 天</text>
+  </view>
+
+  <!-- 三档计划卡片 -->
+  <view class="plan-card {{ item.recommended ? 'rec' : '' }} {{ currentPlan === item.key ? 'current-plan' : '' }}" wx:for="{{ plans }}" wx:key="key">
+    <view class="plan-tag-bar" wx:if="{{ item.standardPrice && item.key !== 'free' }}">
+      <text class="plan-tag-text" wx:if="{{ item.recommended }}">开通专享</text>
+      <text class="plan-standard-price">标准 ¥{{ item.standardPrice }}{{ item.period || '' }}</text>
+    </view>
+    <view class="plan-top">
+      <text class="plan-name">{{ item.name }}</text>
+      <view class="plan-price-wrap">
+        <text class="plan-price">¥{{ item.price }}<text class="plan-per">{{ item.period }}</text></text>
+      </view>
+    </view>
+    <view class="plan-summary">{{ item.summary }}</view>
+    <view class="plan-nums">
+      <text>{{ item.people }}位家人</text>
+      <text>{{ item.pets }}只宠物</text>
+      <text>{{ item.records }}条记录</text>
+    </view>
+    <button class="plan-btn {{ item.recommended ? 'gold' : '' }} {{ currentPlan === item.key ? 'current' : '' }}"
+            data-plan="{{ item.key }}" bindtap="onUpgradePlan"
+            disabled="{{ currentPlan === item.key }}">
+      {{ currentPlan === item.key ? '当前版本' : '¥' + item.price + ' 开通' + item.name }}
+    </button>
+  </view>
+
+  <view class="footer-note">
+    <text>安心家册不销售任何金融类服务，不提供购买建议。</text>
+  </view>
+</view>

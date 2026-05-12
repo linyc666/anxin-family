@@ -1,0 +1,57 @@
+/* pages/checklist/checklist.wxss */
+.container { padding: 20px 16px 40px; }
+
+/* 标题 */
+.cl-header { margin-bottom: 16px; }
+.cl-title { font-size: 20px; font-weight: 700; color: #29302B; display: block; }
+.cl-sub { font-size: 11px; color: #969D92; display: block; margin-top: 4px; }
+
+/* 完整度条 */
+.cl-completeness { margin-bottom: 16px; }
+.clc-bar-bg { height: 6px; background: #E1D7C7; border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
+.clc-bar-fill { height: 100%; background: linear-gradient(90deg, #9B7A45, #527F68); border-radius: 3px; transition: width .5s ease; }
+.clc-text { font-size: 11px; color: #969D92; }
+
+/* 通用卡片 */
+.cl-card {
+  background: #FFFCF6; border: 1px solid #E1D7C7; border-radius: 12px;
+  padding: 14px; margin-bottom: 12px;
+}
+.cl-card.cl-missing { border-color: rgba(155,122,69,.15); }
+.cl-card.cl-prep { border-color: rgba(82,127,150,.12); background: rgba(82,127,150,.03); }
+.cl-card-title { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.cl-card-title text:first-child { font-size: 14px; font-weight: 700; color: #29302B; }
+.cl-card-count { font-size: 11px; padding: 1px 7px; border-radius: 8px; }
+.cl-card-count.ok { background: rgba(82,127,104,.1); color: #527F68; }
+.cl-card-count.warn { background: rgba(155,122,69,.1); color: #9B7A45; }
+
+/* 到期状?*/
+.cl-expiry { font-size: 15px; font-weight: 600; display: block; }
+.cl-expiry.red { color: #B95F57; }
+.cl-expiry.gold { color: #9B7A45; }
+.cl-expiry.green { color: #527F68; }
+.cl-expiry { color: #717C73; }
+
+/* 年度支出 */
+.cl-spend { font-size: 14px; display: block; color: #717C73; }
+.cl-spend.gold { color: #9B7A45; }
+
+/* 字段?*/
+.cl-field { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.03); }
+.cl-field:last-child { border-bottom: none; }
+.clf-label { font-size: 13px; color: #48534B; }
+.clf-value { font-size: 12px; color: #717C73; text-align: right; max-width: 55%; }
+.cl-field.missing .clf-label { color: #717C73; }
+.clf-hint { font-size: 11px; color: #969D92; text-align: right; }
+.cl-empty, .cl-done { text-align: center; padding: 8px 0; font-size: 12px; }
+.cl-empty text { color: #969D92; }
+.cl-done text { color: #527F68; }
+
+/* 咨询前准?*/
+.cl-prep-item { display: flex; gap: 10px; padding: 6px 0; }
+.clp-num { font-size: 11px; color: #969D92; min-width: 20px; text-align: center; }
+.clp-text { font-size: 12px; color: #717C73; line-height: 1.5; }
+
+/* 底部声明 */
+.cl-footer { margin-top: 20px; text-align: center; }
+.cl-footer text { font-size: 10px; color: #969D92; display: block; line-height: 1.6; }

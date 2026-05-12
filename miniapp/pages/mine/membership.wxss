@@ -1,0 +1,57 @@
+/* pages/mine/membership.wxss */
+.container { padding: 20px 16px 40px; }
+
+/* 结果承诺 */
+.promise { text-align: center; padding: 24px 12px 20px; }
+.promise-title { font-size: 26px; font-weight: 700; color: #9B7A45; display: block; }
+.promise-sub { font-size: 13px; color: #969D92; display: block; margin-top: 4px; text-decoration: line-through; }
+.promise-desc { font-size: 14px; color: #717C73; display: block; margin-top: 8px; line-height: 1.6; }
+
+/* 你将获得 */
+.gain-list { margin-bottom: 20px; }
+.gain-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #E1D7C7; }
+.gain-item:last-child { border-bottom: none; }
+.gain-icon { font-size: 18px; width: 32px; text-align: center; color: #9B7A45; }
+.gain-info { flex: 1; }
+.gain-label { font-size: 14px; font-weight: 600; color: #29302B; display: block; }
+.gain-sub { font-size: 11px; color: #969D92; display: block; margin-top: 2px; }
+
+.current-badge { text-align: center; margin-bottom: 16px; }
+.current-badge text { font-size: 11px; color: #969D92; background: #FFFCF6; border: 1px solid #E1D7C7; border-radius: 12px; padding: 4px 14px; }
+.current-badge.paid text { color: #527F68; border-color: rgba(82,127,104,.25); }
+
+/* 计划卡片 */
+.plan-card {
+  background: #FFFCF6; border: 1px solid #E1D7C7; border-radius: 14px;
+  padding: 16px; margin-bottom: 12px; position: relative;
+}
+.plan-card.rec { border-color: rgba(155,122,69,.4); background: rgba(155,122,69,.03); }
+.plan-card.current-plan { opacity: .7; }
+
+/* 右上角标签栏：标准价 + 首年专享 */
+.plan-tag-bar { display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 8px; }
+.plan-tag-text { font-size: 11px; font-weight: 600; color: #9B7A45; background: rgba(155,122,69,.10); border: 1px solid rgba(155,122,69,.20); border-radius: 6px; padding: 2px 8px; }
+.plan-standard-price { font-size: 14px; color: #717C73; text-decoration: line-through; }
+
+.plan-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.plan-name { font-size: 17px; font-weight: 700; color: #29302B; }
+.plan-price-wrap { text-align: right; }
+.plan-price { font-size: 30px; font-weight: 700; color: #9B7A45; }
+.plan-per { font-size: 13px; color: #717C73; font-weight: 400; }
+.plan-summary { font-size: 12px; color: #717C73; margin-bottom: 10px; }
+.plan-nums { display: flex; gap: 12px; margin-bottom: 12px; }
+.plan-nums text { font-size: 11px; color: #969D92; background: rgba(255,255,255,.03); padding: 2px 8px; border-radius: 6px; }
+
+/* 月卡弱化 */
+.plan-card:not(.rec) { opacity: .85; }
+.plan-card:not(.rec) .plan-price { font-size: 24px; }
+
+.plan-btn {
+  width: 100%; padding: 10px 0; border-radius: 12px; font-size: 14px; font-weight: 600;
+  background: #F2EBDD; color: #48534B; border: 1px solid #E1D7C7;
+}
+.plan-btn.gold { background: #9B7A45; color: #F8F4EC; border-color: #9B7A45; }
+.plan-btn.current { background: #F2EBDD; color: #969D92; border-color: #E1D7C7; }
+
+.footer-note { text-align: center; margin-top: 20px; }
+.footer-note text { font-size: 11px; color: #969D92; display: block; line-height: 1.6; margin-top: 4px; }

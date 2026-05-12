@@ -1,0 +1,99 @@
+<!--pages/analysis/analysis.wxml - 安心清单-->
+<view class="container" style="background-color:{{ tColors ? tColors.bg : '#F8F4EC' }}">
+  <view class="summary-row">
+    <text class="sum-item">重要 {{ stats.p0Gaps }} 项</text>
+    <text class="sum-item">建议关注 {{ stats.p1Gaps }} 项</text>
+  </view>
+
+  <scroll-view class="member-tabs" scroll-x="true" enable-flex="true" wx:if="{{ memberList.length > 1 }}">
+    <view class="mtab {{ activeMember === '' ? 'active' : '' }}" bindtap="onFilterMember" data-id="">全部</view>
+    <view class="mtab {{ activeMember === item.id ? 'active' : '' }}" wx:for="{{ memberList }}" wx:key="id" bindtap="onFilterMember" data-id="{{ item.id }}">
+      {{ item.name }}
+    </view>
+  </scroll-view>
+
+  <view class="empty-state" wx:if="{{ filteredGaps.length === 0 }}">
+    <text class="empty-icon">✓</text>
+    <text class="empty-text">未检测到明显待完善项</text>
+    <text class="empty-hint">确保年龄、角色、医保、家庭责任信息完整，可获得更清晰的安心清单</text>
+  </view>
+
+  <view class="gap-item {{ item.priority === 'P1' ? 'p1' : '' }}" wx:for="{{ filteredGaps }}" wx:key="gapKey">
+    <view class="gi-header">
+      <view class="gi-dot {{ item.priority === 'P0' ? 'red' : 'gold' }}"></view>
+      <view class="gi-info">
+        <text class="gi-member">{{ item.memberName }}</text>
+        <text class="gi-title">{{ item.title }}</text>
+      </view>
+      <text class="gi-priority {{ item.priority === 'P0' ? 'red' : '' }}">{{ item.priority === 'P0' ? '重要' : '建议' }}</text>
+    </view>
+    <view class="gi-category">
+      <text class="gic-label">{{ item.categoryLabel }}</text>
+      <text class="gic-text">{{ item.gapMeaning }}</text>
+    </view>
+    <text class="gi-desc">{{ item.desc }}</text>
+    <view class="gi-content-missing" wx:if="{{ item.gapContentItems && item.gapContentItems.length > 0 }}">
+      <text class="gicm-title">建议补充以下内容</text>
+      <view class="gicm-list">
+        <view class="gicm-item" wx:for="{{ item.gapContentItems }}" wx:key="label" wx:for-item="gc" wx:if="{{ index < 3 || item.gapContentExpanded }}">
+          <text class="gicm-label">{{ gc.label }}</text>
+          <text class="gicm-hint">{{ gc.hint }}</text>
+        </view>
+      </view>
+      <text class="gicm-more" wx:if="{{ item.gapContentItems.length > 3 && !item.gapContentExpanded }}" bindtap="onToggleGapContent" data-gap-key="{{ item.gapKey }}">展开全部 {{ item.gapContentItems.length }} 条 ›</text>
+    </view>
+
+    <view class="gi-samples" wx:if="{{ item.samples && item.samples.length > 0 }}">
+      <view class="gs-toggle" bindtap="onToggleSamples" data-gap-key="{{ item.gapKey }}">
+        <text>{{ item.samplesExpanded ? '收起参考样例' : '查看参考样例对比' }}</text>
+        <text class="gs-arrow {{ item.samplesExpanded ? 'up' : '' }}">›</text>
+      </view>
+
+      <view class="gs-list" wx:if="{{ item.samplesExpanded }}">
+        <view class="gs-card {{ s.level }}" wx:for="{{ item.samples }}" wx:key="rank" wx:for-item="s">
+          <view class="gsc-top">
+            <view>
+              <text class="gsc-level-tag">{{ s.level === 'complete' ? '完整记录' : '基础记录' }}</text>
+              <text class="gsc-name">{{ s.name }}</text>
+            </view>
+            <text class="gsc-price">年度支出参考 ¥{{ s.price }}</text>
+          </view>
+          <text class="gsc-source">{{ s.company }}</text>
+          <view class="gsc-items">
+            <view class="gsc-item" wx:for="{{ s.recordItems }}" wx:key="*this" wx:for-item="ri" wx:if="{{ index < 3 }}">
+              <text class="gsi-dot">·</text>
+              <text class="gsi-text">{{ ri }}</text>
+            </view>
+          </view>
+          <text class="gsc-use" wx:if="{{ s.useHint }}">可用于了解：{{ s.useHint }}</text>
+          <view class="gsc-actions">
+            <text class="gsc-detail" data-gap-key="{{ item.gapKey }}" data-rank="{{ s.rank }}" bindtap="onViewSample">更多详情</text>
+          </view>
+        </view>
+        <text class="gsc-note">仅为公开资料归档示例，用于帮助理解应记录哪些字段。不同资料内容差异较大，请以本人资料原文为准。</text>
+      </view>
+    </view>
+
+    <!-- 无匹配样例时的类目模板对照 -->
+    <view class="gi-no-match" wx:if="{{ (!item.samples || item.samples.length === 0) && item.gapContentItems && item.gapContentItems.length > 0 }}">
+      <text class="gnm-title">已按同类资料常见字段进行核对</text>
+      <view class="gnm-list">
+        <view class="gnm-item" wx:for="{{ item.gapContentItems }}" wx:key="label" wx:for-item="gc">
+          <text class="gnm-label">{{ gc.label }}</text>
+          <text class="gnm-hint">{{ gc.hint }}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="show-more" wx:if="{{ !showAll && gaps.length > 3 }}">
+    <text bindtap="onShowAll">还有 {{ gaps.length - 3 }} 项待完善，可稍后逐步整理 ›</text>
+  </view>
+
+  <view class="page-note">
+    <text>清单基于已录入资料生成，仅供整理参考。</text>
+    <text class="note-link" bindtap="onGoMine">反馈建议</text>
+  </view>
+
+  <view class="bottom-space"></view>
+</view>

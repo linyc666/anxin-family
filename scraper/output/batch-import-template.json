@@ -1,0 +1,24 @@
+[
+  {
+    "name": "产品全名（必填）",
+    "company": "保险公司（必填）",
+    "type": "百万医疗",
+    "prices": [
+      { "ageMin": 0, "ageMax": 5, "price": 380 },
+      { "ageMin": 6, "ageMax": 25, "price": 250 },
+      { "ageMin": 26, "ageMax": 35, "price": 400 },
+      { "ageMin": 36, "ageMax": 50, "price": 800 },
+      { "ageMin": 51, "ageMax": 60, "price": 2000 }
+    ],
+    "coverage": "一般200万·重疾400万",
+    "guaranteeType": "20年保证续保",
+    "guaranteeYears": 20,
+    "deductible": "一般1万·重疾0免赔",
+    "waitingDays": 90,
+    "features": ["含CAR-T", "含质子重离子", "外购药报销"],
+    "ageRange": "0-60岁",
+    "healthCheck": "智能核保",
+    "healthStrictness": 2,
+    "score": 85
+  }
+]

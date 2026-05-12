@@ -1,0 +1,115 @@
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <input class="search-input" placeholder="搜索样例名/机构..." bindinput="onSearchInput" value="{{ searchText }}" />
+  </view>
+
+  <!-- 类型筛选 -->
+  <scroll-view class="type-tabs" scroll-x="true">
+    <view class="type-tab {{ activeType === item ? 'active' : '' }}"
+          wx:for="{{ types }}" wx:key="*this"
+          data-type="{{ item }}" bindtap="onFilterType">{{ item }}</view>
+  </scroll-view>
+
+  <!-- 操作栏 -->
+  <view class="action-row">
+    <button class="btn btn-gold btn-sm" bindtap="onAddProduct">+ 新增样例</button>
+    <button class="btn btn-sm" bindtap="onImport">导入</button>
+    <button class="btn btn-blue btn-sm" bindtap="onSyncCloud">同步至云端</button>
+    <button class="btn btn-sm" bindtap="onResetDefault">重置</button>
+    <view class="toggle-row" bindtap="onToggleInactive">
+      <text>显示停用</text>
+      <view class="toggle {{ showInactive ? 'on' : '' }}"></view>
+    </view>
+  </view>
+
+  <!-- 统计 -->
+  <view class="stats-text">
+    <text>共 {{ filtered.length }} 条样例（总计 {{ healthStats.total }} · 启用 {{ healthStats.active }} · 停用 {{ healthStats.inactive }}）</text>
+  </view>
+
+  <!-- 健康监测面板 -->
+  <view class="health-toggle" bindtap="onToggleHealth">
+    <text>样例质量监测</text>
+    <text class="health-arrow {{ showHealth ? 'up' : '' }}">{{ showHealth ? '▲' : '▼' }}</text>
+  </view>
+  <view class="health-panel" wx:if="{{ showHealth && healthStats }}">
+    <view class="hp-row">
+      <view class="hp-card hp-risk" wx:if="{{ healthStats.riskCount > 0 }}">
+        <text class="hp-num">{{ healthStats.riskCount }}</text>
+        <text class="hp-label">高风险</text>
+      </view>
+      <view class="hp-card hp-warn" wx:if="{{ healthStats.warnCount > 0 }}">
+        <text class="hp-num">{{ healthStats.warnCount }}</text>
+        <text class="hp-label">需关注</text>
+      </view>
+      <view class="hp-card hp-ok">
+        <text class="hp-num">{{ healthStats.active - healthStats.riskCount - healthStats.warnCount }}</text>
+        <text class="hp-label">健康</text>
+      </view>
+    </view>
+
+    <!-- 高风险样例列表 -->
+    <view class="hp-section" wx:if="{{ healthStats.risk.length > 0 }}">
+      <text class="hp-section-title">高风险样例</text>
+      <view class="hp-item" wx:for="{{ healthStats.risk }}" wx:key="id">
+        <view class="hpi-info">
+          <text class="hpi-name">{{ item.product.name }}</text>
+          <text class="hpi-risks">{{ item.risks.join(' · ') }}</text>
+        </view>
+        <button class="btn btn-xs btn-red" data-id="{{ item.product.id || item.product._id }}" bindtap="onToggleActive">停用</button>
+      </view>
+    </view>
+
+    <!-- 需关注 -->
+    <view class="hp-section" wx:if="{{ healthStats.warning.length > 0 }}">
+      <text class="hp-section-title">需关注</text>
+      <view class="hp-item" wx:for="{{ healthStats.warning }}" wx:key="id">
+        <view class="hpi-info">
+          <text class="hpi-name">{{ item.product.name }}</text>
+          <text class="hpi-risks">{{ item.risks.join(' · ') }}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="hp-actions">
+      <button class="btn btn-red btn-sm" bindtap="onBatchDeactivate" wx:if="{{ healthStats.riskCount > 0 }}">批量停用高风险</button>
+      <button class="btn btn-sm" bindtap="onPurgeInactive" wx:if="{{ healthStats.inactive > 0 }}">清理停用样例({{ healthStats.inactive }})</button>
+    </view>
+  </view>
+
+  <!-- 样例列表 -->
+  <view class="product-list">
+    <view class="product-card {{ item.active === false ? 'inactive' : '' }}"
+          wx:for="{{ filtered }}" wx:key="id">
+      <view class="pc-top" data-id="{{ item.id || item._id }}" bindtap="onEditProduct">
+        <view class="pc-info">
+          <text class="pc-name">{{ item.name }}</text>
+          <text class="pc-company">{{ item.company }} · {{ item.type }}</text>
+        </view>
+        <view class="pc-right">
+          <text class="pc-score {{ item.qualityScore >= 90 ? 'high' : item.qualityScore >= 70 ? 'ok' : 'low' }}">质量 {{ item.qualityScore || '-' }}</text>
+          <text class="pc-level">{{ item.contentLevel || '-' }}</text>
+        </view>
+      </view>
+      <view class="pc-meta">
+        <text class="pc-review">{{ item.lastReviewedAt ? '复核：'+item.lastReviewedAt : '未复核' }}</text>
+        <text class="pc-review-status {{ item._reviewStatus }}">{{ item._reviewStatusLabel }}</text>
+        <text class="pc-status {{ item.active === false ? 'off' : 'on' }}">{{ item.active === false ? '已停用' : '启用' }}</text>
+      </view>
+      <view class="pc-bottom">
+        <text class="pc-detail">{{ item.coverage || '' }} · {{ item.guaranteeType || '' }}{{ item.price ? ' · ¥' + item.price + '/年' : '' }}</text>
+        <view class="pc-btns">
+          <button class="btn btn-xs btn-review" data-id="{{ item.id || item._id }}" bindtap="onMarkReviewed">已复核</button>
+          <button class="btn btn-xs" data-id="{{ item.id || item._id }}" bindtap="onToggleActive">{{ item.active === false ? '启用' : '停用' }}</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{ filtered.length === 0 }}">
+    <text class="empty-icon">-</text>
+    <text class="empty-text">没有匹配的样例</text>
+  </view>
+</view>

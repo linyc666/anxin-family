@@ -1,0 +1,128 @@
+<view class="container">
+  <scroll-view class="form" scroll-y="true">
+    <!-- 基本信息 -->
+    <view class="form-section">
+      <text class="section-title">基本信息</text>
+      <view class="form-group">
+        <text class="label">样例名称 *</text>
+        <input class="input" value="{{ product.name }}" bindinput="onNameInput" placeholder="如：公开资料样例" />
+      </view>
+      <view class="form-group">
+        <text class="label">机构/来源 *</text>
+        <input class="input" value="{{ product.company }}" bindinput="onCompanyInput" placeholder="如：机构名称" />
+      </view>
+      <view class="form-row">
+        <view class="form-group half">
+          <text class="label">类别 *</text>
+          <picker mode="selector" range="{{ types }}" value="0" bindchange="onTypeChange">
+            <view class="picker-view">{{ product.type }}</view>
+          </picker>
+        </view>
+        <view class="form-group half">
+          <text class="label">公司评级</text>
+          <picker mode="selector" range="{{ ratings }}" value="0" bindchange="onRatingChange">
+            <view class="picker-view">{{ product.companyRating }}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-group half">
+          <text class="label">参考分 (0-100)</text>
+          <input class="input" type="number" value="{{ product.score }}" bindinput="onScoreInput" />
+        </view>
+        <view class="form-group half">
+          <text class="label">偿付能力</text>
+          <input class="input" value="{{ product.solvency }}" bindinput="onSolvencyInput" placeholder="如：175%" />
+        </view>
+      </view>
+    </view>
+
+    <!-- 样例信息 -->
+    <view class="form-section">
+      <text class="section-title">样例信息</text>
+      <view class="form-group">
+        <text class="label">额度/范围描述</text>
+        <input class="input" value="{{ product.coverage }}" bindinput="onCoverageInput" placeholder="如：一般200万·重疾400万" />
+      </view>
+      <view class="form-group">
+        <text class="label">免赔额</text>
+        <input class="input" value="{{ product.deductible }}" bindinput="onDeductibleInput" placeholder="如：一般1万·重疾0免赔" />
+      </view>
+      <view class="form-group">
+        <text class="label">延续类型</text>
+        <input class="input" value="{{ product.guaranteeType }}" bindinput="onGuaranteeTypeInput" placeholder="如：20年延续条件" />
+      </view>
+      <view class="form-row">
+        <view class="form-group half">
+          <text class="label">延续年数</text>
+          <input class="input" type="number" value="{{ product.guaranteeYears }}" bindinput="onGuaranteeYearsInput" />
+        </view>
+        <view class="form-group half">
+          <text class="label">等待期(天)</text>
+          <input class="input" type="number" value="{{ product.waitingDays }}" bindinput="onWaitingDaysInput" />
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-group half">
+          <text class="label">适用年龄</text>
+          <input class="input" value="{{ product.ageRange }}" bindinput="onAgeRangeInput" placeholder="如：0-65岁" />
+        </view>
+        <view class="form-group half">
+          <text class="label">健康告知方式</text>
+          <input class="input" value="{{ product.healthCheck }}" bindinput="onHealthCheckInput" placeholder="如：智能核保" />
+        </view>
+      </view>
+      <view class="form-group">
+        <text class="label">健告严格度</text>
+        <picker mode="selector" range="{{ strictnessLabels }}" value="{{ product.healthStrictness - 1 }}" bindchange="onStrictnessChange">
+          <view class="picker-view">{{ strictnessLabels[product.healthStrictness - 1] || '中等' }}</view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 价格 -->
+    <view class="form-section">
+      <text class="section-title">年龄阶梯价格</text>
+      <text class="section-hint">每行格式：最小年龄-最大年龄岁: ¥价格，如：0-5岁: ¥380</text>
+      <view class="form-group">
+        <textarea class="textarea" value="{{ priceStr }}" bindinput="onPriceStrInput" placeholder="0-5岁: ¥380&#10;6-20岁: ¥200&#10;21-25岁: ¥250" />
+      </view>
+      <view class="form-row">
+        <view class="form-group half">
+          <text class="label">无社保价格系数</text>
+          <input class="input" type="digit" value="{{ product.priceNoSocialFactor }}" bindinput="onFactorInput" />
+        </view>
+        <view class="form-group half toggle-group">
+          <text class="label">需要医保</text>
+          <view class="toggle {{ product.needSocialIns ? 'on' : '' }}" bindtap="onSocialToggle"></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 特色/标签 -->
+    <view class="form-section">
+      <text class="section-title">样例特点（逗号分隔）</text>
+      <view class="form-group">
+        <textarea class="textarea" value="{{ featureStr }}" bindinput="onFeatureStrInput" placeholder="如：含CAR-T, 外购药100万, 0免赔" />
+      </view>
+    </view>
+
+    <!-- 其他 -->
+    <view class="form-section">
+      <text class="section-title">其他</text>
+      <view class="form-group">
+        <text class="label">地区限制</text>
+        <input class="input" value="{{ product.regionRestrict }}" bindinput="onRegionInput" placeholder="如：深圳医保" />
+      </view>
+      <view class="form-group toggle-group">
+        <text class="label">启用状态</text>
+        <view class="toggle {{ product.active ? 'on' : '' }}" bindtap="onActiveToggle"></view>
+        <text class="toggle-label">{{ product.active ? '启用' : '已停用' }}</text>
+      </view>
+    </view>
+
+    <!-- 保存按钮 -->
+    <button class="save-btn" bindtap="save">{{ isEdit ? '更新样例' : '创建样例' }}</button>
+    <view class="bottom-space"></view>
+  </scroll-view>
+</view>

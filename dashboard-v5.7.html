@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes">
+<title>林家保险看板 v5.7</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0e17;color:#e2e8f0;line-height:1.6;min-height:100vh}
+header{background:linear-gradient(135deg,#141923,#1a2332);padding:20px 16px;border-bottom:1px solid #1e293b}
+header h1{font-size:22px;color:#d4a853;margin-bottom:4px}
+header .sub{font-size:13px;color:#94a3b8}
+nav{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;background:#0f131c;border-bottom:1px solid #1e293b}
+nav a{color:#94a3b8;text-decoration:none;font-size:12px;white-space:nowrap;padding:5px 10px;border-radius:16px;background:#141923;border:1px solid #1e293b;transition:.2s;flex-shrink:0}
+nav a:hover,nav a.active{color:#d4a853;border-color:#d4a853;background:#1a2332}
+section{padding:16px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+.stat-card{background:linear-gradient(145deg,#141923,#1a2332);border-radius:16px;padding:16px;text-align:center;border:1px solid #1e293b}
+.stat-card .num{font-size:28px;font-weight:700;color:#d4a853;display:block}
+.stat-card .label{font-size:12px;color:#94a3b8;margin-top:4px}
+.stat-card.alert{border-color:#ef4444;box-shadow:0 0 20px rgba(239,68,68,.1)}
+.tag{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:600}
+.tag-red{background:rgba(239,68,68,.2);color:#f87171}
+.tag-orange{background:rgba(245,158,11,.2);color:#fbbf24}
+.tag-yellow{background:rgba(234,179,8,.2);color:#facc15}
+.tag-green{background:rgba(16,185,129,.2);color:#34d399}
+.tag-blue{background:rgba(59,130,246,.2);color:#93c5fd}
+.member-card{background:#141923;border-radius:16px;padding:20px;margin-bottom:20px;border:1px solid #1e293b}
+.member-card .header{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.member-card .name{font-size:18px;font-weight:700;color:#f1f5f9}
+.member-card .info{font-size:13px;color:#94a3b8}
+.member-card .premium{font-size:22px;font-weight:700;color:#d4a853;margin-left:auto}
+.policy-card{background:#1a2332;border-radius:14px;padding:16px;margin-bottom:10px;border:1px solid #2a3344}
+.policy-card .pc-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.policy-card .pc-title{font-weight:700;font-size:15px;color:#f1f5f9}
+.policy-card .pc-company{font-size:12px;color:#64748b}
+.policy-card .pc-premium{font-size:20px;font-weight:700;color:#d4a853;text-align:right}
+.policy-card .pc-premium .yr{font-size:11px;color:#64748b;font-weight:400}
+.policy-details{list-style:none;padding:0}
+.policy-details li{font-size:13px;padding:4px 0 4px 18px;color:#cbd5e1;position:relative}
+.policy-details li::before{content:'•';position:absolute;left:0;color:#d4a853}
+.policy-details li.hl::before{content:'⭐';color:#f59e0b}
+.policy-details li.warn::before{content:'⚠️';color:#ef4444}
+.policy-assessment{font-size:12px;color:#94a3b8;margin-top:8px;padding:8px 12px;background:rgba(212,168,83,.06);border-radius:8px;line-height:1.7}
+.policy-assessment strong{color:#d4a853}
+.policy-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.policy-tag{font-size:11px;padding:3px 8px;border-radius:8px;background:rgba(30,41,59,.8);border:1px solid #2a3344;color:#94a3b8}
+.policy-tag.green{color:#34d399;border-color:rgba(16,185,129,.3)}
+.policy-tag.orange{color:#fbbf24;border-color:rgba(245,158,11,.3)}
+.policy-tag.red{color:#f87171;border-color:rgba(239,68,68,.3)}
+.date-bar{display:flex;justify-content:space-between;font-size:12px;color:#64748b;margin-top:10px;padding-top:8px;border-top:1px solid #1e293b}
+.gap-box{background:#141923;border-radius:12px;padding:16px;margin-top:14px;border:1px solid #2a3344}
+.gap-box h4{color:#d4a853;font-size:14px;margin-bottom:8px}
+.gap-box p{font-size:13px;color:#94a3b8;margin-bottom:8px}
+.rec-card{background:#1a2332;border-radius:12px;padding:14px;border:1px solid #2a3344;margin-bottom:8px;transition:border-color .2s}
+.rec-card:hover{border-color:rgba(212,168,83,.3)}
+.rec-card .rc-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:6px}
+.rec-card .rc-name{font-weight:700;font-size:14px;color:#f1f5f9}
+.rec-card .rc-company{font-size:11px;color:#64748b}
+.rec-card .rc-price{font-size:19px;font-weight:700;color:#d4a853;text-align:right}
+.rec-card .rc-price .yr{font-size:11px;color:#64748b;font-weight:400}
+.rec-card .rc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.rec-card .rc-tags .tag{font-size:10px}
+.rec-toggle-btn{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#64748b;cursor:pointer;padding:2px 0;margin-top:4px;user-select:none;border:none;background:none}
+.rec-toggle-btn:hover{color:#d4a853}
+.rec-toggle-btn::after{content:' ▸';font-size:10px;transition:transform .2s}
+.rec-toggle-btn.expanded::after{content:' ▾'}
+.rec-card.collapsed .rec-detail-wrap{display:none}
+.rec-detail-wrap{margin-top:10px;padding-top:10px;border-top:1px solid #1e293b}
+.rec-detail-grid{display:grid;grid-template-columns:1fr;gap:4px}
+@media(min-width:500px){.rec-detail-grid{grid-template-columns:1fr 1fr}}
+.rec-dim{display:flex;gap:4px;font-size:11px;line-height:1.6}
+.rec-dim .dim-label{color:#64748b;white-space:nowrap;min-width:42px;font-size:10px}
+.rec-dim .dim-val{color:#cbd5e1}
+.rec-dim .dim-val.good{color:#34d399}
+.rec-dim .dim-val.warn{color:#fbbf24}
+.rec-assessment{font-size:11px;color:#94a3b8;margin-top:8px;padding:8px 10px;background:rgba(212,168,83,.05);border-radius:8px;line-height:1.6}
+.rec-assessment strong{color:#d4a853}
+.rec-rec{background:rgba(212,168,83,.04);border:1px solid rgba(212,168,83,.15);border-radius:8px;padding:6px 10px;margin-top:8px;font-size:11px;color:#d4a853}
+.insure-note{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:8px;padding:8px 12px;margin-top:8px;font-size:11px;color:#93c5fd;line-height:1.6}
+.insure-note strong{color:#60a5fa}
+.insure-note .bad{color:#f87171}
+h2{font-size:18px;color:#d4a853;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid #1e293b}
+.note{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:12px;margin:12px 0;font-size:13px;color:#f87171}
+.note-info{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:10px;padding:12px;margin:12px 0;font-size:13px;color:#93c5fd}
+.summary-bar{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.timeline{padding-left:20px;border-left:2px solid #2a3344}
+.tl-item{margin-bottom:16px;position:relative;padding:4px 8px}
+.tl-item::before{content:'';position:absolute;left:-26px;top:8px;width:10px;height:10px;border-radius:50%;background:#d4a853}
+.tl-item.urgent::before{background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,.5)}
+.tl-item.warn::before{background:#f59e0b;box-shadow:0 0 8px rgba(245,158,11,.5)}
+.tl-item .tl-date{font-size:13px;color:#94a3b8}
+.tl-item .tl-event{font-size:14px;color:#f1f5f9;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+th{text-align:left;padding:10px 8px;color:#94a3b8;font-weight:500;border-bottom:1px solid #1e293b;font-size:12px}
+td{padding:10px 8px;border-bottom:1px solid #1a2332}
+tr:last-child td{border-bottom:none}
+footer{text-align:center;padding:24px;color:#475569;font-size:12px;border-top:1px solid #1e293b;margin-top:32px}
+.coverage-bar{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid #1e293b;font-size:12px}
+.cov-ok{color:#34d399;background:rgba(16,185,129,.1);padding:2px 8px;border-radius:10px;white-space:nowrap}
+.cov-warn{color:#fbbf24;background:rgba(245,158,11,.1);padding:2px 8px;border-radius:10px;white-space:nowrap}
+.cov-bad{color:#f87171;background:rgba(239,68,68,.1);padding:2px 8px;border-radius:10px;white-space:nowrap}
+.mn-btn{font-size:12px;padding:6px 12px;border-radius:16px;border:1px solid #1e293b;background:#141923;color:#94a3b8;cursor:pointer;transition:.2s;white-space:nowrap;flex-shrink:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
+.mn-btn:hover,.mn-btn.active{color:#d4a853;border-color:#d4a853;background:#1a2332}
+.mn-btn.btn-danger:hover,.mn-btn.btn-danger.active{color:#f87171;border-color:#ef4444;background:rgba(239,68,68,.1)}
+.rec-compare-table{width:100%;margin:8px 0;font-size:11px;border-radius:8px;overflow:hidden;border:1px solid #1e293b}
+.rec-compare-table th{font-size:10px;padding:6px 4px;text-align:center;background:#141923}
+.rec-compare-table td{font-size:11px;padding:6px 4px;text-align:center}
+.rec-compare-table td:first-child{text-align:left;color:#f1f5f9;font-weight:500}
+.rec-compare-table .winner{color:#34d399;font-weight:600}
+.prop-card{background:#1a2332;border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid #2a3344}
+.prop-card .prop-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.prop-card .prop-name{font-weight:700;font-size:15px;color:#f1f5f9}
+.prop-card .prop-addr{font-size:12px;color:#64748b}
+.prop-card .prop-detail{display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:12px;margin-top:10px;padding-top:10px;border-top:1px solid #1e293b}
+@media(max-width:480px){.prop-card .prop-detail{grid-template-columns:1fr}}
+.prop-card .prop-detail .pd-label{color:#64748b;font-size:11px}
+.prop-card .prop-detail .pd-val{color:#cbd5e1}
+.prop-rec{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:8px;padding:10px 14px;margin-top:12px;font-size:12px;color:#34d399;line-height:1.6}
+.prop-rec strong{color:#10b981}
+.p0{background:rgba(239,68,68,.12);border-left:3px solid #ef4444;border-radius:0 12px 12px 0}
+.p1{background:rgba(245,158,11,.08);border-left:3px solid #f59e0b;border-radius:0 12px 12px 0}
+.p2{background:rgba(234,179,8,.06);border-left:3px solid #eab308;border-radius:0 12px 12px 0}
+.ok{background:rgba(16,185,129,.06);border-left:3px solid #10b981;border-radius:0 12px 12px 0}
+.hidden{display:none !important}
+.policy-card.collapsed .policy-details,
+.policy-card.collapsed .policy-assessment,
+.policy-card.collapsed .policy-tags,
+.policy-card.collapsed .date-bar{display:none}
+.policy-toggle-btn{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#64748b;cursor:pointer;padding:2px 0;margin-top:4px;user-select:none;border:none;background:none;width:100%}
+.policy-toggle-btn:hover{color:#d4a853}
+.policy-toggle-btn::after{content:' ▸';font-size:10px;transition:transform .2s}
+.policy-toggle-btn.expanded::after{content:' ▾'}
+@media (max-width:480px){
+  nav{padding:8px 10px;gap:4px}
+  nav a{font-size:11px;padding:4px 8px}
+  #member-nav{padding:8px 10px;gap:4px}
+  .mn-btn{font-size:11px;padding:4px 8px}
+  section{padding:12px}
+  h2{font-size:16px}
+  .stat-card{padding:12px}
+  .stat-card .num{font-size:22px}
+  .policy-card{padding:12px}
+  .policy-card .pc-title{font-size:13px}
+  .policy-card .pc-premium{font-size:16px}
+  .policy-details li{font-size:11px}
+  .member-card .header{flex-direction:column;align-items:flex-start}
+  .member-card .premium{align-self:flex-end}
+  .grid4{grid-template-columns:repeat(2,1fr)}
+  table{font-size:12px}
+  th,td{padding:8px 4px}
+  .rec-detail-grid{grid-template-columns:1fr}
+  .policy-assessment{font-size:11px}
+}
+@media print{
+  body{background:#fff;color:#000}
+  .member-card,.policy-card,.rec-card,.gap-box{break-inside:avoid;border:1px solid #ccc;background:#fff}
+  nav,#member-nav,footer{display:none}
+  .hidden{display:block !important}
+  .policy-card.collapsed .policy-details,
+  .policy-card.collapsed .policy-assessment,
+  .policy-card.collapsed .policy-tags{display:block}
+}
+#back-to-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#d4a853;color:#0a0e17;border:none;font-size:20px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.4);z-index:200;display:none;align-items:center;justify-content:center;transition:opacity .3s}
+#back-to-top.visible{display:flex}
+</style>
+</head>
+<body>
+
+<div style="position:sticky;top:0;z-index:100">
+  <header>
+    <h1>🛡️ 林家保险看板</h1>
+    <div class="sub" id="header-sub"></div>
+  </header>
+  <nav>
+    <a href="#overview">概览</a>
+    <a href="#members">保单核查</a>
+    <a href="#property">财产险</a>
+    <a href="#swap">置换方案</a>
+    <a href="#gaps">缺口总览</a>
+    <a href="#renewal">续保风险</a>
+    <a href="#timeline">时间轴</a>
+    <a href="#summary">保费汇总</a>
+  </nav>
+  <div id="member-nav" style="padding:8px 12px;display:flex;gap:6px;align-items:center;overflow-x:auto;-webkit-overflow-scrolling:touch;border-top:1px solid #1e293b;background:#0f131c">
+    <span style="font-size:13px;color:#94a3b8;white-space:nowrap">👤</span>
+  </div>
+</div>
+
+<section id="overview"><div class="grid4" id="overview-stats"></div><div class="summary-bar" id="overview-tags"></div><div id="overview-note"></div></section>
+<section id="members"><h2>各成员保单逐条核查</h2><div id="members-container"></div></section>
+<section id="property"><h2>🏠 财产险 · 房屋 + 车辆</h2><div id="property-container"></div></section>
+<section id="swap"><h2>🔁 短期→长期置换方案</h2><div id="swap-container"></div></section>
+<section id="gaps"><h2>风险缺口总览</h2><div id="gaps-container"></div></section>
+<section id="renewal"><h2>续保风险总览</h2><div id="renewal-container"></div></section>
+<section id="timeline"><h2>时间轴</h2><div id="timeline-container"></div></section>
+<section id="summary"><h2>保费汇总</h2><div id="summary-container"></div></section>
+<footer id="footer-text"></footer>
+<button id="back-to-top" title="回到顶部">↑</button>
+
+<script>
+// ============================================================
+//  📊 修改数据只需改这个 DATA 对象，不需要翻 HTML
+// ============================================================
+var DATA = {
+  meta: { version:"5.7", date:"2026-05-04", familyName:"林家", totalMembers:10, totalPolicies:18, totalPremium:8106, urgentCount:6 },
+
+  socialInsuranceNote: {
+    title: "📋 社保/医保对保险的影响",
+    rules: [
+      "<strong>百万医疗：</strong>有社保费率更低（约60-70%），且理赔先从社保报再走商保；无社保买百万医疗<strong>保费贵约2倍</strong>且报销比例降至<strong>60%</strong>。",
+      "<strong>惠民保：</strong>要求参保当地医保（职工/居民）才能投保。",
+      "<strong>意外险/重疾险/定寿：</strong>不受社保影响。"
+    ],
+    familyStatus: "聪/欣 深圳一档✅ · 老妈 汕尾居民医保✅ · 岳父/岳母 深圳二档✅ · 雅 广州灵活就业✅ · 嘉 深圳灵活就业✅ · 微 汕尾城乡✅ · 老爸 <strong style=\"color:#f87171\">零医保🔴</strong> · 权 军队体系✅",
+    familyStatusTitle: "👨‍👩‍👧‍👦 林家医保现状"
+  },
+
+  priorities: [
+    { cls:"tag-red", emoji:"🔴", label:"P0 ×2 立即处理" },
+    { cls:"tag-orange", emoji:"🟠", label:"P1 ×3 尽快配置" },
+    { cls:"tag-yellow", emoji:"🟡", label:"P2 ×4 短期补充" },
+    { cls:"tag-green", emoji:"🟢", label:"已完善" }
+  ],
+
+  // ========== 成员数据 ==========
+  members: [
+    {
+      id:"cong", shortName:"聪", name:"林永聪（聪）", info:"30岁 · 深圳一档医保 · 户主 · PDF核验",
+      riskClass:"p0", riskScore:45, riskTagCls:"tag-red", riskLabel:"风险评分 45/100",
+      premium:1736, dangerBtn:false,
+      coverage:[
+        { cls:"cov-ok", text:"✅ 医疗400万·20年保证" }, { cls:"cov-ok", text:"✅ 意外100万" },
+        { cls:"cov-ok", text:"✅ 惠民保300万" }, { cls:"cov-bad", text:"🔴 缺定寿·负债241万" },
+        { cls:"cov-warn", text:"⚠️ 重疾1年期·12月到期" }
+      ],
+      notes:[ { cls:"note", text:"🔴 负债241万（房贷65万+公积金贷176万）—— 定寿归零。一旦身故，全部债务+家庭开支落在欣一人身上。" } ],
+      policies:[
+        {
+          name:"太保互联网个人长期B款医疗保险", company:"太平洋健康 · 保单号 019422611361839", premium:443,
+          tags:[ { cls:"green", text:"400万总保额" }, { cls:"", text:"1万免赔" }, { cls:"green", text:"含CAR-T" }, { cls:"orange", text:"外购药100万" }, { cls:"green", text:"20年保证续保" } ],
+          details:[ "一般医疗200万/年 · 重疾400万/年（含质子重离子）", "恶性肿瘤院外特药200万/年（含CAR-T）· 外购药100万", "免赔额：一般1万·重疾0免赔", { cls:"warn", text:"等待期90天" } ],
+          assessment:"📌 30岁¥443/年锁定20年保证续保。外购药条款在癌症靶向药场景价值极大。",
+          insureNote:"💡 有深圳一档医保，百万医疗按「有社保」费率 ¥443/年。若无社保则需¥700+/年且报销比例降至60%。",
+          effective:"2026-04-21", expiry:"2027-04-20"
+        },
+        {
+          name:"小蜜蜂6号尊享版", company:"太平洋产险", premium:298,
+          tags:[ { cls:"green", text:"100万意外" }, { cls:"green", text:"50万猝死" }, { cls:"", text:"10.5万医疗·0免赔" }, { cls:"", text:"航空500万" } ],
+          details:[ "意外身故/伤残100万 · 猝死50万", "意外医疗10.5万（0免赔·不限社保·100%报销）", { cls:"hl", text:"航空500万 · 火车/轮船/地铁50万" }, "住院津贴150元/天 · 第三者责任5万" ],
+          assessment:"📌 298元/年拿100万意外+50万猝死+10.5万医疗0免赔不限社保，性价比天花板。",
+          effective:"2026-04-23", expiry:"2027-04-22"
+        },
+        {
+          name:"健康福·重疾险（1年期）", company:"国泰产险", premium:907, borderColor:"rgba(239,68,68,.3)",
+          tags:[ { cls:"orange", text:"重疾80万" }, { cls:"red", text:"1年不保证续保" }, { cls:"red", text:"12月到期" } ],
+          details:[ "重疾80万(120种) · 特定重症额外24万(10种)", "轻症24万(50种·1次) · 等待期90天", { cls:"warn", text:"1年期，患病后次年拒保" }, { cls:"warn", text:"50岁时费率涨至5000+/年" } ],
+          assessment:"📌 <strong>严重风险：</strong>一旦确诊任何疾病次年无法续保。12月前必须置换终身重疾。",
+          effective:"2025-12-17", expiry:"2026-12-16", expiryClass:"red", expiryStyle:"color:#ef4444"
+        },
+        {
+          name:"深圳惠民保2026", company:"深圳市医保局指导", premium:88,
+          details:[ "医保内住院300万 · 医保外住院300万 · 特药100万 · 抗癌针纳入2026版" ],
+          insureNote:"⚠️ 惠民保要求参保当地医保。聪有深圳一档✅。无医保则无法投惠民保。",
+          effective:"2026-07-01", expiry:"2027-06-30"
+        }
+      ],
+      gaps:{
+        title:"🔴 核心缺口：定期寿险 200万",
+        desc:"负债241万→一旦身故欣独自承担全部债务。定寿是经济支柱最后防线。",
+        recommendations:[
+          {
+            rank:"🥇", name:"华贵大麦2026A款", company:"华贵人寿 · AA评级 · 定寿市场领导者", price:"¥2,426",
+            tags:[ { cls:"tag-green", text:"30岁男·200万·保至60岁·30年交" }, { cls:"", text:"仅年缴" } ],
+            dims:[
+              { label:"续保：", val:"保至60岁·锁定30年·无需续保核保", cls:"good" }, { label:"时间：", val:"30→60岁覆盖核心责任期", cls:"good" },
+              { label:"保障：", val:"200万身故/全残 + 猝死额外50万", cls:"good" }, { label:"价格：", val:"¥2,426/年 · 30年总¥72,780" },
+              { label:"健告：", val:"仅3条·无结节/血压/血糖询问·通过率高", cls:"good" }, { label:"公司：", val:"华贵人寿AA·定寿专项·行业第一", cls:"good" }
+            ],
+            assessment:"📌 <strong>最优选：</strong>华贵大麦定寿市场领导品牌，条款简洁理赔口碑好。200万匹配241万负债+缓冲。健告仅3条通过率极高。",
+            insureNote:"💡 定寿是<strong>给付型</strong>，不受社保/医保影响。含小蜜蜂航空500万无需航空附加。"
+          },
+          {
+            rank:"🥈", name:"国富定海柱8号", company:"国富人寿 · 45岁前额外赔50%", price:"¥2,348",
+            tags:[ { cls:"tag-green", text:"30岁男·200万·保至60岁·30年交" }, { cls:"tag-blue", text:"45岁前身故→300万" }, { cls:"", text:"仅年缴" } ],
+            dims:[
+              { label:"续保：", val:"保至60岁·锁定30年", cls:"good" }, { label:"时间：", val:"30年保障·45岁前额外50%", cls:"good" },
+              { label:"保障：", val:"200万→45岁前300万身故/全残", cls:"good" }, { label:"价格：", val:"¥2,348/年·比大麦便宜¥78", cls:"good" },
+              { label:"健告：", val:"5-7条·需确认无结节囊肿史", cls:"warn" }, { label:"优势：", val:"30→45岁家庭重担期赔300万", cls:"good" }
+            ],
+            compareTable:{
+              headers:["", "华贵大麦", "国富定海柱"],
+              rows:[
+                ["年保费", "¥2,426", { text:"¥2,348 ✓", cls:"winner" }],
+                ["健告", { text:"3条 ✓", cls:"winner" }, "5-7条"],
+                ["45岁前额外赔", "无", { text:"+50%=300万 ✓", cls:"winner" }],
+                ["保险公司", { text:"AA级 ✓", cls:"winner" }, "—"],
+                ["已有航空", "小蜜蜂已含500万", "小蜜蜂已含500万"]
+              ]
+            },
+            assessment:"📌 <strong>备选：</strong>45岁前身故300万更有安全感。聪30→45岁正是家庭责任最重期。比大麦便宜¥78但健告更严格。",
+            rec:"🏆 健告能通过→选定海柱（便宜+45岁前多赔50%）。健告不通过→选大麦（仅3条健告·宽松）"
+          }
+        ],
+        subTitle:"🟡 次要缺口：重疾1年期→终身置换",
+        subRecs:[
+          {
+            rank:"🥇", name:"完美人生8号 终身重疾", company:"复星联合健康 · A类·偿付175%", price:"¥5,800",
+            tags:[ { cls:"tag-green", text:"50万终身·30年交·女性特疾10%" }, { cls:"tag-blue", text:"12月前置换" } ],
+            dims:[
+              { label:"续保：", val:"终身保证·费率锁定·无需续保核保", cls:"good" }, { label:"时间：", val:"30岁锁定·越早越便宜（35岁¥7,000+）", cls:"good" },
+              { label:"保障：", val:"50万重疾+30万中症(60%)+15万轻症(30%)", cls:"good" }, { label:"价格：", val:"¥5,800/年·30年总¥174,000" },
+              { label:"公司：", val:"复星联合·A类·偿付175%", cls:"good" }, { label:" vs 1年期：", val:"30年累计节省50%+", cls:"good" }
+            ],
+            assessment:"📌 终身重疾费率锁定在30岁时价值最高。与1年期相比30年总支出更少且终身保障。"
+          },
+          {
+            rank:"🥈", name:"超级玛丽16号 终身重疾", company:"君龙人寿 · 结节友好", price:"¥6,500",
+            tags:[ { cls:"tag-green", text:"50万终身·癌症多次赔付" } ],
+            dims:[ { label:"保障：", val:"50万重疾+癌症多次+住院报销", cls:"good" }, { label:"价格：", val:"¥6,500/年·比完美人生贵¥700" } ],
+            assessment:"📌 有癌症家族史或结节史→超级玛丽核保更友好。否则完美人生性价比更高。"
+          }
+        ],
+        insureNote:"💡 重疾险是<strong>给付型</strong>——不受社保/医保影响。确诊即赔，赔款自由支配。"
+      }
+    },
+
+    {
+      id:"xin", shortName:"欣", name:"马静欣（欣）", info:"31岁 · 深圳一档 · 配偶 · PDF核验",
+      riskClass:"p1", riskScore:55, riskTagCls:"tag-orange", riskLabel:"风险评分 55/100", premium:790,
+      coverage:[
+        { cls:"cov-ok", text:"✅ 医疗400万·0免赔" }, { cls:"cov-ok", text:"⭐ 防癌险·终身保证" },
+        { cls:"cov-ok", text:"✅ 惠民保300万" }, { cls:"cov-bad", text:"🔴 缺重疾" }, { cls:"cov-bad", text:"🔴 缺意外" }
+      ],
+      policies:[
+        {
+          name:"人保悠享健康·长期医疗（0免赔版）", company:"人保健康 · 保单号 20231026095097E", premium:453,
+          tags:[ { cls:"green", text:"400万·0免赔" }, { cls:"green", text:"含质子重离子" }, { cls:"green", text:"含CAR-T" }, { cls:"orange", text:"6年保证续保" } ],
+          details:[ "一般医疗200万·重疾400万（含质子重离子100万）", { cls:"hl", text:"0免赔：1万内30%报销·超1万100%·重疾100%" }, "肿瘤特药(CAR-T)·院外特药100万·等待期30天", { cls:"warn", text:"6年保证续保·到期需重新核保" } ],
+          assessment:"📌 <strong>「0免赔」是核心亮点。</strong>癌症放化疗反复多次住院时优势明显。6年保证续保到期（2026年10月）需重新健告。",
+          effective:"2025-10-29", expiry:"2026-10-28", expiryClass:"orange", expiryStyle:"color:#f59e0b"
+        },
+        {
+          name:"人保温暖悠长防癌医疗保险", company:"人保健康 · 保单号 20250623038276E", premium:249,
+          tags:[ { cls:"green", text:"⭐ 终身保证续保" }, { cls:"green", text:"癌症400万·0免赔" }, { cls:"green", text:"含质子重离子" } ],
+          details:[ "癌症医疗400万·质子重离子100万·特药100万·0免赔100%报销", { cls:"hl", text:"终身保证续保——理赔多少次都终身可续" } ],
+          assessment:"📌 <strong>战略性保单：</strong>249元终身锁定癌症保障。31岁→到80岁总约¥12,200，癌症一发生就能赔几百万。",
+          effective:"2025-06-24", expiry:"终身", expiryClass:"green", expiryStyle:"color:#10b981"
+        },
+        {
+          name:"深圳惠民保2026", company:"深圳市医保局指导", premium:88,
+          details:[ "医保内住院300万 · 医保外住院300万 · 特药100万 · 抗癌针纳入2026版" ],
+          insureNote:"⚠️ 惠民保要求参保当地医保。欣有深圳一档✅。",
+          effective:"2026-07-01", expiry:"2027-06-30"
+        }
+      ],
+      gaps:{
+        title:"🟠 缺口：无重疾+无意外",
+        recommendations:[
+          {
+            rank:"🥇", name:"完美人生8号 终身重疾", company:"复星联合健康 · A类·偿付175%", price:"¥5,800",
+            tags:[ { cls:"tag-green", text:"50万终身·30年交·女性特疾额外10%" } ],
+            dims:[
+              { label:"续保：", val:"终身保证·费率锁定", cls:"good" }, { label:"时间：", val:"31岁锁定·越早越便宜", cls:"good" },
+              { label:"保障：", val:"50万重疾+30万中症+15万轻症+女性特疾额外5万", cls:"good" }, { label:"价格：", val:"¥5,800/年·30年总¥174,000" },
+              { label:"公司：", val:"复星联合·A类·偿付175%", cls:"good" }
+            ],
+            assessment:"📌 欣已有0免赔医疗+终身防癌+惠民保，缺的是确诊重疾后的<strong>收入补偿</strong>。50万可覆盖2-3年康复期+家庭开支。"
+          },
+          {
+            rank:"🥈", name:"超级玛丽16号 终身重疾", company:"君龙人寿·癌症多次", price:"¥6,800",
+            tags:[ { cls:"tag-green", text:"50万终身·癌症多次赔付" } ],
+            dims:[ { label:"保障：", val:"50万重疾+癌症多次+住院报销", cls:"good" }, { label:"价格：", val:"¥6,800/年" } ],
+            assessment:"📌 若欣有癌症家族史则超级玛丽更有价值。否则完美人生女性特疾更优。"
+          },
+          {
+            name:"小蜜蜂6号典藏版 意外", company:"太平洋产险", price:"¥156", skipDetail:true,
+            tags:[ { cls:"tag-green", text:"50万意外+30万猝死+5万医疗·0免赔不限社保" } ],
+            dims:[
+              { label:"保障：", val:"意外50万+猝死30万+医疗5万·0免赔不限社保", cls:"good" },
+              { label:"价格：", val:"¥156/年·性价比极高", cls:"good" },
+              { label:"优势：", val:"31岁填补意外空白·日常磕碰也能报", cls:"good" }
+            ],
+            assessment:"📌 156元/年即可填补意外险空白。0免赔不限社保是决定性优势。"
+          }
+        ]
+      }
+    },
+
+    {
+      id:"mom", shortName:"老妈", name:"林香莲（老妈）", info:"51岁 · 汕尾居民医保 · 织造工人 · PDF核验",
+      riskClass:"ok", riskScore:85, riskTagCls:"tag-green", riskLabel:"风险评分 85/100", premium:2586,
+      coverage:[
+        { cls:"cov-ok", text:"✅ 医疗400万·20年保证·含特需" }, { cls:"cov-ok", text:"✅ 意外含骨折" }, { cls:"cov-ok", text:"✅ 居民医保" }
+      ],
+      policies:[
+        {
+          name:"太保互联网个人长期B款医疗保险", company:"太平洋健康 · 保单号 019422611409111", premium:2358, premiumNote:"/年（月交¥196.47）",
+          tags:[ { cls:"green", text:"400万·20年保证续保" }, { cls:"green", text:"含特需部" }, { cls:"green", text:"CAR-T·特药200万" } ],
+          details:[ "一般医疗200万·重疾400万（含特需部/国际部）", "恶性肿瘤院外特药200万（含CAR-T）", "免赔额：一般1万·重疾0免赔·等待期90天" ],
+          assessment:"📌 51岁¥2,358/年锁定20年保证续保。51→71岁重疾高发期全覆盖。含特需部可升级病房环境。",
+          insureNote:"💡 老妈有汕尾<strong>居民医保 ✅</strong>，百万医疗按「有社保」费率 ¥2,358/年。<br><span class=\"bad\">若无医保：</span>保费需¥4,000+/年 且 报销比例降至60%。先走居民医保→余下百万医疗100%报销。",
+          effective:"2026-04-24", expiry:"2027-04-23"
+        },
+        {
+          name:"大护甲8号高龄版", company:"人保财险 · 投保人：林于嘉", premium:228,
+          details:[ "意外身故10万·驾驶/乘车额外30万(合计40万)·意外医疗5万·骨折5千·住院津贴50元/天" ],
+          assessment:"📌 51岁织造工人跌倒风险高。骨折保障有价值。医疗报销限社保内+100元免赔，中规中矩。",
+          effective:"2026-04-27", expiry:"2027-04-26"
+        }
+      ],
+      gaps:{
+        title:"🟢 轻度缺口：汕尾惠民保",
+        desc:"¥100-150/年，投保窗口9-12月。补充医保目录外药品。",
+        insureNote:"💡 <strong>惠民保要求必须先有当地医保</strong>才能投保。老妈有汕尾居民医保 ✅ → 可直接投保汕尾惠民保。<br>报销顺序：居民医保→惠民保→百万医疗→最终个人自付极少。"
+      }
+    },
+
+    {
+      id:"ya", shortName:"雅", name:"林于雅（雅/猫猫）", info:"29岁 · 广州灵活就业 · 7只猫 · 截图核验",
+      riskClass:"p2", riskScore:50, riskTagCls:"tag-yellow", riskLabel:"风险评分 50/100", premium:1621,
+      coverage:[
+        { cls:"cov-ok", text:"✅ 医疗400万" }, { cls:"cov-ok", text:"✅ 意外20万" }, { cls:"cov-ok", text:"✅ 宠物险1只" },
+        { cls:"cov-bad", text:"🔴 缺重疾·仅1万" }, { cls:"cov-warn", text:"⚠️ 医疗1年期" }, { cls:"cov-warn", text:"⚠️ 6只猫无保险" }
+      ],
+      policies:[
+        {
+          name:"人保悠遥保（臻爱/臻佑版）", company:"人保健康", premium:412, borderColor:"rgba(245,158,11,.3)",
+          tags:[ { cls:"orange", text:"400万" }, { cls:"red", text:"1年不保证续保" }, { cls:"orange", text:"重疾仅1万" } ],
+          details:[ "一般医疗400万·重疾仅1万元·1年期不保证续保" ],
+          assessment:"📌 最大的问题是<strong>重疾仅1万元</strong>——象征性数字。1年期不保证续保→患病后可能断保。",
+          insureNote:"💡 雅有广州灵活就业医保 ✅ 百万医疗按有社保费率。若无医保→保费¥600+/年且报销60%。",
+          effective:"2026-04-24", expiry:"2027-04-23"
+        },
+        {
+          name:"骏业白领保", company:"中国人寿", premium:388,
+          details:[ "意外20万·猝死2万·医疗5万·定寿3万·疾病住院8千" ],
+          assessment:"📌 保额偏低。到期后换小蜜蜂6号尊享版（¥298·100万意外+50万猝死），保额提升3-5倍且保费更低。",
+          effective:"2026-01-18", expiry:"2027-01-17"
+        }
+      ],
+      gaps:{
+        title:"🟡 缺口：重疾仅1万+医疗1年期+6猫",
+        recommendations:[
+          {
+            rank:"🥇", name:"太保B款百万医疗 → 置换悠遥保", company:"太平洋健康", price:"~¥380",
+            tags:[ { cls:"tag-green", text:"400万·20年保证·比悠遥保还便宜" } ],
+            dims:[
+              { label:"续保：", val:"20年保证 ← 悠遥保1年不保证", cls:"good" }, { label:"时间：", val:"29→49岁20年锁定", cls:"good" },
+              { label:"保障：", val:"400万+特药200万+CAR-T", cls:"good" }, { label:"价格：", val:"¥380 vs 悠遥保¥412·反便宜", cls:"good" },
+              { label:"公司：", val:"太平洋健康·A类·偿付175%", cls:"good" }
+            ],
+            rec:"🏆 质变升级：保费几乎不变，保障稳定性从1年→20年。"
+          },
+          {
+            rank:"🥇", name:"达尔文12号 终身重疾", company:"三峡人寿", price:"¥3,700",
+            tags:[ { cls:"tag-green", text:"30万终身·29岁费率优势·轻中症豁免" } ],
+            dims:[
+              { label:"续保：", val:"终身保证·费率锁定", cls:"good" }, { label:"时间：", val:"29岁锁定·比30岁便宜5-8%", cls:"good" },
+              { label:"保障：", val:"30万重疾+18万中症+9万轻症", cls:"good" }, { label:"价格：", val:"¥3,700/年·30年总¥111,000" }
+            ],
+            assessment:"📌 性价比最高的成人终身重疾之一。29岁¥3,700比30岁投保便宜约¥200/年。"
+          },
+          {
+            rank:"🥈", name:"超级玛丽16号 终身重疾", company:"君龙人寿·结节友好", price:"¥4,200",
+            tags:[ { cls:"tag-green", text:"30万终身·结节友好·癌症多次" } ],
+            dims:[ { label:"保障：", val:"30万重疾+癌症多次+住院报销", cls:"good" }, { label:"价格：", val:"¥4,200/年" } ],
+            assessment:"📌 雅有乳腺/甲状腺结节或家族癌史→超级玛丽核保更友好。否则达尔文12号更实惠。"
+          }
+        ]
+      }
+    },
+
+    {
+      id:"jia", shortName:"嘉", name:"林于嘉（嘉）", info:"26岁 · 深圳灵活就业 · PDF核验",
+      riskClass:"p2", riskScore:55, riskTagCls:"tag-yellow", riskLabel:"风险评分 55/100", premium:559,
+      coverage:[
+        { cls:"cov-ok", text:"✅ 医疗400万" }, { cls:"cov-ok", text:"✅ 意外50万" },
+        { cls:"cov-bad", text:"🔴 缺重疾" }, { cls:"cov-bad", text:"🔴 缺惠民保" }, { cls:"cov-warn", text:"⚠️ 医疗1年期" }
+      ],
+      notes:[ { cls:"note-info", text:"⏰ 5月25日27岁生日 —— 27岁前投保重疾可锁定更低费率" } ],
+      policies:[
+        {
+          name:"好医保·长期医疗旗舰版（2025版）", company:"人保健康", premium:403, borderColor:"rgba(245,158,11,.3)",
+          tags:[ { cls:"orange", text:"400万" }, { cls:"red", text:"1年不保证续保" } ],
+          details:[ "一般医疗400万·重疾400万·重疾津贴1万·1年期" ],
+          assessment:"📌 26岁¥403费率低，但1年期不保证续保是核心风险。一旦确诊任何疾病次年可能断保。",
+          effective:"2026-04-23", expiry:"2027-04-22"
+        },
+        {
+          name:"小蜜蜂6号典藏版", company:"太平洋产险", premium:156,
+          details:[ "意外50万·猝死30万·医疗5万0免赔不限社保·航空300万" ],
+          effective:"2026-04-23", expiry:"2027-04-22"
+        }
+      ],
+      gaps:{
+        title:"🟡 核心缺口：无重疾+无惠民保+医疗1年期",
+        recommendations:[
+          {
+            rank:"🥇", name:"太保B款百万医疗 → 置换好医保", company:"太平洋健康", price:"~¥250",
+            tags:[ { cls:"tag-green", text:"400万·20年保证·省¥153" } ],
+            rec:"🏆 <strong>又便宜又稳定。</strong>¥250/年锁定20年 vs ¥403/年1年期——没有理由不换。"
+          },
+          {
+            rank:"🥇", name:"达尔文12号 终身重疾", company:"三峡人寿", price:"¥3,700",
+            tags:[ { cls:"tag-green", text:"30万终身·⏰5月25日前投保锁定26岁费率" } ],
+            dims:[
+              { label:"时间：", val:"26岁锁定·比27岁投保便宜5-8%", cls:"good" },
+              { label:"保障：", val:"30万重疾+18万中症+9万轻症", cls:"good" }, { label:"价格：", val:"¥3,700/年·30年总¥111,000" }
+            ],
+            rec:"⏰ <strong>5月25日生日前投保</strong>——差一年差出上万元。26岁→27岁费率涨5-8%。"
+          },
+          {
+            name:"深圳惠民保2026", company:"深圳市医保局指导", price:"¥88",
+            tags:[ { cls:"", text:"4-6月开放·需深圳医保" } ],
+            insureNote:"💡 需深圳灵活就业医保才能投。嘉有深圳灵活就业医保 ✅ 可直接投保。"
+          }
+        ]
+      }
+    },
+
+    {
+      id:"wei", shortName:"微", name:"林于婷（微）", info:"25岁 · 汕尾城乡医保 · 广州工作 · 截图核验",
+      riskClass:"p2", riskScore:35, riskTagCls:"tag-yellow", riskLabel:"风险评分 35/100", premium:388,
+      coverage:[
+        { cls:"cov-ok", text:"✅ 意外20万" }, { cls:"cov-bad", text:"🔴 缺百万医疗" },
+        { cls:"cov-bad", text:"🔴 缺重疾" }, { cls:"cov-warn", text:"⚠️ 汕尾城乡医保" }
+      ],
+      notes:[ { cls:"note", text:"🔴 <strong>核心缺口：无百万医疗。</strong>25岁仅一份意外险，没有任何住院保障。" } ],
+      policies:[
+        {
+          name:"骏业白领保", company:"中国人寿", premium:388, borderColor:"rgba(239,68,68,.3)",
+          details:[ "意外20万·猝死2万·医疗5万·定寿3万·疾病住院8千" ],
+          assessment:"📌 25岁仅1份意外险，<strong>没有任何百万医疗保障</strong>——致命缺口。一次阑尾炎手术需几千到一万，完全自费。",
+          effective:"2026-01-18", expiry:"2027-01-17"
+        }
+      ],
+      gaps:{
+        title:"🟡 推荐：百万医疗+医保转移",
+        recommendations:[
+          {
+            rank:"🥇", name:"太保B款百万医疗", company:"太平洋健康", price:"~¥250",
+            tags:[ { cls:"tag-green", text:"400万·20年保证·25岁超低费率" }, { cls:"tag-blue", text:"含CAR-T·外购药" } ],
+            dims:[
+              { label:"续保：", val:"20年保证·25→45岁锁定", cls:"good" }, { label:"时间：", val:"25岁最佳投保年龄·费率最低", cls:"good" },
+              { label:"保障：", val:"400万+200万特药+CAR-T+外购药100万", cls:"good" }, { label:"价格：", val:"¥250/年·一顿饭钱换20年大病保障", cls:"good" },
+              { label:"公司：", val:"太平洋健康·A类·偿付175%", cls:"good" }
+            ],
+            assessment:"📌 全家庭最低费率。25岁¥250/年锁定20年百万医疗，性价比无可匹敌。"
+          },
+          {
+            name:"医保转移：汕尾城乡→广州灵活就业", company:"微在广州工作·建议转广州医保", price:"—",
+            tags:[ { cls:"tag-blue", text:"转广州后·惠民保¥49 + 报销比例提升" } ],
+            dims:[
+              { label:"现状：", val:"汕尾城乡医保在广州属异地·报销比例低", cls:"warn" },
+              { label:"目标：", val:"广州灵活就业医保·本地就医·报销比例高", cls:"good" },
+              { label:"惠民保：", val:"广州惠民保¥49（有广州医保）", cls:"good" },
+              { label:"百万医疗：", val:"按有社保费率¥250", cls:"good" }
+            ],
+            insureNote:"💡 <strong>无医保的代价：</strong>若微无医保买百万医疗→保费¥500+/年且报销降至60%。有汕尾城乡医保至少能按社保费率投保，但广州就医报销比广州医保低。"
+          }
+        ]
+      }
+    },
+
+    {
+      id:"yuefu", shortName:"岳父", name:"马伟雄（岳父）", info:"54岁 · 深圳二档",
+      riskClass:"p1", riskScore:20, riskTagCls:"tag-orange", riskLabel:"风险评分 20/100", premium:88,
+      coverage:[
+        { cls:"cov-ok", text:"✅ 惠民保300万" }, { cls:"cov-bad", text:"🔴 缺百万医疗·54岁最后窗口" }, { cls:"cov-bad", text:"🔴 缺意外" }
+      ],
+      notes:[ { cls:"note", text:"🟠 <strong>54岁——百万医疗最后免体检窗口！</strong>超55岁需体检，通过率大幅下降。" } ],
+      policies:[
+        {
+          name:"深圳惠民保2026", company:"深圳市医保局指导", premium:88,
+          details:[ "医保内住院300万 · 医保外住院300万 · 特药100万 · 抗癌针纳入2026版" ],
+          insureNote:"⚠️ 惠民保要求参保当地医保。岳父有深圳二档✅。",
+          effective:"2026-07-01", expiry:"2027-06-30"
+        }
+      ],
+      gaps:{
+        title:"🟠 推荐：百万医疗+意外",
+        recommendations:[
+          {
+            rank:"🥇", name:"太保B款百万医疗", company:"太平洋健康", price:"~¥600",
+            tags:[ { cls:"tag-red", text:"54岁最后免体检窗口" }, { cls:"tag-green", text:"20年保证续保" }, { cls:"tag-green", text:"400万+CAR-T" } ],
+            dims:[
+              { label:"续保：", val:"20年保证·54→74岁覆盖重疾高发期", cls:"good" }, { label:"时间：", val:"54岁投保·免体检·超55岁需体检", cls:"good" },
+              { label:"保障：", val:"400万+特药200万+CAR-T+外购药100万", cls:"good" }, { label:"价格：", val:"¥600/年·深圳二档有社保费率" },
+              { label:"公司：", val:"太平洋健康·A类·偿付175%", cls:"good" }
+            ],
+            rec:"🔴 <strong>54岁是最后免体检窗口</strong>——超55岁需体检，任何异常都可能导致拒保。"
+          },
+          {
+            rank:"🥈", name:"众安尊享e生（备选）", company:"众安保险·70岁可投", price:"~¥500",
+            tags:[ { cls:"tag-yellow", text:"不保证续保·但核保更宽松" } ],
+            dims:[ { label:"续保：", val:"不保证续保", cls:"warn" }, { label:"价格：", val:"¥500/年·便宜¥100", cls:"good" } ],
+            assessment:"📌 太保B款若因体况通不过→选众安作备选。"
+          },
+          {
+            name:"孝心安6号 意外险", company:"太平洋产险", price:"¥198", skipDetail:true,
+            tags:[ { cls:"tag-green", text:"50-80岁专享·骨折额外赔" } ]
+          }
+        ],
+        insureNote:"💡 岳父有<strong>深圳二档医保 ✅</strong> 百万医疗按有社保费率约¥600/年。若无医保则需¥1,100+/年且报销降至60%。惠民保也需深圳医保才可投。"
+      }
+    },
+
+    {
+      id:"yuemu", shortName:"岳母", name:"陈奕宜（岳母）", info:"55岁 · 深圳二档 · 子宫息肉(良性)",
+      riskClass:"p1", riskScore:20, riskTagCls:"tag-orange", riskLabel:"风险评分 20/100", premium:88,
+      coverage:[
+        { cls:"cov-ok", text:"✅ 惠民保300万" }, { cls:"cov-bad", text:"🔴 缺百万医疗·55岁+息肉需核保" }, { cls:"cov-bad", text:"🔴 缺意外" }
+      ],
+      policies:[
+        {
+          name:"深圳惠民保2026", company:"深圳市医保局指导", premium:88,
+          details:[ "医保内住院300万 · 医保外住院300万 · 特药100万 · 抗癌针纳入2026版" ],
+          insureNote:"⚠️ 惠民保要求参保当地医保。岳母有深圳二档✅。",
+          effective:"2026-07-01", expiry:"2027-06-30"
+        }
+      ],
+      gaps:{
+        title:"🟠 推荐：百万医疗（需核保）+意外",
+        recommendations:[
+          {
+            rank:"🥇", name:"太保B款百万医疗（智能核保）", company:"太平洋健康", price:"~¥800",
+            tags:[ { cls:"tag-orange", text:"需告知子宫息肉" }, { cls:"tag-green", text:"20年保证续保" } ],
+            dims:[
+              { label:"核保：", val:"子宫息肉·良性→可能除外子宫相关疾病", cls:"warn" }, { label:"价格：", val:"¥800/年·深圳二档有社保费率" }
+            ],
+            rec:"⚠️ 子宫息肉良性大概率通过但可能除外。即使除外，其他重疾仍正常保障。"
+          },
+          {
+            rank:"🥈", name:"众安尊享e生（备选）", company:"众安保险·核保更宽松", price:"~¥600",
+            tags:[ { cls:"tag-yellow", text:"不保证续保·息肉大概率标体" } ],
+            dims:[ { label:"核保：", val:"比太保宽松·子宫息肉大概率标体承保", cls:"good" }, { label:"缺点：", val:"不保证续保", cls:"warn" } ],
+            assessment:"📌 太保B款通不过→众安备选。核保更宽松但无保证续保。"
+          },
+          { name:"孝心安6号 意外险", company:"太平洋产险", price:"¥198", skipDetail:true, tags:[ { cls:"tag-green", text:"50-80岁专享·意外骨折额外赔" } ] }
+        ]
+      }
+    },
+
+    {
+      id:"baba", shortName:"老爸", name:"老爸", info:"~50岁 · 境外务工 · 零保障 · 仅城乡户口",
+      riskClass:"p0", riskScore:0, riskTagCls:"tag-red", riskLabel:"风险评分 0/100", premium:0, dangerBtn:true,
+      extraStyle:"border:2px solid rgba(239,68,68,.4)",
+      coverage:[ { cls:"cov-bad", text:"🔴 零保障" }, { cls:"cov-bad", text:"🔴 无医保" }, { cls:"cov-bad", text:"🔴 境外务工中" } ],
+      notes:[ { cls:"note", style:"background:rgba(239,68,68,.15);border-color:#ef4444;color:#fca5a5", text:"🔴🔴 <strong>全家庭最高风险！</strong>境外务工期+无居民医保+无任何商业保险=完全暴露。" } ],
+      specialTable:{
+        headers:["阶段", "行动", "预估年费", "关键说明"],
+        rows:[
+          ["现在·境外", "短期境外意外+紧急救援", "~¥200", "回国前临时保障"],
+          [{ cls:"gold", text:"7月回国" }, { cls:"gold", text:"汕尾城乡居民医保登记" }, { cls:"gold", text:"~¥350" }, "第一优先——所有其他保险的基础"],
+          ["回国后", "百万医疗（55岁前窗口·太保B款）", "~¥900", "有居民医保后按社保费率"],
+          ["回国后", "孝心安6号意外险", "¥198", "不受医保影响"],
+          ["9-12月", "汕尾惠民保", "~¥150", "需先有汕尾居民医保"],
+          [{ cls:"bold", text:"合计" }, { text:"", colSpan:2 }, { cls:"bold", text:"~¥1,800/年" }]
+        ]
+      },
+      gaps:{
+        insureNote:"💡 <strong>老爸的医保逻辑链：</strong>居民医保(¥350) → 百万医疗按社保费率(~¥900 vs 无医保¥1,600+) → 惠民保(需有医保) → 三层防护搭建完毕。<br><strong class=\"bad\">如果没有居民医保：</strong>① 百万医疗保费翻倍且报销降至60% ② 无法投惠民保 ③ 全部住院自费。<br><strong>→ 回国第一件事：办理汕尾城乡居民医保！</strong>"
+      }
+    },
+
+    {
+      id:"quan", shortName:"权", name:"权", info:"29岁 · 军队体系内 · 2029年9月转业",
+      riskClass:"ok", riskScore:-1, riskTagCls:"tag-green", riskLabel:"体系内", premium:0,
+      coverage:[ { cls:"cov-ok", text:"✅ 军队体系内免费医疗" }, { cls:"cov-ok", text:"✅ 暂无需商业险" } ],
+      specialHTML:"<p style=\"font-size:13px;color:#94a3b8\">军队体系内免费医疗，覆盖本人及配偶（嘉）部分。2029年转业前1年（2028年）配置商业百万医疗+意外险。</p><div class=\"insure-note\">💡 2029年转业后军队医保断开→需立即配置地方医保+商业百万医疗。提前1年（2028年）锁定太保B款（20年保证续保），转业时无缝衔接。</div>"
+    }
+  ],
+
+  property:{
+    vehicleNote:"🚗 马静欣（欣）· 车辆保险 — 平安产险 · 精灵Li7000BEV757纯电 · 粤B·CQ8776",
+    vehicleStats:[ { num:"¥5,161", label:"车险年保费" }, { num:"300万", label:"三者险保额" }, { num:"¥191,765", label:"车损险保额" }, { num:"2026-10-22", label:"到期日" } ],
+    vehiclePolicies:[
+      {
+        name:"🚗 交强险 — 平安产险", company:"保单号 10578003903179575747 · 被保险人：马静欣", premium:855, premiumNote:"/年（含税）", borderLeft:"#3b82f6",
+        tags:[ { cls:"green", text:"死亡伤残18万" }, { cls:"green", text:"医疗1.8万" }, { cls:"", text:"财产2千" } ],
+        details:[ "死亡伤残18万 · 医疗1.8万 · 财产损失2千", "无责任赔付：死亡1.8万 · 医疗1800 · 财产100 · 含救助基金¥16.36" ],
+        assessment:"📌 法定交强险，保障基础但额度低。重大事故远不够用，靠商业三者险补充。",
+        effective:"2025-10-23", expiry:"2026-10-22", expiryClass:"orange", expiryStyle:"color:#f59e0b"
+      },
+      {
+        name:"🚗 商业险 — 平安产险", company:"保单号 1057830093179573746 · 被保险人：马静欣", premium:4306, premiumNote:"/年（含税）",
+        tags:[ { cls:"green", text:"三者300万 💪" }, { cls:"green", text:"车损19.2万" }, { cls:"green", text:"医保外医疗50万" }, { cls:"orange", text:"座位险1万/座" }, { cls:"green", text:"道路救援7次" } ],
+        details:[
+          { cls:"hl", text:"新能源车损险：保额¥191,765 · 保费¥2,974" }, { cls:"hl", text:"三者险 300万 · 保费¥1,246" },
+          "司机座位险 1万 · ¥12 · 乘客×4座各1万 · ¥23", "附加医保外医疗(三者) 50万 · ¥41",
+          "附加医保外医疗(车上人员) · ¥9（司机+乘客）", { cls:"hl", text:"服务：代送检1次 · 代驾1次 · 安全检测1次 · 道路救援7次" }
+        ],
+        assessment:"📌 <strong>保单评估：</strong><br>✅ <strong>三者300万 — 优秀。</strong>深圳豪车多、人伤赔偿标准高，300万合理。<br>✅ <strong>医保外医疗50万 — 关键。</strong>人伤事故中自费药/进口器材不计入医保，无此附加需自掏腰包。<br>⚠️ <strong>座位险仅1万/座 — 偏低。</strong>建议提升至5-10万/座，或补一份驾乘意外险（¥100-200/年）。<br>✅ <strong>道路救援7次 — 实用。</strong>纯电车续航焦虑场景下拖车/搭电服务价值高。",
+        effective:"2025-10-23", expiry:"2026-10-22", expiryClass:"orange", expiryStyle:"color:#f59e0b"
+      }
+    ],
+    homeInsuranceNote:{
+      title:"📋 家财险要点",
+      points:[
+        "<strong>房屋主体：</strong>赔付火灾/爆炸/自然灾害（台风/暴雨/洪水）造成的房屋结构损失，按重置成本或约定保额",
+        "<strong>室内财产：</strong>家具/家电/衣物等，注意贵重物品（金银首饰/古董字画）通常单独列明限额",
+        "<strong>水管爆裂：</strong>南方潮湿+老旧小区管道老化——水管爆裂是高频出险项，超重要",
+        "<strong>第三者责任：</strong>花盆坠落伤人/漏水淹楼下邻居——住高层的必选项",
+        "<strong>保费低廉：</strong>家财险通常¥200-500/年即可获得50-200万房屋+10-50万财产保障"
+      ]
+    },
+    houses:[
+      {
+        name:"🏠 汕尾·瑞景豪庭", info:"聪名下 · 143㎡ · 汕尾城区", tag:{ cls:"tag-green", text:"已入住" }, borderLeft:"#d4a853",
+        details:[
+          { label:"面积", val:"143㎡" }, { label:"类型", val:"住宅（高层/电梯？）" },
+          { label:"估值", val:"预估 ¥80-120万（汕尾均价约6,000-8,000/㎡）" }, { label:"风险", val:"汕尾为台风登陆高发区·暴雨+内涝风险", cls:"warn" },
+          { label:"家财险", val:"🔴 未配置", cls:"bad" }, { label:"年保费预估", val:"¥300-500" }
+        ],
+        rec:"💡 <strong>推荐：太平洋家财险（基础版）</strong> — 房屋主体100万+室内财产20万+水管爆裂5万+第三者10万 ≈ ¥350/年<br>⚠️ 汕尾台风频发，务必确认条款含<strong>台风/暴雨</strong>责任（多数家财险已包含，但建议购买前核对免责条款）。<br>⚠️ 143㎡大户型建议适当提高室内财产保额至30-50万。"
+      },
+      {
+        name:"🏠 深圳·安居悦桐湾", info:"聪名下 · 安居型商品房（人才房/安居房）", tag:{ cls:"tag-blue", text:"安居房 · 限售期内" }, borderLeft:"#3b82f6",
+        details:[
+          { label:"类型", val:"安居型商品房（低于市场价配售）" }, { label:"估值", val:"安居房价格约市场价50-60% · 具体以购房合同为准" },
+          { label:"限售", val:"⚠️ 10年限售期 · 不可转让/抵押", cls:"warn" }, { label:"风险", val:"建筑质量+火灾+水管爆裂+楼上漏水" },
+          { label:"家财险", val:"🔴 未配置", cls:"bad" }, { label:"年保费预估", val:"¥200-400" }
+        ],
+        rec:"💡 <strong>推荐：平安家财险（经典版）</strong> — 房屋主体100万+室内财产15万+水管爆裂3万+第三者10万 ≈ ¥250/年<br>⚠️ <strong>安居房特别注意：</strong>① 确认保单是否接受安居房/政策房（多数接受，但需核实）；② 10年限售期内房屋不可变现，火灾/自然灾害导致的损失无其他补偿途径，家财险尤为重要。<br>⚠️ 高层住宅需确认第三者责任——花盆/空调外机坠落致人伤亡需赔付。"
+      }
+    ],
+    summaryTable:{
+      headers:["房产", "估值", "推荐产品", "估算年费", "重点覆盖"],
+      rows:[
+        ["汕尾瑞景豪庭", "¥80-120万", "太平洋家财险基础版", "¥350", "台风/暴雨+水管爆裂"],
+        ["深圳安居悦桐湾", "安居房价", "平安家财险经典版", "¥250", "第三者+水管爆裂"],
+        [{ cls:"bold", text:"合计" }, { text:"", colSpan:2 }, { cls:"gold", text:"¥600/年" }, "每年一杯咖啡钱保两套房子"]
+      ]
+    },
+    summaryNote:"⚠️ 以上保费为市场估算，实际以投保时保险公司报价为准。建议通过支付宝/微信保险或线下产险公司询价后投保。<br>⚠️ 如房屋出租→需购买「出租型」家财险，保费略高但覆盖租客造成的损失。"
+  },
+
+  swap:{
+    intro:"14份1年期保单 vs 仅3份长期保证续保。短期保单随年龄增长、健康状况变化，断保风险逐年递增。以下为每人量身定制的置换方案。",
+    members:["cong","ya","jia"]
+  },
+
+  gapsTable:{
+    headers:["优先级", "成员", "当前", "缺口", "推荐产品", "年费", "续保优势", "医保条件"],
+    rows:[
+      [{ cls:"p0", text:"<span class=\"tag tag-red\">P0</span>" }, "聪", "医疗✓意外✓重疾△", "定寿归零·负债241万", "华贵大麦200万·保至60岁", "¥2,426", "30年锁定", "无需"],
+      [{ cls:"p0", text:"<span class=\"tag tag-red\">P0</span>" }, "老爸", "全无", "境外零保障+无医保", "回国居民医保+百万医疗", "¥255", "20年(回国后)", "<span class=\"tag tag-red\">需先办居民医保</span>"],
+      [{ cls:"p1", text:"<span class=\"tag tag-orange\">P1</span>" }, "岳父", "惠民保", "54岁仅惠民保", "太保B款+孝心安意外", "¥800", "20年保证", "深圳二档✅"],
+      [{ cls:"p1", text:"<span class=\"tag tag-orange\">P1</span>" }, "岳母", "惠民保", "55岁+息肉", "太保B款(核保)+意外", "¥1,000", "20年保证", "需智能核保"],
+      [{ cls:"p1", text:"<span class=\"tag tag-orange\">P1</span>" }, "欣", "医疗✓防癌✓", "无重疾+无意外", "完美人生50万+小蜜蜂", "¥5,956", "终身+1年", "无需"],
+      [{ cls:"p2", text:"<span class=\"tag tag-yellow\">P2</span>" }, "微", "意外", "无百万医疗", "太保B款百万医疗", "¥250", "20年保证", "有城乡医保·按社保费率"],
+      [{ cls:"p2", text:"<span class=\"tag tag-yellow\">P2</span>" }, "嘉", "医疗△意外✓", "无重疾+医疗1年期", "达尔文12号30万+惠民保", "¥3,788", "终身保证", "深圳灵活就业✅"],
+      [{ cls:"p2", text:"<span class=\"tag tag-yellow\">P2</span>" }, "雅", "医疗△意外△", "重疾仅1万+6猫", "达尔文12号30万+太保B款", "¥4,200", "终身+20年", "广州灵活就业✅"],
+      [{ cls:"special", text:"<span class=\"tag tag-blue\">新增</span>" }, "家庭财产", "两处房产", "家财险全无", "太平洋+平安家财险", "¥600", "1年期·续保容易", "无需"]
+    ]
+  },
+
+  renewal:{
+    intro:"⚠️ 18份保单仅<strong>3份</strong>有长期保证续保。一旦被保险人患病，14份1年期保单可能面临断保或大幅加费。",
+    headers:["成员", "终身/20年", "6年保证", "1年/年度", "风险", "最脆弱保单"],
+    rows:[
+      ["聪", "1（太保B款）", "0", "3", "🟡", "健康福重疾·12月到期"],
+      ["欣", "1（防癌）", "1（悠享）", "1", "🟡", "10月悠享到期需核保"],
+      ["老妈", "1（太保B款）", "0", "1", "🟢", "大护甲·意外险续保门槛低"],
+      ["雅", "0", "0", "3", "🔴", "悠遥保·1年不保证"],
+      ["嘉", "0", "0", "2", "🔴", "好医保·1年不保证"],
+      ["微", "0", "0", "1", "🔴", "仅骏业白领保·无医疗险"],
+      ["岳父", "0", "0", "1", "🔴", "仅惠民保·54岁最后窗口"],
+      ["岳母", "0", "0", "1", "🔴", "仅惠民保·55岁核保更难"],
+      ["老爸", "0", "0", "0", "🔴🔴", "零保障"]
+    ]
+  },
+
+  timeline:[
+    { cls:"warn", date:"🟡 2026年5月", event:"嘉27岁前投保终身重疾（达尔文12号·30万·锁定26岁费率）" },
+    { cls:"warn", date:"🟠 2026年6月上旬", event:"聪·欣·岳父·岳母：深圳惠民保续保（¥88×4=¥352）" },
+    { cls:"urgent", date:"🔴 2026年7月", event:"老爸回国 → 居民医保登记+太保B款百万医疗+孝心安意外" },
+    { cls:"", date:"🟡 2026年9-12月", event:"老妈·老爸·微：汕尾惠民保投保窗口" },
+    { cls:"warn", date:"🟠 2026年10月28日", event:"欣悠享健康到期续保（6年保证·需重新健康告知）" },
+    { cls:"urgent", date:"🔴 2026年12月16日", event:"聪健康福重疾到期 → <strong>必须在此之前置换终身重疾</strong>" },
+    { cls:"warn", date:"🟠 2026年12月", event:"欣车贷尾款2万结清 + 聪公积金贷月供启动" },
+    { cls:"", date:"🟡 2027年1月17日", event:"雅·微骏业白领保到期 → 换投小蜜蜂6号尊享版" },
+    { cls:"", date:"🟡 2029年9月", event:"权转业 → 提前配置商业百万医疗+意外" }
+  ],
+
+  summary:{
+    personalHeaders:["成员", "已付年保费", "缺口预估", "完成后年保费"],
+    personalRows:[
+      ["聪", "¥1,736", "+¥8,226", "¥9,962"],
+      ["欣", "¥790", "+¥5,956", "¥6,746"],
+      ["老妈", "¥2,586", "+¥150", "¥2,736"],
+      ["雅", "¥1,621", "+¥4,200", "¥5,821"],
+      ["嘉", "¥559", "+¥4,038", "¥4,597"],
+      ["微", "¥388", "+¥970", "¥1,358"],
+      ["岳父", "¥88", "+¥1,400", "¥1,488"],
+      ["岳母", "¥88", "+¥1,400", "¥1,488"],
+      ["老爸", "¥0", "+¥1,800", "¥1,800"],
+      ["权", "¥0", "—", "¥0"],
+      [{ cls:"total", text:"人险合计" }, { cls:"gold-now", text:"¥8,106" }, { cls:"red-gap", text:"+¥28,140" }, { cls:"gold-after", text:"¥36,246" }]
+    ],
+    propertyHeaders:["房产", "产品", "年费"],
+    propertyRows:[
+      ["汕尾瑞景豪庭", "太平洋家财险", "¥350"], ["深圳安居悦桐湾", "平安家财险", "¥250"],
+      [{ cls:"bold", text:"合计" }, "2处", { cls:"gold", text:"¥600/年" }]
+    ],
+    companyHeaders:["公司", "评级", "偿付", "家庭涉及"],
+    companyRows:[
+      ["太平洋健康", "<span class=\"tag tag-green\">A类</span>", "175%", "聪医疗·老妈医疗·推荐品"],
+      ["人保健康", "<span class=\"tag tag-green\">A类</span>", "156%", "欣医疗·欣防癌·雅医疗·嘉医疗"],
+      ["太平洋产险", "<span class=\"tag tag-green\">A类</span>", "—", "聪意外·嘉意外·推荐意外·推荐家财"],
+      ["华贵人寿", "<span class=\"tag tag-green\">AA</span>", "—", "定寿推荐品"],
+      ["复星联合健康", "<span class=\"tag tag-green\">A类</span>", "175%", "重疾推荐品"],
+      ["三峡人寿", "B类", "—", "达尔文12号推荐品"],
+      ["平安产险", "<span class=\"tag tag-green\">A类</span>", "—", "家财险推荐品"]
+    ]
+  }
+};
+
+// ============================================================
+//  渲染引擎 —— 下面的代码不需要修改
+// ============================================================
+function renderTag(cls, text) { return '<span class="tag '+cls+'">'+text+'</span>'; }
+
+function memberStats(m) { return { members:1, policies:m.policies?m.policies.length:0, premium:m.premium, urgent:m.riskClass==='p0'?2:(m.riskClass==='p1'?1:0) }; }
+
+function renderPolicyCard(p) {
+  var h = '<div class="policy-card"'+(p.borderColor?' style="border-color:'+p.borderColor+'"':'')+'>';
+  h += '<div class="pc-header"><div><div class="pc-title">'+p.name+'</div><div class="pc-company">'+p.company+'</div></div>';
+  h += '<div class="pc-premium">¥'+p.premium.toLocaleString()+'<span class="yr">'+(p.premiumNote||'/年')+'</span></div></div>';
+  if (p.tags && p.tags.length) { h += '<div class="policy-tags">'; p.tags.forEach(function(t){ h += '<span class="policy-tag'+(t.cls?' '+t.cls:'')+'">'+t.text+'</span>'; }); h += '</div>'; }
+  if (p.details && p.details.length) {
+    h += '<ul class="policy-details">';
+    p.details.forEach(function(d){ var t=typeof d==='object'?d.text:d, c=typeof d==='object'&&d.cls?' class="'+d.cls+'"':''; h += '<li'+c+'>'+t+'</li>'; });
+    h += '</ul>';
+  }
+  if (p.assessment) h += '<div class="policy-assessment">'+p.assessment+'</div>';
+  if (p.insureNote) h += '<div class="insure-note">'+p.insureNote+'</div>';
+  if (p.effective) {
+    var es = p.expiryStyle?' style="'+p.expiryStyle+'"':'';
+    h += '<div class="date-bar"><span>生效 '+p.effective+'</span><span'+es+'>到期 '+p.expiry+'</span></div>';
+  }
+  return h+'</div>';
+}
+
+function renderRecCard(rec) {
+  var h = '<div class="rec-card">';
+  h += '<div class="rc-header"><div><div class="rc-name">'+(rec.rank?rec.rank+' ':'')+rec.name+'</div><div class="rc-company">'+rec.company+'</div></div>';
+  h += '<div class="rc-price">'+rec.price+(rec.priceNote?'<span class="yr">'+rec.priceNote+'</span>':'')+'</div></div>';
+  if (rec.tags && rec.tags.length) { h += '<div class="rc-tags">'; rec.tags.forEach(function(t){ h += renderTag(t.cls, t.text); }); h += '</div>'; }
+  h += '<div class="rec-detail-wrap">';
+  if (rec.dims && rec.dims.length) {
+    h += '<div class="rec-detail-grid">';
+    rec.dims.forEach(function(d){ h += '<div class="rec-dim"><span class="dim-label">'+d.label+'</span><span class="dim-val'+(d.cls?' '+d.cls:'')+'">'+d.val+'</span></div>'; });
+    h += '</div>';
+  }
+  if (rec.compareTable) {
+    var t = rec.compareTable;
+    h += '<table class="rec-compare-table"><tr>'; t.headers.forEach(function(hdr){ h += '<th>'+hdr+'</th>'; }); h += '</tr>';
+    t.rows.forEach(function(row){ h += '<tr>'; row.forEach(function(c){ h += '<td'+(typeof c==='object'&&c.cls?' class="'+c.cls+'"':'')+'>'+(typeof c==='object'?c.text:c)+'</td>'; }); h += '</tr>'; });
+    h += '</table>';
+  }
+  if (rec.rec) h += '<div class="rec-rec">'+rec.rec+'</div>';
+  if (rec.assessment) h += '<div class="rec-assessment">'+rec.assessment+'</div>';
+  if (rec.insureNote) h += '<div class="insure-note">'+rec.insureNote+'</div>';
+  return h+'</div></div>';
+}
+
+function renderMemberCard(m) {
+  var h = '<div class="member-card '+m.riskClass+'" data-member="'+m.id+'"'+(m.extraStyle?' style="'+m.extraStyle+'"':'')+'>';
+  h += '<div class="header"><div><div class="name">'+m.name+'</div><div class="info">'+m.info+'</div></div>';
+  h += '<span class="tag '+m.riskTagCls+'">'+m.riskLabel+'</span><span class="premium">¥'+m.premium.toLocaleString()+'/年</span></div>';
+  if (m.coverage && m.coverage.length) { h += '<div class="coverage-bar">'; m.coverage.forEach(function(c){ h += '<span class="'+c.cls+'">'+c.text+'</span>'; }); h += '</div>'; }
+  if (m.notes) m.notes.forEach(function(n){ h += '<div class="'+n.cls+'"'+(n.style?' style="'+n.style+'"':'')+'>'+n.text+'</div>'; });
+  if (m.policies) m.policies.forEach(function(p){ h += renderPolicyCard(p); });
+  if (m.specialTable) {
+    h += '<table><tr>'; m.specialTable.headers.forEach(function(hdr){ h += '<th>'+hdr+'</th>'; }); h += '</tr>';
+    m.specialTable.rows.forEach(function(row){
+      h += '<tr>';
+      row.forEach(function(cell){
+        var a='', t='';
+        if (typeof cell==='object') { if(cell.cls==='gold') a=' style="color:#d4a853;font-weight:600"'; else if(cell.cls==='bold') a=' style="font-weight:700"'; if(cell.colSpan) a+=' colspan="'+cell.colSpan+'"'; t=cell.text; }
+        else t=cell;
+        h += '<td'+a+'>'+t+'</td>';
+      });
+      h += '</tr>';
+    });
+    h += '</table>';
+  }
+  if (m.specialHTML) h += m.specialHTML;
+  var g = m.gaps;
+  if (g && g.recommendations) {
+    h += '<div class="gap-box">';
+    if (g.title) h += '<h4>'+g.title+'</h4>';
+    if (g.desc) h += '<p>'+g.desc+'</p>';
+    g.recommendations.forEach(function(rec){
+      if (rec.skipDetail) {
+        h += '<div class="rec-card"><div class="rc-header"><div><div class="rc-name">'+rec.name+'</div><div class="rc-company">'+rec.company+'</div></div>';
+        h += '<div class="rc-price">'+rec.price+(rec.priceNote?'<span class="yr">'+rec.priceNote+'</span>':'')+'</div></div>';
+        if (rec.tags && rec.tags.length) { h += '<div class="rc-tags">'; rec.tags.forEach(function(t){ h += renderTag(t.cls, t.text); }); h += '</div>'; }
+        if (rec.dims && rec.dims.length) {
+          h += '<div class="rec-detail-wrap"><div class="rec-detail-grid">';
+          rec.dims.forEach(function(d){ h += '<div class="rec-dim"><span class="dim-label">'+d.label+'</span><span class="dim-val'+(d.cls?' '+d.cls:'')+'">'+d.val+'</span></div>'; });
+          h += '</div>';
+          if (rec.assessment) h += '<div class="rec-assessment">'+rec.assessment+'</div>';
+          h += '</div>';
+        }
+        h += '</div>';
+      } else { h += renderRecCard(rec); }
+    });
+    if (g.subTitle) { h += '<h4 style="margin-top:14px">'+g.subTitle+'</h4>'; g.subRecs.forEach(function(rec){ h += renderRecCard(rec); }); }
+    if (g.insureNote) h += '<div class="insure-note">'+g.insureNote+'</div>';
+    h += '</div>';
+  }
+  return h+'</div>';
+}
+
+function renderTable(headers, rows) {
+  var h = '<table><tr>'; headers.forEach(function(hdr){ h += '<th>'+hdr+'</th>'; }); h += '</tr>';
+  rows.forEach(function(row){
+    var rs = '';
+    row.forEach(function(cell){ if(typeof cell==='object'&&cell.cls==='total') rs=' style="font-weight:700;border-top:2px solid #d4a853"'; });
+    h += '<tr'+rs+'>';
+    row.forEach(function(cell){
+      var s='', t='';
+      if (typeof cell==='object') {
+        if (cell.cls==='gold-now') s=' style="color:#d4a853;font-size:16px"';
+        else if (cell.cls==='red-gap') s=' style="color:#f87171;font-size:16px"';
+        else if (cell.cls==='gold-after') s=' style="color:#d4a853;font-size:16px"';
+        else if (cell.cls==='gold') s=' style="color:#d4a853"';
+        else if (cell.cls==='bold') s=' style="font-weight:700"';
+        t=cell.text;
+      } else t=cell;
+      h += '<td'+s+'>'+t+'</td>';
+    });
+    h += '</tr>';
+  });
+  return h+'</table>';
+}
+
+// ============================================================
+//  初始化
+// ============================================================
+document.addEventListener('DOMContentLoaded', function(){
+  var D = DATA;
+  document.getElementById('header-sub').textContent = 'v'+D.meta.version+' · '+D.meta.totalMembers+'位成员 · '+D.meta.totalPolicies+'份人身险 · 财产含车险+房险 · '+D.meta.date;
+
+  // Member nav
+  var mnav = document.getElementById('member-nav');
+  mnav.innerHTML += '<button class="mn-btn active" data-member="all" id="btn-all">全部</button>';
+  D.members.forEach(function(m){
+    mnav.innerHTML += '<button class="mn-btn'+(m.dangerBtn?' btn-danger':'')+'" data-member="'+m.id+'" id="btn-'+m.id+'">'+m.shortName+'</button>';
+  });
+
+  // Overview stats
+  var ostats = document.getElementById('overview-stats');
+  [
+    { num:D.meta.totalMembers, label:'家庭成员' }, { num:D.meta.totalPolicies, label:'人身险保单' },
+    { num:'¥'+D.meta.totalPremium.toLocaleString(), label:'人身险年保费' }, { num:D.meta.urgentCount, label:'项紧急待办', alert:true }
+  ].forEach(function(s){ ostats.innerHTML += '<div class="stat-card'+(s.alert?' alert':'')+'"><span class="num">'+s.num+'</span><span class="label">'+s.label+'</span></div>'; });
+
+  // Priority tags
+  var otags = document.getElementById('overview-tags');
+  D.priorities.forEach(function(p){ otags.innerHTML += '<span class="tag '+p.cls+'">'+p.emoji+' '+p.label+'</span>'; });
+
+  // Social insurance note
+  var sn = D.socialInsuranceNote, nh = '<div class="note-info"><strong>'+sn.title+'：</strong><br>';
+  sn.rules.forEach(function(r){ nh += r+'<br>'; });
+  nh += '<br><strong>'+sn.familyStatusTitle+'：</strong><br>'+sn.familyStatus+'</div>';
+  document.getElementById('overview-note').innerHTML = nh;
+
+  // Member cards
+  var mc = document.getElementById('members-container');
+  D.members.forEach(function(m){ mc.innerHTML += renderMemberCard(m); });
+
+  // Property
+  var pc = document.getElementById('property-container'), prop = D.property;
+  pc.innerHTML += '<h3 style="font-size:15px;color:#93c5fd;margin:20px 0 12px;padding-bottom:6px;border-bottom:1px solid #1e293b">'+prop.vehicleNote+'</h3>';
+  pc.innerHTML += '<div class="grid4" style="margin-bottom:12px">';
+  prop.vehicleStats.forEach(function(s){ pc.innerHTML += '<div class="stat-card"><span class="num">'+s.num+'</span><span class="label">'+s.label+'</span></div>'; });
+  pc.innerHTML += '</div>';
+  prop.vehiclePolicies.forEach(function(p){
+    var ph = '<div class="policy-card"'+(p.borderLeft?' style="border-left:3px solid '+p.borderLeft+'"':'')+'>';
+    ph += '<div class="pc-header"><div><div class="pc-title">'+p.name+'</div><div class="pc-company">'+p.company+'</div></div>';
+    ph += '<div class="pc-premium">¥'+p.premium.toLocaleString()+'<span class="yr">'+(p.premiumNote||'/年')+'</span></div></div>';
+    if (p.tags && p.tags.length) { ph += '<div class="policy-tags">'; p.tags.forEach(function(t){ ph += '<span class="policy-tag'+(t.cls?' '+t.cls:'')+'">'+t.text+'</span>'; }); ph += '</div>'; }
+    if (p.details && p.details.length) {
+      ph += '<ul class="policy-details">';
+      p.details.forEach(function(d){ var t=typeof d==='object'?d.text:d, c=typeof d==='object'&&d.cls?' class="'+d.cls+'"':''; ph += '<li'+c+'>'+t+'</li>'; });
+      ph += '</ul>';
+    }
+    if (p.assessment) ph += '<div class="policy-assessment">'+p.assessment+'</div>';
+    if (p.effective) { var es=p.expiryStyle?' style="'+p.expiryStyle+'"':''; ph += '<div class="date-bar"><span>生效 '+p.effective+'</span><span'+es+'>到期 '+p.expiry+'</span></div>'; }
+    ph += '</div>'; pc.innerHTML += ph;
+  });
+  pc.innerHTML += '<hr style="border:none;border-top:2px solid #1e293b;margin:24px 0"><h3 style="font-size:15px;color:#d4a853;margin-bottom:12px">🏠 房屋财产险</h3>';
+  var hin = prop.homeInsuranceNote, hinH = '<div class="note-info"><strong>'+hin.title+'：</strong><br>';
+  hin.points.forEach(function(p,i){ hinH += (i+1)+' '+p+'<br>'; }); hinH += '</div>'; pc.innerHTML += hinH;
+  prop.houses.forEach(function(house){
+    var hh = '<div class="member-card" style="border-left:3px solid '+house.borderLeft+'">';
+    hh += '<div class="header"><div><div class="name">'+house.name+'</div><div class="info">'+house.info+'</div></div>';
+    hh += '<span class="tag '+house.tag.cls+'">'+house.tag.text+'</span></div>';
+    hh += '<div class="prop-card"><div class="prop-header"><div class="prop-name">房屋概况</div></div><div class="prop-detail">';
+    house.details.forEach(function(d){ hh += '<div><span class="pd-label">'+d.label+'</span><span class="pd-val"'+(d.cls==='warn'?' style="color:#fbbf24"':'')+(d.cls==='bad'?' style="color:#ef4444"':'')+'>'+d.val+'</span></div>'; });
+    hh += '</div><div class="prop-rec">'+house.rec+'</div></div></div>';
+    pc.innerHTML += hh;
+  });
+  var pst = prop.summaryTable;
+  pc.innerHTML += '<div class="gap-box" style="margin-top:12px"><h4>🏠 家庭财产险配置建议总结</h4>'+renderTable(pst.headers, pst.rows)+'<p style="font-size:12px;color:#64748b;margin-top:8px">'+prop.summaryNote+'</p></div>';
+
+  // Swap
+  var sc = document.getElementById('swap-container');
+  sc.innerHTML = '<div class="note-info">'+D.swap.intro+'</div>';
+  var swapData = {
+    cong: { name:'林永聪 — 置换方案', tag:'<span class="tag tag-red">3份1年期需置换2份</span>',
+      body:'<table><tr><th>现有1年期</th><th>风险</th><th>置换为</th><th>保费变化</th><th>收益</th></tr><tr><td><span class="tag tag-red">健康福重疾80万</span> ¥907·12月到期</td><td>患病→拒保</td><td><strong>完美人生8号 50万终身</strong>或超级玛丽16号</td><td>¥907→¥5,800 <span style="color:#f87171">+¥4,893</span></td><td>终身保证·费率锁定·30年累计省50%+</td></tr><tr><td><span class="tag tag-yellow">小蜜蜂6号 ¥298</span></td><td>低</td><td><strong>保持</strong></td><td>—</td><td>意外险1年期续保风险极低</td></tr></table>' },
+    ya: { name:'林于雅 — 置换方案', tag:'<span class="tag tag-red">3份1年期·全部需关注</span>',
+      body:'<table><tr><th>现有</th><th>风险</th><th>置换为</th><th>保费</th><th>理由</th></tr><tr><td><span class="tag tag-red">悠遥保 ¥412</span></td><td>1年不保证</td><td><strong>太保B款</strong> 20年保证</td><td>~¥380</td><td>质变升级·保费反降</td></tr><tr><td><span class="tag tag-yellow">骏业白领保 ¥388</span></td><td>保额低</td><td><strong>小蜜蜂6号 ¥298</strong></td><td>省¥90</td><td>保额3-5倍提升</td></tr></table>' },
+    jia: { name:'林于嘉 — 置换方案', tag:'<span class="tag tag-red">核心风险：好医保1年不保证</span>',
+      body:'<table><tr><th>现有</th><th>风险</th><th>置换为</th><th>保费</th></tr><tr><td><span class="tag tag-red">好医保 ¥403</span></td><td>1年不保证</td><td><strong>太保B款 ¥250</strong></td><td><span style="color:#10b981">省¥153</span></td></tr></table><div class="policy-assessment">又便宜又稳定，没有理由不换。5月25日生日前完成。</div>' }
+  };
+  D.swap.members.forEach(function(mid){ sc.innerHTML += '<div class="member-card"><div class="header"><div class="name">'+swapData[mid].name+'</div>'+swapData[mid].tag+'</div>'+swapData[mid].body+'</div>'; });
+
+  // Gaps table
+  var gc = document.getElementById('gaps-container'), gt = D.gapsTable;
+  gc.innerHTML += renderTable(gt.headers, gt.rows.map(function(row){
+    return row.map(function(cell, i){
+      if (i===0 && typeof cell==='object') return cell;
+      return cell;
+    });
+  }));
+  // Fix gaps table row styling
+  gc.innerHTML = '<table><tr>'; gt.headers.forEach(function(h){ gc.innerHTML += '<th>'+h+'</th>'; }); gc.innerHTML += '</tr>';
+  gt.rows.forEach(function(row){
+    var rc = row[0].cls==='special'?' style="border-top:2px solid #d4a853"':(row[0].cls&&row[0].cls!=='special'?' class="'+row[0].cls+'"':'');
+    gc.innerHTML += '<tr'+rc+'>';
+    row.forEach(function(cell){ gc.innerHTML += '<td>'+(typeof cell==='object'?cell.text:cell)+'</td>'; });
+    gc.innerHTML += '</tr>';
+  });
+  gc.innerHTML += '</table>';
+
+  // Renewal
+  var rc = document.getElementById('renewal-container'), ren = D.renewal;
+  rc.innerHTML = '<div class="note">'+ren.intro+'</div>'+renderTable(ren.headers, ren.rows);
+
+  // Timeline
+  var tc = document.getElementById('timeline-container');
+  tc.innerHTML = '<div class="timeline">';
+  D.timeline.forEach(function(item){ tc.innerHTML += '<div class="tl-item'+(item.cls?' '+item.cls:'')+'"><div class="tl-date">'+item.date+'</div><div class="tl-event">'+item.event+'</div></div>'; });
+  tc.innerHTML += '</div>';
+
+  // Summary
+  var sumc = document.getElementById('summary-container'), sum = D.summary;
+  sumc.innerHTML = '<h2>保费汇总</h2>'+renderTable(sum.personalHeaders, sum.personalRows);
+  sumc.innerHTML += '<h2 style="margin-top:24px">🏠 财产险年费预估</h2>'+renderTable(sum.propertyHeaders, sum.propertyRows);
+  sumc.innerHTML += '<h2 style="margin-top:24px">保险公司风控</h2>'+renderTable(sum.companyHeaders, sum.companyRows);
+
+  // Footer
+  document.getElementById('footer-text').innerHTML = '林家保险看板 v'+D.meta.version+' · 财产险板块含车险+房险 · 惠民保补全 · '+D.meta.date+'<br>🚗 欣车险：平安产险 交强¥855+商业¥4,306=¥5,161/年 · 三者300万✅ · 到期2026-10-22<br>🏠 汕尾瑞景豪庭143㎡ + 深圳安居悦桐湾 家财险推荐<br>数据源：5份PDF+11份截图+飞书多维表格 · 本报告仅供参考<br>🔴 P0立即处理 🟠 P1尽快配置 🟡 P2短期补充 🟢 已完善';
+
+  // Member stats
+  var memberStatsMap = {};
+  D.members.forEach(function(m){ memberStatsMap[m.id] = memberStats(m); });
+  var globalStats = { members:D.meta.totalMembers, policies:D.meta.totalPolicies, premium:D.meta.totalPremium, urgent:D.meta.urgentCount };
+
+  function updateStats(s){
+    var ns = document.querySelectorAll('#overview .stat-card .num');
+    if(ns[0])ns[0].textContent=s.members; if(ns[1])ns[1].textContent=s.policies;
+    if(ns[2])ns[2].textContent='¥'+s.premium.toLocaleString(); if(ns[3])ns[3].textContent=s.urgent;
+  }
+  function showMember(id){
+    document.querySelectorAll('.member-card').forEach(function(c){ c.classList.add('hidden'); });
+    document.querySelectorAll('.member-card[data-member="'+id+'"]').forEach(function(c){ c.classList.remove('hidden'); });
+    document.querySelectorAll('.mn-btn').forEach(function(b){ b.classList.remove('active'); });
+    var btn=document.getElementById('btn-'+id); if(btn){ btn.classList.add('active'); btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'}); }
+    updateStats(memberStatsMap[id]||globalStats);
+    var cards=document.querySelectorAll('.member-card[data-member="'+id+'"]'); if(cards[0])cards[0].scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  function showAll(){
+    document.querySelectorAll('.member-card').forEach(function(c){ c.classList.remove('hidden'); });
+    document.querySelectorAll('.mn-btn').forEach(function(b){ b.classList.remove('active'); });
+    var btn=document.getElementById('btn-all'); if(btn)btn.classList.add('active');
+    updateStats(globalStats);
+  }
+  document.getElementById('member-nav').addEventListener('click', function(e){
+    var btn=e.target.closest('.mn-btn'); if(!btn)return;
+    var m=btn.getAttribute('data-member'); if(!m)return;
+    if(m==='all')showAll(); else if(memberStatsMap[m])showMember(m);
+  });
+
+  // Policy & rec toggle
+  function togglePolicy(el){
+    var card=el.closest('.policy-card'); if(!card)return;
+    card.classList.toggle('collapsed');
+    if(card.classList.contains('collapsed')){el.textContent='展开详情';el.classList.remove('expanded');}
+    else{el.textContent='收起详情';el.classList.add('expanded');}
+  }
+  function toggleRec(el){
+    var card=el.closest('.rec-card'); if(!card)return;
+    card.classList.toggle('collapsed');
+    if(card.classList.contains('collapsed')){el.textContent='展开对比';el.classList.remove('expanded');}
+    else{el.textContent='收起对比';el.classList.add('expanded');}
+  }
+  document.querySelectorAll('.policy-card').forEach(function(card){
+    card.classList.add('collapsed');
+    var btn=document.createElement('span'); btn.className='policy-toggle-btn'; btn.textContent='展开详情';
+    btn.onclick=function(e){e.stopPropagation();togglePolicy(btn);};
+    var hdr=card.querySelector('.pc-header'); if(hdr)hdr.appendChild(btn);
+  });
+  document.querySelectorAll('.rec-card').forEach(function(card){
+    card.classList.add('collapsed');
+    var btn=document.createElement('span'); btn.className='rec-toggle-btn'; btn.textContent='展开对比';
+    btn.onclick=function(e){e.stopPropagation();toggleRec(btn);};
+    var hdr=card.querySelector('.rc-header'); if(hdr)hdr.appendChild(btn);
+  });
+
+  // Back to top
+  var btt=document.getElementById('back-to-top');
+  window.addEventListener('scroll', function(){ if(window.scrollY>600)btt.classList.add('visible'); else btt.classList.remove('visible'); });
+  btt.addEventListener('click', function(){ window.scrollTo({top:0,behavior:'smooth'}); });
+
+  // Active nav on scroll
+  var navLinks=document.querySelectorAll('nav a');
+  window.addEventListener('scroll', function(){
+    var sp=window.scrollY+100;
+    navLinks.forEach(function(link){
+      var sec=document.querySelector(link.getAttribute('href'));
+      if(sec && sec.offsetTop<=sp && sec.offsetTop+sec.offsetHeight>sp){ navLinks.forEach(function(l){l.classList.remove('active');}); link.classList.add('active'); }
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!--pages/policy-form/policy-form.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">{{ editingId ? '编辑资料' : '添加资料' }}</text>
+    <text class="subtitle" wx:if="{{ memberName }}">为 {{ memberName }} 添加</text>
+  </view>
+
+  <view class="form-group" wx:if="{{ !editingId && memberOptions.length > 0 }}">
+    <text class="label">所属家人 *</text>
+    <picker mode="selector" range="{{ memberOptions }}" range-key="name" value="{{ memberIndex }}" bindchange="onMemberChange">
+      <view class="picker">{{ memberName || '请选择所属家人' }}</view>
+    </picker>
+  </view>
+
+  <view class="ocr-section">
+    <view class="ocr-actions">
+      <button class="ocr-btn" bindtap="onOCR" loading="{{ ocrRunning }}">
+      <text wx:if="{{ !ocrRunning }}">拍照/截图识别</text>
+      <text wx:else>识别中...</text>
+      </button>
+      <button class="ocr-btn pdf" bindtap="onRecognizeFile" loading="{{ ocrRunning }}">
+        <text wx:if="{{ !ocrRunning }}">PDF识别</text>
+        <text wx:else>识别中...</text>
+      </button>
+    </view>
+    <text class="ocr-hint">识别成功后会自动填入字段，并把原文件保存为附件。</text>
+    <image wx:if="{{ ocrImage }}" src="{{ ocrImage }}" mode="widthFix" class="ocr-preview" />
+    <view wx:if="{{ ocrResult }}" class="ocr-result-tag">
+      <text>已提取 {{ ocrResult.confidence === 'high' ? '高' : '中' }}置信度字段，请核对</text>
+    </view>
+
+    <view class="manual-extract">
+      <textarea class="manual-textarea" value="{{ manualText }}" bindinput="onManualTextInput" placeholder="也可以粘贴一段资料文字，例如名称、机构、额度、日期、年度支出等" />
+      <button class="manual-btn" bindtap="onExtractManualText" loading="{{ textExtractRunning }}">
+        <text wx:if="{{ !textExtractRunning }}">整理这段文字</text>
+        <text wx:else>整理中...</text>
+      </button>
+    </view>
+  </view>
+
+  <view class="attachment-section">
+    <view class="att-head">
+      <text class="att-title">附件</text>
+      <text class="att-hint">支持图片、PDF和常见文档</text>
+    </view>
+    <view class="att-actions">
+      <button class="att-btn" bindtap="onAddImageAttachment" loading="{{ uploadingAttachment }}">添加图片</button>
+      <button class="att-btn file" bindtap="onAddFileAttachment" loading="{{ uploadingAttachment }}">添加PDF/文档</button>
+    </view>
+    <view class="att-list" wx:if="{{ form.attachments.length > 0 }}">
+      <view class="att-item" wx:for="{{ form.attachments }}" wx:key="id">
+        <text class="att-icon">{{ item.type === 'image' ? '图' : '文' }}</text>
+        <view class="att-info">
+          <text class="att-name">{{ item.name }}</text>
+          <text class="att-meta">{{ item.ext || 'file' }} {{ item.sizeText }}</text>
+        </view>
+        <text class="att-remove" data-id="{{ item.id }}" bindtap="onRemoveAttachment">移除</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-group">
+    <text class="label">记录名称 *</text>
+    <input class="input" value="{{ form.name }}" data-field="name" bindinput="onInput" placeholder="输入资料或公开样例关键词..." />
+    <view class="ac-dropdown" wx:if="{{ acShow && acMatches.length }}">
+      <view class="ac-item" wx:for="{{ acMatches }}" wx:key="id" data-index="{{ index }}" bindtap="selectProduct">
+        <text class="ac-name">{{ item.displayName }}</text>
+        <text class="ac-type">{{ item.displayType }}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-group">
+    <text class="label">机构/来源 *</text>
+    <input class="input" value="{{ form.company }}" data-field="company" bindinput="onInput" placeholder="如：机构名称或资料来源" />
+  </view>
+
+  <view class="form-row">
+    <view class="form-group half">
+      <text class="label">资料类别 *</text>
+      <picker mode="selector" range="{{ typeOptions }}" range-key="label" bindchange="onTypeChange">
+        <view class="picker">{{ typeLabel || '请选择' }}</view>
+      </picker>
+    </view>
+    <view class="form-group half">
+      <text class="label">年度支出 (¥)</text>
+      <input class="input" type="digit" value="{{ form.premium }}" data-field="premium" bindinput="onInput" placeholder="如：443" />
+    </view>
+  </view>
+
+  <view class="form-row">
+    <view class="form-group half">
+      <text class="label">额度/范围</text>
+      <input class="input" value="{{ form.coverage }}" data-field="coverage" bindinput="onInput" placeholder="如：400万、覆盖范围说明" />
+    </view>
+    <view class="form-group half">
+      <text class="label">延续条件</text>
+      <picker mode="selector" range="{{ guaranteeOptions }}" bindchange="onGuaranteeChange">
+        <view class="picker">{{ form.guaranteedYears || '请选择' }}</view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="form-row">
+    <view class="form-group half">
+      <text class="label">生效日期</text>
+      <picker mode="date" value="{{ form.effectiveDate }}" bindchange="onDateChange" data-field="effectiveDate">
+        <view class="picker">{{ form.effectiveDate || '请选择' }}</view>
+      </picker>
+    </view>
+    <view class="form-group half">
+      <text class="label">到期日期</text>
+      <picker mode="date" value="{{ form.expiryDate }}" bindchange="onDateChange" data-field="expiryDate">
+        <view class="picker">{{ form.expiryDate || '请选择' }}</view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="form-group">
+    <text class="label">标签（逗号分隔）</text>
+    <input class="input" value="{{ form.tags }}" data-field="tags" bindinput="onInput" placeholder="如：长期,0免赔,家庭重点" />
+  </view>
+
+  <view class="form-group">
+    <text class="label">资料详情</text>
+    <textarea class="textarea" value="{{ form.detail }}" data-field="detail" bindinput="onInput" placeholder="记录重要条款、范围、注意事项或备注" />
+  </view>
+
+  <view class="form-group">
+    <text class="label">资料编号</text>
+    <input class="input" value="{{ form.policyNo }}" data-field="policyNo" bindinput="onInput" placeholder="如：编号、合同号或凭证号" />
+  </view>
+
+  <button class="save-btn" bindtap="onSave">保存资料</button>
+
+  <canvas type="2d" id="splitCanvas" style="position:fixed;left:-9999px;width:750px;height:600px;"></canvas>
+</view>

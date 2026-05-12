@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes,maximum-scale=1.0">
+<title>家庭保险管家</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:#0a0e17;color:#e2e8f0;line-height:1.6;min-height:100vh}
+header{background:linear-gradient(135deg,#141923,#1a2332);padding:14px 12px;border-bottom:1px solid #1e293b;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+header h1{font-size:18px;color:#d4a853}
+header .actions{display:flex;gap:4px;flex-wrap:wrap}
+.btn{padding:7px 14px;border-radius:20px;border:1px solid #2a3344;background:#1a2332;color:#e2e8f0;font-size:13px;cursor:pointer;transition:.2s;white-space:nowrap;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.btn:active{opacity:.7}
+.btn-gold{background:#d4a853;color:#0a0e17;border-color:#d4a853;font-weight:600}
+.btn-red{background:rgba(239,68,68,.15);border-color:#ef4444;color:#f87171}
+.btn-blue{background:rgba(59,130,246,.15);border-color:#3b82f6;color:#93c5fd}
+.btn-sm{padding:4px 10px;font-size:11px}
+nav{display:flex;gap:4px;padding:8px 12px;overflow-x:auto;background:#0f131c;border-bottom:1px solid #1e293b;position:sticky;top:0;z-index:50;-webkit-overflow-scrolling:touch}
+nav a{color:#94a3b8;text-decoration:none;font-size:12px;white-space:nowrap;padding:5px 10px;border-radius:16px;background:#141923;border:1px solid #1e293b;flex-shrink:0}
+nav a:hover,nav a.active{color:#d4a853;border-color:#d4a853;background:#1a2332}
+section{padding:14px;display:none}
+section.active{display:block}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.stat-card{background:linear-gradient(145deg,#141923,#1a2332);border-radius:16px;padding:14px;text-align:center;border:1px solid #1e293b}
+.stat-card .num{font-size:26px;font-weight:700;color:#d4a853;display:block}
+.stat-card .label{font-size:11px;color:#94a3b8;margin-top:4px}
+.stat-card.alert{border-color:#ef4444}
+.tag{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600}
+.tag-red{background:rgba(239,68,68,.2);color:#f87171}
+.tag-orange{background:rgba(245,158,11,.2);color:#fbbf24}
+.tag-yellow{background:rgba(234,179,8,.2);color:#facc15}
+.tag-green{background:rgba(16,185,129,.2);color:#34d399}
+.tag-blue{background:rgba(59,130,246,.2);color:#93c5fd}
+.member-card{background:#141923;border-radius:16px;padding:16px;margin-bottom:14px;border:1px solid #1e293b}
+.member-card .mc-header{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.member-card .mc-name{font-size:17px;font-weight:700;color:#f1f5f9}
+.member-card .mc-info{font-size:12px;color:#94a3b8}
+.member-card .mc-premium{font-size:20px;font-weight:700;color:#d4a853;margin-left:auto}
+.member-card .mc-actions{display:flex;gap:4px;flex-wrap:wrap}
+.policy-card{background:#1a2332;border-radius:12px;padding:12px;margin-bottom:6px;border:1px solid #2a3344}
+.policy-card .pc-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.policy-card .pc-title{font-weight:700;font-size:13px;color:#f1f5f9}
+.policy-card .pc-company{font-size:11px;color:#64748b}
+.policy-card .pc-premium{font-size:17px;font-weight:700;color:#d4a853;text-align:right}
+.policy-card .pc-detail{font-size:12px;color:#94a3b8;margin-top:4px;line-height:1.6}
+.policy-card .pc-tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}
+.policy-tag{font-size:10px;padding:2px 7px;border-radius:8px;background:rgba(30,41,59,.8);border:1px solid #2a3344;color:#94a3b8}
+.policy-tag.green{color:#34d399;border-color:rgba(16,185,129,.3)}
+.policy-tag.orange{color:#fbbf24;border-color:rgba(245,158,11,.3)}
+.policy-tag.red{color:#f87171;border-color:rgba(239,68,68,.3)}
+.policy-tag.blue{color:#93c5fd;border-color:rgba(59,130,246,.3)}
+.gap-item{background:#1a2332;border-radius:12px;padding:12px;margin-bottom:8px;border-left:3px solid #ef4444}
+.gap-item.p1{border-left-color:#f59e0b}
+.gap-item.p2{border-left-color:#eab308}
+.gap-item .gap-title{font-weight:700;font-size:13px;color:#f1f5f9}
+.gap-item .gap-desc{font-size:12px;color:#94a3b8;margin-top:4px}
+.gap-item .gap-suggest{font-size:12px;color:#d4a853;margin-top:4px}
+.date-bar{display:flex;justify-content:space-between;font-size:11px;color:#64748b;margin-top:6px;padding-top:6px;border-top:1px solid #1e293b;flex-wrap:wrap;gap:4px}
+h2{font-size:17px;color:#d4a853;margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid #1e293b}
+table{width:100%;border-collapse:collapse;font-size:12px;margin:10px 0}
+th{text-align:left;padding:8px 6px;color:#94a3b8;font-weight:500;border-bottom:1px solid #1e293b;font-size:11px}
+td{padding:8px 6px;border-bottom:1px solid #1a2332}
+.note{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:10px;margin:8px 0;font-size:12px;color:#f87171}
+.note-info{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:10px;padding:10px;margin:8px 0;font-size:12px;color:#93c5fd}
+.empty-state{text-align:center;padding:40px 12px;color:#64748b}
+.empty-state .icon{font-size:40px;margin-bottom:10px}
+.empty-state p{font-size:13px;margin-bottom:12px}
+footer{text-align:center;padding:20px;color:#475569;font-size:11px;border-top:1px solid #1e293b;margin-top:24px}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:flex;align-items:center;justify-content:center;padding:12px}
+.modal{background:#141923;border:1px solid #2a3344;border-radius:16px;padding:18px;width:100%;max-width:500px;max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.modal h3{color:#d4a853;margin-bottom:14px;font-size:15px}
+.form-group{margin-bottom:10px}
+.form-group label{display:block;font-size:11px;color:#94a3b8;margin-bottom:3px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:9px 10px;border-radius:10px;border:1px solid #2a3344;background:#1a2332;color:#e2e8f0;font-size:14px;font-family:inherit}
+.form-group textarea{min-height:50px;resize:vertical}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:#d4a853}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+.policy-actions{display:flex;gap:2px}
+.demo-banner{background:rgba(212,168,83,.1);border:1px solid rgba(212,168,83,.3);border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:12px;color:#d4a853;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.badge{font-size:10px;background:#ef4444;color:#fff;border-radius:8px;padding:1px 5px;margin-left:2px;display:inline-block;min-width:14px;text-align:center}
+#back-to-top{position:fixed;bottom:20px;right:16px;width:40px;height:40px;border-radius:50%;background:#d4a853;color:#0a0e17;border:none;font-size:18px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.5);z-index:150;display:none;align-items:center;justify-content:center}
+#back-to-top.visible{display:flex}
+@media(max-width:480px){
+  header h1{font-size:16px}
+  .btn{padding:5px 10px;font-size:12px}
+  nav{padding:6px 8px;gap:3px}
+  nav a{font-size:11px;padding:4px 7px}
+  section{padding:10px}
+  .grid4{grid-template-columns:1fr 1fr}
+  .stat-card{padding:10px}
+  .stat-card .num{font-size:22px}
+  .form-row{grid-template-columns:1fr}
+  .member-card{padding:12px}
+  .member-card .mc-header{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>家庭保险管家</h1>
+  <div class="actions">
+    <button class="btn btn-gold btn-sm" onclick="openMemberForm()">+ 成员</button>
+    <button class="btn btn-blue btn-sm" onclick="exportData()">导出</button>
+    <button class="btn btn-sm" onclick="document.getElementById('import-file').click()">导入</button>
+    <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(this)">
+    <button class="btn btn-red btn-sm" onclick="resetAll()">清空</button>
+  </div>
+</header>
+
+<nav id="main-nav"></nav>
+
+<section id="sec-overview" class="active"><div style="text-align:center;padding:40px;color:#64748b">加载中...</div></section>
+<section id="sec-members"><div style="text-align:center;padding:40px;color:#64748b">加载中...</div></section>
+<section id="sec-gaps"><div style="text-align:center;padding:40px;color:#64748b">加载中...</div></section>
+<section id="sec-renewal"><div style="text-align:center;padding:40px;color:#64748b">加载中...</div></section>
+<section id="sec-summary"><div style="text-align:center;padding:40px;color:#64748b">加载中...</div></section>
+
+<footer>家庭保险管家 v1.0 · 数据仅存储在您的浏览器中 · 不上传任何服务器</footer>
+<button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<div class="modal-overlay" id="modal" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<script>
+// ============================================================
+//  数据引擎 - 含 localStorage 异常保护
+// ============================================================
+var STORAGE_KEY = 'fam_insurance_v1';
+var FAMILY = { members:[], policies:[] };
+var storageOK = true;
+
+try {
+  var testKey = '__test__';
+  localStorage.setItem(testKey, '1');
+  localStorage.removeItem(testKey);
+} catch(e) { storageOK = false; }
+
+function loadData() {
+  if (!storageOK) return clone(getFullDemoData());
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) { var d = JSON.parse(raw); if (d.members && d.policies) return d; }
+  } catch(e) {}
+  return clone(getFullDemoData());
+}
+function saveData() {
+  if (!storageOK) return;
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(FAMILY)); } catch(e) {}
+}
+function clone(obj) { return JSON.parse(JSON.stringify(obj)); }
+
+// ============================================================
+//  完整演示数据 - 10位成员 16份保单
+// ============================================================
+function getFullDemoData() {
+  return {
+    members: [
+      { id:'m1', name:'林永聪（聪）', age:30, role:'户主', 医保:'深圳一档', 负债:'241万（房贷65万+公积金贷176万）', notes:'' },
+      { id:'m2', name:'马静欣（欣）', age:31, role:'配偶', 医保:'深圳一档', 负债:'', notes:'' },
+      { id:'m3', name:'林香莲（老妈）', age:51, role:'母亲', 医保:'汕尾居民', 负债:'', notes:'织造工人' },
+      { id:'m4', name:'林于雅（雅/猫猫）', age:29, role:'妹妹', 医保:'广州灵活就业', 负债:'', notes:'7只猫' },
+      { id:'m5', name:'林于嘉（嘉）', age:26, role:'妹妹', 医保:'深圳灵活就业', 负债:'', notes:'5月25日27岁生日' },
+      { id:'m6', name:'林于婷（微）', age:25, role:'妹妹', 医保:'汕尾城乡', 负债:'', notes:'广州工作' },
+      { id:'m7', name:'马伟雄（岳父）', age:54, role:'岳父', 医保:'深圳二档', 负债:'', notes:'54岁最后免体检窗口' },
+      { id:'m8', name:'陈奕宜（岳母）', age:55, role:'岳母', 医保:'深圳二档', 负债:'', notes:'子宫息肉(良性)' },
+      { id:'m9', name:'老爸', age:50, role:'父亲', 医保:'零医保', 负债:'', notes:'境外务工·7月回国' },
+      { id:'m10', name:'权', age:29, role:'妹夫', 医保:'军队体系', 负债:'', notes:'2029年9月转业' }
+    ],
+    policies: [
+      { id:'p1', memberId:'m1', type:'百万医疗', name:'太保互联网个人长期B款医疗保险', company:'太平洋健康', premium:443, coverage:'400万', guaranteedYears:'20年保证续保', effective:'2026-04-21', expiry:'2027-04-20', tags:'含CAR-T,外购药100万,20年保证', detail:'一般医疗200万·重疾400万·含质子重离子·免赔1万' },
+      { id:'p2', memberId:'m1', type:'意外险', name:'小蜜蜂6号尊享版', company:'太平洋产险', premium:298, coverage:'意外100万+猝死50万', guaranteedYears:'1年期', effective:'2026-04-23', expiry:'2027-04-22', tags:'0免赔,不限社保,航空500万', detail:'意外医疗10.5万·住院津贴150元/天·第三者责任5万' },
+      { id:'p3', memberId:'m1', type:'重疾险', name:'健康福·重疾险（1年期）', company:'国泰产险', premium:907, coverage:'重疾80万+轻症24万', guaranteedYears:'1年不保证续保', effective:'2025-12-17', expiry:'2026-12-16', tags:'1年期,12月到期,患病拒保', detail:'120种重疾·50种轻症1次·50岁费率涨至5000+' },
+      { id:'p4', memberId:'m1', type:'惠民保', name:'深圳惠民保2026', company:'深圳市医保局', premium:88, coverage:'300万', guaranteedYears:'1年期', effective:'2026-07-01', expiry:'2027-06-30', tags:'', detail:'医保内300万·医保外300万·特药100万·抗癌针纳入' },
+      { id:'p5', memberId:'m2', type:'百万医疗', name:'人保悠享健康·长期医疗（0免赔版）', company:'人保健康', premium:453, coverage:'400万·0免赔', guaranteedYears:'6年保证续保', effective:'2025-10-29', expiry:'2026-10-28', tags:'0免赔,含质子重离子,含CAR-T', detail:'1万内30%报销·超1万100%·重疾100%·等待期30天' },
+      { id:'p6', memberId:'m2', type:'防癌险', name:'人保温暖悠长防癌医疗保险', company:'人保健康', premium:249, coverage:'癌症400万', guaranteedYears:'终身保证续保', effective:'2025-06-24', expiry:'终身', tags:'终身保证续保,0免赔', detail:'癌症医疗400万·质子重离子100万·特药100万·100%报销' },
+      { id:'p7', memberId:'m2', type:'惠民保', name:'深圳惠民保2026', company:'深圳市医保局', premium:88, coverage:'300万', guaranteedYears:'1年期', effective:'2026-07-01', expiry:'2027-06-30', tags:'', detail:'医保内300万·医保外300万·特药100万' },
+      { id:'p8', memberId:'m3', type:'百万医疗', name:'太保互联网个人长期B款医疗保险', company:'太平洋健康', premium:2358, coverage:'400万', guaranteedYears:'20年保证续保', effective:'2026-04-24', expiry:'2027-04-23', tags:'含特需部,CAR-T,20年保证', detail:'含特需部/国际部·特药200万·免赔1万·等待期90天' },
+      { id:'p9', memberId:'m3', type:'意外险', name:'大护甲8号高龄版', company:'人保财险', premium:228, coverage:'意外10万+医疗5万', guaranteedYears:'1年期', effective:'2026-04-27', expiry:'2027-04-26', tags:'含骨折保障', detail:'驾驶额外30万·骨折5千·住院津贴50元/天' },
+      { id:'p10', memberId:'m4', type:'百万医疗', name:'人保悠遥保（臻爱/臻佑版）', company:'人保健康', premium:412, coverage:'400万·重疾仅1万', guaranteedYears:'1年不保证续保', effective:'2026-04-24', expiry:'2027-04-23', tags:'重疾仅1万,1年不保证', detail:'一般医疗400万·重疾仅1万·1年期·患病可能断保' },
+      { id:'p11', memberId:'m4', type:'意外险', name:'骏业白领保', company:'中国人寿', premium:388, coverage:'意外20万+猝死2万', guaranteedYears:'1年期', effective:'2026-01-18', expiry:'2027-01-17', tags:'保额偏低', detail:'意外20万·猝死2万·医疗5万·定寿3万·疾病住院8千' },
+      { id:'p12', memberId:'m5', type:'百万医疗', name:'好医保·长期医疗旗舰版（2025版）', company:'人保健康', premium:403, coverage:'400万', guaranteedYears:'1年不保证续保', effective:'2026-04-23', expiry:'2027-04-22', tags:'1年不保证', detail:'一般医疗400万·重疾400万·重疾津贴1万·1年期' },
+      { id:'p13', memberId:'m5', type:'意外险', name:'小蜜蜂6号典藏版', company:'太平洋产险', premium:156, coverage:'意外50万+猝死30万', guaranteedYears:'1年期', effective:'2026-04-23', expiry:'2027-04-22', tags:'0免赔,不限社保', detail:'意外50万·猝死30万·医疗5万·航空300万' },
+      { id:'p14', memberId:'m6', type:'意外险', name:'骏业白领保', company:'中国人寿', premium:388, coverage:'意外20万+猝死2万', guaranteedYears:'1年期', effective:'2026-01-18', expiry:'2027-01-17', tags:'仅意外险,无医疗险', detail:'意外20万·猝死2万·医疗5万·定寿3万·疾病住院8千' },
+      { id:'p15', memberId:'m7', type:'惠民保', name:'深圳惠民保2026', company:'深圳市医保局', premium:88, coverage:'300万', guaranteedYears:'1年期', effective:'2026-07-01', expiry:'2027-06-30', tags:'', detail:'医保内300万·医保外300万·特药100万' },
+      { id:'p16', memberId:'m8', type:'惠民保', name:'深圳惠民保2026', company:'深圳市医保局', premium:88, coverage:'300万', guaranteedYears:'1年期', effective:'2026-07-01', expiry:'2027-06-30', tags:'', detail:'医保内300万·医保外300万·特药100万' }
+    ]
+  };
+}
+
+// ============================================================
+//  缺口分析引擎
+// ============================================================
+var GAP_RULES = [
+  { id:'no_medical', check:function(m,ps){ return ps.filter(function(p){ return p.type==='百万医疗'; }).length===0; },
+    title:'无百万医疗保险', desc:'住院/大病费用自费，家庭最基础的防护缺失。', priority:'p0', suggest:'配置太保B款、好医保等百万医疗险，保费¥200-2500/年视年龄。有20年保证续保优先选择。' },
+  { id:'no_accident', check:function(m,ps){ return ps.filter(function(p){ return p.type==='意外险'||(p.type==='综合险'&&p.name.indexOf('意外')>-1); }).length===0; },
+    title:'无意外险', desc:'意外伤害无保障，日常磕碰/骨折/猫抓狗咬全部自费。', priority:'p1', suggest:'成人选小蜜蜂6号（¥156-298/年），50岁以上选孝心安（¥198/年）。' },
+  { id:'no_critical', check:function(m,ps){ return m.age>=25&&m.age<=50&&ps.filter(function(p){ return p.type==='重疾险'; }).length===0; },
+    title:'无重疾险（25-50岁关键投保期）', desc:'确诊重疾后收入中断，康复期2-3年无收入来源。越早投保费率越低。', priority:'p1', suggest:'达尔文12号/完美人生8号（¥3,700-6,500/年·终身），30-50万保额视预算。' },
+  { id:'no_term_life', check:function(m,ps){ var debt=parseInt(m.负债)||0; return (m.role==='户主'||m.role==='配偶')&&debt>500000&&ps.filter(function(p){ return p.type==='定寿'; }).length===0; },
+    title:'负债高缺定寿', desc:'家庭支柱身故后债务由家人承担，定寿是最后防线。', priority:'p0', suggest:'华贵大麦2026A款200万（¥2,426/年·保至60岁·30年交），健告仅3条通过率高。' },
+  { id:'one_year_medical', check:function(m,ps){ return ps.filter(function(p){ return p.type==='百万医疗'&&p.guaranteedYears&&(p.guaranteedYears.indexOf('1年不保证')>-1||p.guaranteedYears==='1年期'); }).length>0; },
+    title:'百万医疗为1年期不保证续保', desc:'一旦患病次年可能被拒保——最需要保障的时候可能失效。', priority:'p1', suggest:'置换为20年保证续保产品（太保B款），保费可能还更低。年龄越低费率优势越大。' },
+  { id:'no_insurance', check:function(m,ps){ return !m.医保||m.医保==='无'||m.医保==='无医保'||m.医保.indexOf('零医保')>-1||m.医保===''; },
+    title:'无社会医保', desc:'最基础的保障缺失。无医保时百万医疗保费翻倍且报销降至60%，惠民保无法投保。', priority:'p0', suggest:'立即办理城乡居民医保（¥350/年）或灵活就业医保。这是所有商业保险的基础，务必最优先处理。' },
+  { id:'age_54_medical', check:function(m,ps){ return m.age>=54&&m.age<=55&&ps.filter(function(p){ return p.type==='百万医疗'; }).length===0; },
+    title:'54-55岁无百万医疗——最后免体检窗口', desc:'超55岁投保百万医疗需体检，任何异常都可能导致拒保或除外。', priority:'p0', suggest:'立即配置太保B款百万医疗（20年保证续保），这是最后的窗口期。即使有小毛病也可能通过智能核保。' }
+];
+
+function detectGaps(member, policies) {
+  var gaps = [];
+  GAP_RULES.forEach(function(rule) {
+    if (rule.check(member, policies)) gaps.push({ id:rule.id, title:rule.title, desc:rule.desc, priority:rule.priority, suggest:rule.suggest });
+  });
+  return gaps;
+}
+
+function getPriorityLabel(p) { return p==='p0'?'🔴 P0':(p==='p1'?'🟠 P1':(p==='p2'?'🟡 P2':'🟢 OK')); }
+
+// ============================================================
+//  工具函数
+// ============================================================
+function genId() { return 'id_'+Date.now()+'_'+Math.random().toString(36).substr(2,6); }
+function getMember(id) { return FAMILY.members.find(function(m){ return m.id===id; }); }
+function getPolicies(memberId) { return FAMILY.policies.filter(function(p){ return p.memberId===memberId; }); }
+function fmt(v) { return v||'-'; }
+function tagCls(text) {
+  if (!text) return '';
+  if (text.indexOf('终身')>-1||text.indexOf('20年')>-1) return 'green';
+  if (text.indexOf('6年')>-1) return 'orange';
+  if (text.indexOf('1年')>-1||text.indexOf('不保证')>-1) return 'red';
+  return '';
+}
+var isDemo = false;
+
+// ============================================================
+//  渲染
+// ============================================================
+function renderAll() {
+  renderNav();
+  renderOverview();
+  renderMembers();
+  renderGaps();
+  renderRenewal();
+  renderSummary();
+  updateBadges();
+}
+
+function renderNav() {
+  var nav = document.getElementById('main-nav');
+  nav.innerHTML = '';
+  ['概览','成员保单','缺口诊断','续保追踪','保费汇总'].forEach(function(label, i){
+    var ids = ['sec-overview','sec-members','sec-gaps','sec-renewal','sec-summary'];
+    var a = document.createElement('a');
+    a.href = '#'+ids[i];
+    a.textContent = label;
+    if (i>=2) { var b = document.createElement('span'); b.className='badge'; b.id='badge-'+ids[i]; b.textContent='0'; a.appendChild(b); }
+    a.onclick = function(e){ e.preventDefault(); switchSection(ids[i]); };
+    if (i===0) a.classList.add('active');
+    nav.appendChild(a);
+  });
+}
+
+function switchSection(id) {
+  document.querySelectorAll('section').forEach(function(s){ s.classList.remove('active'); });
+  var sec = document.getElementById(id);
+  if (sec) sec.classList.add('active');
+  document.querySelectorAll('nav a').forEach(function(a){ a.classList.remove('active'); });
+  var link = document.querySelector('nav a[href="#'+id+'"]');
+  if (link) link.classList.add('active');
+  window.scrollTo({ top:(sec?sec.offsetTop-100:0), behavior:'smooth' });
+}
+
+function renderOverview() {
+  var sec = document.getElementById('sec-overview');
+  var totalPremium = FAMILY.policies.reduce(function(s,p){ return s+(parseInt(p.premium)||0); },0);
+  var allGaps = 0, p0Count = 0;
+  FAMILY.members.forEach(function(m){
+    var gaps = detectGaps(m, getPolicies(m.id));
+    allGaps += gaps.length;
+    p0Count += gaps.filter(function(g){ return g.priority==='p0'; }).length;
+  });
+
+  var h = (isDemo?'<div class="demo-banner">📋 当前为林家10人演示数据（16份保单）。可修改/清空录入您自己的家庭信息。<button class="btn btn-gold btn-sm" onclick="loadDemo()">重置演示数据</button></div>':'');
+  if (!storageOK) h += '<div class="note" style="margin-bottom:12px">⚠️ 浏览器不支持数据存储（可能在无痕/隐私模式下）。数据关闭页面后不会保存。</div>';
+
+  h += '<div class="grid4">'+
+    '<div class="stat-card"><span class="num">'+FAMILY.members.length+'</span><span class="label">家庭成员</span></div>'+
+    '<div class="stat-card"><span class="num">'+FAMILY.policies.length+'</span><span class="label">保单总数</span></div>'+
+    '<div class="stat-card"><span class="num">¥'+totalPremium.toLocaleString()+'</span><span class="label">年保费合计</span></div>'+
+    '<div class="stat-card'+(p0Count>0?' alert':'')+'"><span class="num">'+allGaps+'</span><span class="label">项风险缺口</span></div>'+
+    '</div>'+
+    '<div style="font-size:12px;color:#94a3b8;line-height:1.8">'+
+    '<strong style="color:#d4a853">使用说明：</strong><br>'+
+    '① 点击「+成员」添加家庭成员<br>'+
+    '② 在成员卡片点「+保单」录入保险<br>'+
+    '③ 系统自动诊断缺口并给出建议<br>'+
+    '④ 续保追踪监控90天内到期保单<br>'+
+    '⑤ 导出JSON备份，换设备可导入恢复<br>'+
+    '⑥ 数据仅存浏览器，不上传服务器</div>';
+  sec.innerHTML = h;
+}
+
+function renderMembers() {
+  var sec = document.getElementById('sec-members');
+  if (FAMILY.members.length===0) {
+    sec.innerHTML = '<h2>家庭成员 & 保单</h2><div class="empty-state"><div class="icon">👨‍👩‍👧‍👦</div><p>还没有添加家庭成员</p><button class="btn btn-gold" onclick="openMemberForm()">+ 添加第一位成员</button></div>';
+    return;
+  }
+  var h = '<h2>家庭成员 & 保单</h2>';
+  FAMILY.members.forEach(function(m){
+    var ps = getPolicies(m.id);
+    var totalPrem = ps.reduce(function(s,p){ return s+(parseInt(p.premium)||0); },0);
+    var gaps = detectGaps(m, ps);
+    var p0Gaps = gaps.filter(function(g){ return g.priority==='p0'; });
+    var gapTag = gaps.length===0?'<span class="tag tag-green">保障完善</span>':
+                 p0Gaps.length>0?'<span class="tag tag-red">🔴 '+p0Gaps.length+'/'+gaps.length+'项缺口</span>':
+                 '<span class="tag tag-orange">'+gaps.length+'项缺口</span>';
+
+    h += '<div class="member-card"><div class="mc-header"><div style="flex:1;min-width:140px">'+
+      '<div class="mc-name">'+m.name+'</div><div class="mc-info">'+m.age+'岁 · '+fmt(m.role)+' · 医保：'+fmt(m.医保)+'</div></div>'+
+      gapTag+'<span class="mc-premium">¥'+totalPrem.toLocaleString()+'/年</span>'+
+      '<div class="mc-actions">'+
+        '<button class="btn btn-gold btn-sm" onclick="openPolicyForm(\''+m.id+'\')">+保单</button>'+
+        '<button class="btn btn-sm" onclick="openMemberForm(\''+m.id+'\')">编辑</button>'+
+        '<button class="btn btn-red btn-sm" onclick="deleteMember(\''+m.id+'\')">删除</button>'+
+      '</div></div>';
+
+    if (m.负债) h += '<div class="note" style="margin-bottom:6px">⚠️ 负债：'+m.负债+'</div>';
+    if (m.notes) h += '<div style="font-size:12px;color:#64748b;margin-bottom:6px">📝 '+m.notes+'</div>';
+
+    if (ps.length===0) {
+      h += '<div style="color:#64748b;font-size:12px;padding:6px 0">暂无保单 — 点击「+保单」添加</div>';
+    } else {
+      ps.forEach(function(p){
+        var tags = p.tags?p.tags.split(',').map(function(t){ return t.trim(); }).filter(Boolean):[];
+        var expDate = p.expiry&&p.expiry!=='终身'?new Date(p.expiry):null;
+        var daysLeft = expDate?Math.ceil((expDate-Date.now())/86400000):null;
+        var expSoon = daysLeft!==null&&daysLeft<90;
+        var expired = daysLeft!==null&&daysLeft<0;
+
+        h += '<div class="policy-card"'+(expSoon||expired?' style="border-color:'+(expired?'#ef4444':'rgba(245,158,11,.4)')+'"':'')+'>'+
+          '<div class="pc-header"><div><div class="pc-title">'+p.name+'</div><div class="pc-company">'+p.company+' · '+p.type+'</div></div>'+
+          '<div class="pc-premium">¥'+parseInt(p.premium).toLocaleString()+'<span style="font-size:11px;color:#64748b;font-weight:400">/年</span></div></div>';
+        if (tags.length) {
+          h += '<div class="pc-tags">';
+          tags.forEach(function(t){ h += '<span class="policy-tag'+(tagCls(t)?' '+tagCls(t):'')+'">'+t+'</span>'; });
+          h += '</div>';
+        }
+        h += '<div class="pc-detail">保额：'+fmt(p.coverage)+' · 续保：'+fmt(p.guaranteedYears)+(p.detail?'<br>'+p.detail:'')+'</div>';
+        var expText = expired?'<span style="color:#ef4444;font-weight:700">🔴 已过期'+Math.abs(daysLeft)+'天</span>':
+                      expSoon?'<span style="color:#f59e0b">⚠️ '+daysLeft+'天后到期</span>':
+                      '<span>到期 '+fmt(p.expiry)+'</span>';
+        h += '<div class="date-bar"><span>生效 '+fmt(p.effective)+'</span>'+expText+
+          '<span class="policy-actions"><button class="btn btn-sm" onclick="openPolicyForm(\''+m.id+'\',\''+p.id+'\')">编辑</button>'+
+          '<button class="btn btn-red btn-sm" onclick="deletePolicy(\''+p.id+'\')">删除</button></span></div></div>';
+      });
+    }
+    h += '</div>';
+  });
+  sec.innerHTML = h;
+}
+
+function renderGaps() {
+  var sec = document.getElementById('sec-gaps');
+  var allGaps = [];
+  FAMILY.members.forEach(function(m){
+    detectGaps(m, getPolicies(m.id)).forEach(function(g){ g.memberName=m.name; allGaps.push(g); });
+  });
+  if (allGaps.length===0) {
+    sec.innerHTML = '<h2>风险缺口诊断</h2><div class="empty-state"><div class="icon">✅</div><p>恭喜！未检测到明显保障缺口</p></div>';
+    return;
+  }
+  allGaps.sort(function(a,b){ var o={p0:0,p1:1,p2:2}; return (o[a.priority]||0)-(o[b.priority]||0); });
+
+  var h = '<h2>风险缺口诊断</h2>';
+  h += '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">'+
+    '<span class="tag tag-red">🔴 P0：'+allGaps.filter(function(g){ return g.priority==='p0'; }).length+'项</span>'+
+    '<span class="tag tag-orange">🟠 P1：'+allGaps.filter(function(g){ return g.priority==='p1'; }).length+'项</span>'+
+    '<span class="tag tag-yellow">🟡 P2：'+allGaps.filter(function(g){ return g.priority==='p2'; }).length+'项</span>'+
+    '</div>';
+
+  allGaps.forEach(function(g){
+    h += '<div class="gap-item '+g.priority+'">'+
+      '<div class="gap-title">'+getPriorityLabel(g.priority)+' — '+g.memberName+'：'+g.title+'</div>'+
+      '<div class="gap-desc">'+g.desc+'</div>'+
+      '<div class="gap-suggest">💡 '+g.suggest+'</div></div>';
+  });
+  sec.innerHTML = h;
+}
+
+function renderRenewal() {
+  var sec = document.getElementById('sec-renewal');
+  var renewals = [];
+  FAMILY.policies.forEach(function(p){
+    if (!p.expiry||p.expiry==='终身') return;
+    var daysLeft = Math.ceil((new Date(p.expiry)-Date.now())/86400000);
+    var member = getMember(p.memberId);
+    renewals.push({ policy:p, member:member, daysLeft:daysLeft });
+  });
+  renewals.sort(function(a,b){ return a.daysLeft-b.daysLeft; });
+
+  if (renewals.length===0) {
+    sec.innerHTML = '<h2>续保追踪</h2><div class="empty-state"><div class="icon">📅</div><p>暂无需追踪的续保</p></div>';
+    return;
+  }
+
+  var h = '<h2>续保追踪</h2>';
+  h += '<div class="note-info" style="margin-bottom:14px"><strong>⚠️ 保单按到期日排序。</strong>建议到期前30-60天续保或置换更优产品。1年期不保证续保的产品尤其需要提前关注。</div>';
+  h += '<table><tr><th>到期日</th><th>剩余</th><th>成员</th><th>保单</th><th>类型</th><th>年费</th><th>续保</th></tr>';
+
+  renewals.forEach(function(r){
+    var cls = r.daysLeft<0?'style="color:#ef4444"':r.daysLeft<60?'style="color:#f59e0b"':'';
+    var txt = r.daysLeft<0?'🔴 已过期':r.daysLeft<30?'🔴 '+r.daysLeft+'天':r.daysLeft<90?'🟡 '+r.daysLeft+'天':r.daysLeft+'天';
+    h += '<tr><td>'+r.policy.expiry+'</td><td '+cls+'>'+txt+'</td>'+
+      '<td>'+(r.member?r.member.name:'?')+'</td><td>'+r.policy.name+'</td>'+
+      '<td>'+r.policy.type+'</td><td>¥'+parseInt(r.policy.premium).toLocaleString()+'</td>'+
+      '<td>'+fmt(r.policy.guaranteedYears)+'</td></tr>';
+  });
+  h += '</table>';
+  sec.innerHTML = h;
+}
+
+function renderSummary() {
+  var sec = document.getElementById('sec-summary');
+  var total = FAMILY.policies.reduce(function(s,p){ return s+(parseInt(p.premium)||0); },0);
+  var h = '<h2>保费汇总</h2><table><tr><th>成员</th><th>保单数</th><th>年保费</th></tr>';
+  FAMILY.members.forEach(function(m){
+    var ps = getPolicies(m.id);
+    var prem = ps.reduce(function(s,p){ return s+(parseInt(p.premium)||0); },0);
+    h += '<tr><td>'+m.name+'</td><td>'+ps.length+'份</td><td>¥'+prem.toLocaleString()+'</td></tr>';
+  });
+  h += '<tr style="font-weight:700;border-top:2px solid #d4a853"><td>合计</td><td>'+FAMILY.policies.length+'份</td><td style="color:#d4a853;font-size:16px">¥'+total.toLocaleString()+'/年</td></tr></table>';
+
+  h += '<h2 style="margin-top:20px">保险类型分布</h2><table><tr><th>类型</th><th>份数</th><th>年保费</th></tr>';
+  var typeMap = {};
+  FAMILY.policies.forEach(function(p){
+    if (!typeMap[p.type]) typeMap[p.type]={ count:0, premium:0 };
+    typeMap[p.type].count++; typeMap[p.type].premium+=(parseInt(p.premium)||0);
+  });
+  Object.keys(typeMap).sort().forEach(function(t){
+    h += '<tr><td>'+t+'</td><td>'+typeMap[t].count+'份</td><td>¥'+typeMap[t].premium.toLocaleString()+'</td></tr>';
+  });
+  h += '</table>';
+
+  h += '<div class="note-info" style="margin-top:14px;line-height:1.8"><strong>💡 提示：</strong><br>点击「导出」备份数据为JSON文件。换设备后点击「导入」恢复。所有数据仅保存在您的浏览器中。</div>';
+  sec.innerHTML = h;
+}
+
+function updateBadges() {
+  var allGaps = 0, renewalCount = 0;
+  FAMILY.members.forEach(function(m){ allGaps+=detectGaps(m,getPolicies(m.id)).length; });
+  FAMILY.policies.forEach(function(p){
+    if (p.expiry&&p.expiry!=='终身'&&new Date(p.expiry)<new Date(Date.now()+90*86400000)) renewalCount++;
+  });
+  var bg = document.getElementById('badge-sec-gaps'); if (bg) bg.textContent = allGaps;
+  var br = document.getElementById('badge-sec-renewal'); if (br) br.textContent = renewalCount;
+}
+
+// ============================================================
+//  表单
+// ============================================================
+var editingMemberId = null, editingPolicyId = null, editingPolicyMemberId = null;
+
+function openMemberForm(id) {
+  editingMemberId = id||null;
+  var m = id?getMember(id):null;
+  var h = '<h3>'+(m?'编辑成员':'添加成员')+'</h3>'+
+    '<div class="form-row"><div class="form-group"><label>姓名 *</label><input id="mf-name" value="'+(m?escHtml(m.name):'')+'"></div>'+
+    '<div class="form-group"><label>年龄 *</label><input id="mf-age" type="number" value="'+(m?m.age:'')+'"></div></div>'+
+    '<div class="form-row"><div class="form-group"><label>家庭角色</label><select id="mf-role"><option value="">请选择</option>'+
+      ['户主','配偶','父亲','母亲','子女','岳父','岳母','其他'].map(function(r){ return '<option'+(m&&m.role===r?' selected':'')+'>'+r+'</option>'; }).join('')+
+    '</select></div>'+
+    '<div class="form-group"><label>医保类型</label><select id="mf-insurance"><option value="">请选择</option>'+
+      ['深圳一档','深圳二档','广州职工','广州灵活就业','汕尾居民','汕尾城乡','无医保/零医保','军队体系','其他'].map(function(i){ return '<option'+(m&&m.医保===i?' selected':'')+'>'+i+'</option>'; }).join('')+
+    '</select></div></div>'+
+    '<div class="form-group"><label>负债情况（如：房贷65万+公积金贷176万）</label><input id="mf-debt" value="'+(m&&m.负债?escHtml(m.负债):'')+'"></div>'+
+    '<div class="form-group"><label>备注</label><input id="mf-notes" value="'+(m&&m.notes?escHtml(m.notes):'')+'"></div>'+
+    '<div class="form-actions"><button class="btn" onclick="closeModal()">取消</button><button class="btn btn-gold" onclick="saveMember()">保存</button></div>';
+  showModal(h);
+}
+
+function saveMember() {
+  var obj = {
+    name: document.getElementById('mf-name').value.trim(),
+    age: parseInt(document.getElementById('mf-age').value)||0,
+    role: document.getElementById('mf-role').value,
+    医保: document.getElementById('mf-insurance').value,
+    负债: document.getElementById('mf-debt').value.trim(),
+    notes: document.getElementById('mf-notes').value.trim()
+  };
+  if (!obj.name||!obj.age) { alert('请填写姓名和年龄'); return; }
+  if (editingMemberId) {
+    var m = getMember(editingMemberId);
+    if (!m) return;
+    Object.keys(obj).forEach(function(k){ m[k]=obj[k]; });
+  } else {
+    obj.id = genId();
+    FAMILY.members.push(obj);
+  }
+  isDemo = false; saveData(); closeModal(); renderAll();
+}
+
+function deleteMember(id) {
+  if (!confirm('确定删除该成员及其所有保单？此操作不可恢复。')) return;
+  FAMILY.members = FAMILY.members.filter(function(m){ return m.id!==id; });
+  FAMILY.policies = FAMILY.policies.filter(function(p){ return p.memberId!==id; });
+  isDemo = false; saveData(); renderAll();
+}
+
+function openPolicyForm(memberId, policyId) {
+  editingPolicyMemberId = memberId;
+  editingPolicyId = policyId||null;
+  var p = policyId?FAMILY.policies.find(function(x){ return x.id===policyId; }):null;
+  var m = getMember(memberId);
+  if (!m) return;
+
+  var h = '<h3>'+(p?'编辑保单':'为 '+m.name+' 添加保单')+'</h3>'+
+    '<div class="form-row"><div class="form-group"><label>保单名称 *</label><input id="pf-name" value="'+(p?escHtml(p.name):'')+'" placeholder="如：太保B款医疗保险"></div>'+
+    '<div class="form-group"><label>保险公司 *</label><input id="pf-company" value="'+(p?escHtml(p.company):'')+'" placeholder="如：太平洋健康"></div></div>'+
+    '<div class="form-row"><div class="form-group"><label>保险类型 *</label><select id="pf-type">'+
+      ['百万医疗','意外险','重疾险','定寿','防癌险','惠民保','车险','家财险','综合险','其他'].map(function(t){ return '<option'+(p&&p.type===t?' selected':'')+'>'+t+'</option>'; }).join('')+
+    '</select></div>'+
+    '<div class="form-group"><label>年保费 (¥) *</label><input id="pf-premium" type="number" value="'+(p?p.premium:'')+'" placeholder="如：443"></div></div>'+
+    '<div class="form-row"><div class="form-group"><label>保额/保障额度</label><input id="pf-coverage" value="'+(p&&p.coverage?escHtml(p.coverage):'')+'" placeholder="如：400万"></div>'+
+    '<div class="form-group"><label>续保条件</label><select id="pf-guarantee"><option value="">请选择</option>'+
+      ['终身保证续保','20年保证续保','6年保证续保','1年期','1年不保证续保','其他'].map(function(g){ return '<option'+(p&&p.guaranteedYears===g?' selected':'')+'>'+g+'</option>'; }).join('')+
+    '</select></div></div>'+
+    '<div class="form-row"><div class="form-group"><label>生效日期</label><input id="pf-effective" type="date" value="'+(p&&p.effective?p.effective:'')+'"></div>'+
+    '<div class="form-group"><label>到期日期</label><input id="pf-expiry" type="date" value="'+(p&&p.expiry&&p.expiry!=='终身'?p.expiry:'')+'"><div style="font-size:10px;color:#64748b;margin-top:2px">终身保证续保的留空即可</div></div></div>'+
+    '<div class="form-group"><label>标签（逗号分隔）</label><input id="pf-tags" value="'+(p&&p.tags?escHtml(p.tags):'')+'" placeholder="如：含CAR-T,0免赔,20年保证"></div>'+
+    '<div class="form-group"><label>保障详情</label><textarea id="pf-detail" placeholder="如：一般医疗200万·重疾400万·含质子重离子·免赔1万">'+(p&&p.detail?escHtml(p.detail):'')+'</textarea></div>'+
+    '<div class="form-actions"><button class="btn" onclick="closeModal()">取消</button><button class="btn btn-gold" onclick="savePolicy()">保存</button></div>';
+  showModal(h);
+}
+
+function savePolicy() {
+  var obj = {
+    memberId: editingPolicyMemberId,
+    type: document.getElementById('pf-type').value,
+    name: document.getElementById('pf-name').value.trim(),
+    company: document.getElementById('pf-company').value.trim(),
+    premium: parseInt(document.getElementById('pf-premium').value)||0,
+    coverage: document.getElementById('pf-coverage').value.trim(),
+    guaranteedYears: document.getElementById('pf-guarantee').value,
+    effective: document.getElementById('pf-effective').value,
+    expiry: document.getElementById('pf-expiry').value||'终身',
+    tags: document.getElementById('pf-tags').value.trim(),
+    detail: document.getElementById('pf-detail').value.trim()
+  };
+  if (!obj.name||!obj.company||!obj.type||!obj.premium) { alert('请填写保单名称、公司、类型和保费'); return; }
+  if (editingPolicyId) {
+    var existing = FAMILY.policies.find(function(p){ return p.id===editingPolicyId; });
+    if (!existing) return;
+    Object.keys(obj).forEach(function(k){ existing[k]=obj[k]; });
+  } else {
+    obj.id = genId();
+    FAMILY.policies.push(obj);
+  }
+  isDemo = false; saveData(); closeModal(); renderAll();
+}
+
+function deletePolicy(id) {
+  if (!confirm('确定删除该保单？')) return;
+  FAMILY.policies = FAMILY.policies.filter(function(p){ return p.id!==id; });
+  isDemo = false; saveData(); renderAll();
+}
+
+function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ============================================================
+//  导入导出
+// ============================================================
+function exportData() {
+  var blob = new Blob([JSON.stringify(FAMILY,null,2)],{type:'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href=url; a.download='家庭保险数据_'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+
+function importData(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e){
+    try {
+      var data = JSON.parse(e.target.result);
+      if (!data.members||!Array.isArray(data.members)||!data.policies||!Array.isArray(data.policies)) throw new Error('数据格式不正确');
+      if (!confirm('将导入 '+data.members.length+' 位成员和 '+data.policies.length+' 份保单。会覆盖当前数据，确认？')) return;
+      FAMILY = data; isDemo = false; saveData(); renderAll();
+    } catch(err) { alert('导入失败：'+err.message); }
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+
+function resetAll() {
+  if (!confirm('确定清空所有数据？建议先导出备份。')) return;
+  FAMILY = { members:[], policies:[] }; isDemo = false; saveData(); renderAll();
+}
+
+function loadDemo() {
+  FAMILY = clone(getFullDemoData()); isDemo = true; saveData(); renderAll();
+}
+
+// ============================================================
+//  Modal
+// ============================================================
+function showModal(html) {
+  document.getElementById('modal-content').innerHTML = html;
+  document.getElementById('modal').style.display = 'flex';
+}
+function closeModal() {
+  document.getElementById('modal').style.display = 'none';
+  editingMemberId=null; editingPolicyId=null; editingPolicyMemberId=null;
+}
+
+// ============================================================
+//  启动
+// ============================================================
+try {
+  FAMILY = loadData();
+  if (FAMILY.members.length===10 && FAMILY.members[0]&&FAMILY.members[0].name.indexOf('林永聪')>-1) isDemo = true;
+} catch(e) { FAMILY = clone(getFullDemoData()); isDemo = true; }
+
+renderAll();
+
+var btt = document.getElementById('back-to-top');
+window.addEventListener('scroll', function(){ if(window.scrollY>400)btt.classList.add('visible'); else btt.classList.remove('visible'); });
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+.tab-bar {
+  display: flex;
+  height: 56px;
+  background: #FFFCF6;
+  border-top: 1px solid #E1D7C7;
+  padding: 0 12px;
+  padding-bottom: env(safe-area-inset-bottom);
+  align-items: center;
+  gap: 8px;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.tab-icon {
+  font-size: 15px;
+  display: block;
+}
+
+.tab-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: #969D92;
+  margin-top: 1px;
+}
+
+/* 选中态：仅改文字色，轻微背景加深，无发光无缩?*/
+.tab-item.active {
+  background: #F2EBDD;
+}
+
+.tab-item.active .tab-text {
+  color: #9B7A45;
+}
+
+.tab-item.active .tab-icon {
+  color: #9B7A45;
+}

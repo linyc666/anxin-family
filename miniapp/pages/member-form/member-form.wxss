@@ -1,0 +1,47 @@
+/* pages/member-form/member-form.wxss */
+.container { padding: 16px; padding-bottom: 80px; }
+
+/* 档案类型?*/
+.kind-banner { background:linear-gradient(135deg,rgba(155,122,69,.1),rgba(155,122,69,.04)); border:1px solid rgba(155,122,69,.2); border-radius:12px; padding:12px; margin-bottom:12px; }
+.kind-banner.pet { background:linear-gradient(135deg,rgba(82,127,104,.09),rgba(82,127,150,.04)); border-color:rgba(82,127,104,.2); }
+.kind-title { display:block; font-size:16px; font-weight:700; color:#9B7A45; }
+.kind-banner.pet .kind-title { color:#527F68; }
+.kind-desc { display:block; font-size:11px; color:#717C73; margin-top:2px; }
+
+/* 智能录入模块 */
+.smart-box {
+  background: rgba(82,127,150,.04); border: 1px solid rgba(82,127,150,.12);
+  border-radius: 12px; padding: 12px 14px; margin-bottom: 16px;
+}
+.smart-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.smart-title { font-size: 14px; font-weight: 600; color: #527F96; }
+.smart-hint { font-size: 10px; color: #969D92; }
+.smart-textarea {
+  width: 100%; min-height: 90px; max-height: 140px;
+  background: #F8F4EC; color: #48534B; border: 1px solid #E1D7C7;
+  border-radius: 8px; padding: 10px 12px; font-size: 13px; line-height: 1.6;
+  box-sizing: border-box;
+}
+.smart-btn {
+  width: 100%; margin-top: 8px; padding: 8px 0; border-radius: 10px;
+  background: rgba(82,127,150,.15); color: #527F96;
+  font-size: 13px; font-weight: 600; border: 1px solid rgba(82,127,150,.25);
+}
+.smart-btn::after { border: none; }
+
+/* 表单字段 */
+.form-group { margin-top: 14px; }
+.label { display:block; font-size:12px; font-weight:600; color:#717C73; margin-bottom:6px; }
+.input { width:100%; padding:10px 12px; background:#FFFCF6; border:1px solid #E1D7C7; border-radius:8px; color:#48534B; font-size:14px; box-sizing:border-box; }
+.textarea { width:100%; min-height:80px; padding:10px 12px; background:#FFFCF6; border:1px solid #E1D7C7; border-radius:8px; color:#48534B; font-size:14px; box-sizing:border-box; line-height:1.6; }
+.picker { padding:10px 12px; background:#FFFCF6; border:1px solid #E1D7C7; border-radius:8px; color:#48534B; font-size:14px; }
+.form-row { display:flex; gap:10px; }
+.form-group.half { flex:1; }
+
+/* 保存按钮 */
+.save-btn {
+  width:100%; margin-top:20px; padding:14px; border-radius:12px;
+  background:#9B7A45; color:#F8F4EC; font-weight:700; font-size:16px;
+  border:none; box-sizing:border-box;
+}
+.save-btn::after { border: none; }

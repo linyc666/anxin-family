@@ -1,0 +1,77 @@
+<!--pages/index/index.wxml - 安心总览-->
+<view class="container" style="background-color:{{ tColors ? tColors.bg : '#F8F4EC' }}">
+  <view class="privacy-modal" wx:if="{{ !privacyAccepted }}">
+    <view class="privacy-content">
+      <text class="privacy-title">安心家册</text>
+      <view class="privacy-items">
+        <text class="pi-text">数据默认保存在本机，不会自动上传。</text>
+        <text class="pi-text">云备份、图片识别等功能需要你主动使用。</text>
+        <text class="pi-text">本工具仅做资料整理与到期提醒。</text>
+      </view>
+      <button class="btn btn-gold" bindtap="onAcceptPrivacy">同意并开始使用</button>
+      <text class="privacy-link" bindtap="onFullPrivacy">查看完整声明</text>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{ stats.members === 0 }}">
+    <text class="empty-icon">+</text>
+    <text class="empty-title">开始搭建你的家庭安心家册</text>
+    <text class="empty-desc">添加家人、宠物和重要资料，我们会帮你留意到期和待完善的事项</text>
+    <button class="btn btn-gold" bindtap="onAddMember">添加第一位家人</button>
+    <text class="empty-later" bindtap="onAddPet">稍后添加宠物</text>
+  </view>
+
+  <block wx:else>
+    <view class="status-header">
+      <view class="sh-top">
+        <text class="sh-name">{{ familyName }}的安心家册</text>
+        <text class="sh-edit" bindtap="onEditFamily" bindlongpress="onLongPressSetting">设置</text>
+      </view>
+      <view class="sh-today {{ attentionCount > 0 ? 'has' : '' }}">
+        <text>{{ attentionCount > 0 ? '今天有 ' + attentionCount + ' 件事需要留意' : '今天一切安好' }}</text>
+      </view>
+    </view>
+
+    <view class="top-alerts" wx:if="{{ topAlerts.length > 0 }}">
+      <view class="ta-card {{ item.expired ? 'expired' : '' }}" wx:for="{{ topAlerts }}" wx:key="key" bindtap="onTapAlert" data-type="{{ item.dataType }}" data-member-id="{{ item.memberId }}">
+        <view class="ta-dot {{ item.expired ? 'red' : 'gold' }}"></view>
+        <view class="ta-info">
+          <text class="ta-title">{{ item.title }}</text>
+          <text class="ta-desc">{{ item.desc }}</text>
+        </view>
+        <text class="ta-tag {{ item.expired ? 'red' : 'gold' }}">{{ item.tag }}</text>
+      </view>
+    </view>
+
+    <view class="main-actions">
+      <view class="ma-btn" bindtap="onAddMember"><text class="ma-icon">+</text><text class="ma-label">添加家人</text></view>
+      <view class="ma-btn" bindtap="onAddPet"><text class="ma-icon">+</text><text class="ma-label">添加宠物</text></view>
+      <view class="ma-btn" bindtap="onAddRecord"><text class="ma-icon">+</text><text class="ma-label">添加资料</text></view>
+    </view>
+
+    <view class="overview">
+      <view class="ov-item"><text class="ov-num">{{ stats.members }}</text><text class="ov-lbl">家人</text></view>
+      <view class="ov-item"><text class="ov-num">{{ stats.pets }}</text><text class="ov-lbl">宠物</text></view>
+      <view class="ov-item"><text class="ov-num">{{ stats.policies }}</text><text class="ov-lbl">资料</text></view>
+      <view class="ov-item"><text class="ov-num {{ stats.gaps > 0 ? 'warn' : '' }}">{{ stats.gaps }}</text><text class="ov-lbl">待完善</text></view>
+    </view>
+
+    <view class="more-alerts" wx:if="{{ moreAlerts.length > 0 }}">
+      <view class="ma-item {{ item.expired ? 'expired' : item.urgent ? 'soon' : '' }}" wx:for="{{ moreAlerts }}" wx:key="key" bindtap="onTapAlert" data-type="{{ item.dataType }}" data-member-id="{{ item.memberId }}">
+        <text class="mai-title">{{ item.title }}</text>
+        <text class="mai-tag {{ item.expired ? 'red' : item.urgent ? 'gold' : '' }}">{{ item.tag }}</text>
+      </view>
+      <view class="ma-more" bindtap="onViewAll" wx:if="{{ allAlerts.length > 3 }}">
+        <text>查看全部提醒（{{ allAlerts.length }}条）</text>
+        <text class="ma-arrow">›</text>
+      </view>
+    </view>
+
+    <view class="demo-tip" wx:if="{{ isDemo }}">
+      <text>演示数据 · 可自由修改</text>
+      <text class="demo-reset" bindtap="onLoadDemo">重置</text>
+    </view>
+  </block>
+
+  <view class="bottom-space"></view>
+</view>

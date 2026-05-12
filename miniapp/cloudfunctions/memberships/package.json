@@ -1,0 +1,9 @@
+{
+  "name": "memberships",
+  "version": "1.0.0",
+  "description": "会员与支付管理",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

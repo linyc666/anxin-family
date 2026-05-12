@@ -1,0 +1,279 @@
+[
+  {
+    "name": "超级玛丽13号重疾险（终身）",
+    "company": "君龙人寿",
+    "type": "重疾险",
+    "companyRating": "B+类",
+    "solvency": "—",
+    "prices": [
+      { "ageMin": 0, "ageMax": 5, "price": 2200 }, { "ageMin": 6, "ageMax": 17, "price": 2800 },
+      { "ageMin": 18, "ageMax": 25, "price": 4800 }, { "ageMin": 26, "ageMax": 30, "price": 6200 },
+      { "ageMin": 31, "ageMax": 35, "price": 7800 }, { "ageMin": 36, "ageMax": 40, "price": 9800 },
+      { "ageMin": 41, "ageMax": 50, "price": 12800 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "终身保证·费率锁定",
+    "coverage": "50万重疾+癌症无限次赔+30万中症+15万轻症",
+    "deductible": "给付型·无免赔", "waitingDays": 180,
+    "features": ["终身保证", "癌症无限次赔付", "心脑血管二次赔", "结节友好", "投保人豁免"],
+    "ageRange": "0-50岁", "healthCheck": "健康告知(结节友好)", "healthStrictness": 1,
+    "needSocialIns": false, "score": 88, "active": true
+  },
+  {
+    "name": "达尔文10号重疾险（终身）",
+    "company": "三峡人寿",
+    "type": "重疾险",
+    "companyRating": "B类",
+    "solvency": "—",
+    "prices": [
+      { "ageMin": 0, "ageMax": 5, "price": 1700 }, { "ageMin": 6, "ageMax": 17, "price": 2100 },
+      { "ageMin": 18, "ageMax": 25, "price": 3000 }, { "ageMin": 26, "ageMax": 30, "price": 3500 },
+      { "ageMin": 31, "ageMax": 35, "price": 4600 }, { "ageMin": 36, "ageMax": 40, "price": 6000 },
+      { "ageMin": 41, "ageMax": 50, "price": 8200 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "终身保证·费率锁定",
+    "coverage": "50万重疾+中症60%+轻症30%",
+    "deductible": "给付型·无免赔", "waitingDays": 180,
+    "features": ["终身保证", "极致性价比", "轻中症豁免", "癌症二次可选"],
+    "ageRange": "0-50岁", "healthCheck": "健康告知", "healthStrictness": 2,
+    "needSocialIns": false, "score": 84, "active": true
+  },
+  {
+    "name": "无忧人生2024重大疾病保险",
+    "company": "横琴人寿",
+    "type": "重疾险",
+    "companyRating": "B+类",
+    "solvency": "—",
+    "prices": [
+      { "ageMin": 0, "ageMax": 5, "price": 2400 }, { "ageMin": 6, "ageMax": 17, "price": 3000 },
+      { "ageMin": 18, "ageMax": 25, "price": 5500 }, { "ageMin": 26, "ageMax": 30, "price": 7000 },
+      { "ageMin": 31, "ageMax": 35, "price": 8800 }, { "ageMin": 36, "ageMax": 40, "price": 11000 },
+      { "ageMin": 41, "ageMax": 50, "price": 14000 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "终身保证·费率锁定",
+    "coverage": "60万重疾+36万中症(60%)+18万轻症(30%)",
+    "deductible": "给付型·无免赔", "waitingDays": 180,
+    "features": ["60万高保额", "终身保证", "心脑血管二次", "身故返保额", "特定护理"],
+    "ageRange": "0-50岁", "healthCheck": "健康告知+智能核保", "healthStrictness": 2,
+    "needSocialIns": false, "score": 86, "active": true
+  },
+  {
+    "name": "小蜜蜂5号经典版意外险",
+    "company": "太平洋产险",
+    "type": "意外险",
+    "companyRating": "A类",
+    "solvency": "—",
+    "prices": [
+      { "ageMin": 18, "ageMax": 55, "price": 96 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "1年期(续保稳定)",
+    "coverage": "意外30万+猝死10万+医疗3万",
+    "deductible": "0免赔·不限社保·100%报销", "waitingDays": 0,
+    "features": ["极致低价¥96", "0免赔", "不限社保", "交通意外额外赔"],
+    "ageRange": "18-55岁", "healthCheck": "无需健告", "healthStrictness": 1,
+    "needSocialIns": false, "score": 85, "active": true
+  },
+  {
+    "name": "勇者无畏意外险（高风险职业版）",
+    "company": "人保财险",
+    "type": "意外险",
+    "companyRating": "A类",
+    "solvency": "—",
+    "prices": [
+      { "ageMin": 18, "ageMax": 55, "price": 468 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "1年期(续保稳定)",
+    "coverage": "意外50万+医疗5万+住院津贴100元/天",
+    "deductible": "100元免赔·限社保内", "waitingDays": 0,
+    "features": ["4-6类职业可投", "高风险职业", "50万保额", "住院津贴", "人保品牌"],
+    "ageRange": "18-55岁", "healthCheck": "无需健告", "healthStrictness": 1,
+    "needSocialIns": false, "score": 78, "active": true
+  },
+  {
+    "name": "大麦甜蜜家2026定期寿险（夫妻版）",
+    "company": "华贵人寿",
+    "type": "定寿",
+    "companyRating": "AA",
+    "solvency": "—",
+    "prices": [
+      { "ageMin": 22, "ageMax": 30, "price": 2800 }, { "ageMin": 31, "ageMax": 40, "price": 4500 },
+      { "ageMin": 41, "ageMax": 50, "price": 7500 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": 30, "guaranteeType": "保至60岁·锁定30年",
+    "coverage": "夫妻各200万·同一意外赔4倍(800万)",
+    "deductible": "给付型", "waitingDays": 90,
+    "features": ["夫妻共保", "同一意外4倍赔付", "AA级公司", "健告仅3条"],
+    "ageRange": "22-50岁", "healthCheck": "3条健告(极简)", "healthStrictness": 1,
+    "needSocialIns": false, "score": 92, "active": true
+  },
+  {
+    "name": "尊享e生2025·中高端医疗",
+    "company": "众安保险",
+    "type": "百万医疗",
+    "companyRating": "B类",
+    "solvency": "—",
+    "prices": [
+      { "ageMin": 0, "ageMax": 5, "price": 600 }, { "ageMin": 6, "ageMax": 25, "price": 350 },
+      { "ageMin": 26, "ageMax": 30, "price": 550 }, { "ageMin": 31, "ageMax": 40, "price": 700 },
+      { "ageMin": 41, "ageMax": 50, "price": 1200 }, { "ageMin": 51, "ageMax": 60, "price": 2200 },
+      { "ageMin": 61, "ageMax": 70, "price": 3800 }
+    ],
+    "priceNoSocialFactor": 1.6,
+    "guaranteeYears": null, "guaranteeType": "不保证续保",
+    "coverage": "一般300万·重疾600万·特需/VIP/国际部",
+    "deductible": "0免赔可选·特需部0免赔", "waitingDays": 30,
+    "features": ["特需部/VIP/国际部", "0免赔可选", "门诊可选", "齿科可选", "70岁可投"],
+    "ageRange": "0-70岁", "healthCheck": "智能核保(较宽松)", "healthStrictness": 1,
+    "needSocialIns": true, "score": 78, "active": true
+  },
+  {
+    "name": "医享无忧（惠享版）百万医疗",
+    "company": "太保健康",
+    "type": "百万医疗",
+    "companyRating": "A类",
+    "solvency": "175%",
+    "prices": [
+      { "ageMin": 0, "ageMax": 5, "price": 420 }, { "ageMin": 6, "ageMax": 25, "price": 240 },
+      { "ageMin": 26, "ageMax": 30, "price": 400 }, { "ageMin": 31, "ageMax": 40, "price": 550 },
+      { "ageMin": 41, "ageMax": 50, "price": 950 }, { "ageMin": 51, "ageMax": 55, "price": 2400 }
+    ],
+    "priceNoSocialFactor": 1.8,
+    "guaranteeYears": 20, "guaranteeType": "保证续保",
+    "coverage": "一般200万·重疾400万·家庭共享免赔额",
+    "deductible": "一般1万·重疾0免赔·家庭共享", "waitingDays": 90,
+    "features": ["家庭共享免赔额", "3人及以上95折", "含质子重离子", "20年保证"],
+    "ageRange": "0-55岁", "healthCheck": "智能核保", "healthStrictness": 2,
+    "needSocialIns": true, "score": 86, "active": true
+  },
+  {
+    "name": "江苏医惠保2026",
+    "company": "江苏省医保局指导",
+    "type": "惠民保",
+    "companyRating": "政府指导",
+    "solvency": "—",
+    "prices": [
+      { "ageMin": 0, "ageMax": 120, "price": 158 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "1年期(年度续保)",
+    "coverage": "医保内100万+医保外100万+特药100万+罕见病50万",
+    "deductible": "较高", "waitingDays": 0,
+    "features": ["政府指导", "全省统一", "无健告", "既往症可投", "罕见病保障"],
+    "ageRange": "不限", "healthCheck": "无需健告", "healthStrictness": 1,
+    "needSocialIns": true, "score": 76, "active": true, "regionRestrict": "江苏医保"
+  },
+  {
+    "name": "齐鲁保2026",
+    "company": "济南市医保局指导",
+    "type": "惠民保",
+    "companyRating": "政府指导",
+    "solvency": "—",
+    "prices": [
+      { "ageMin": 0, "ageMax": 120, "price": 69 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "1年期(年度续保)",
+    "coverage": "医保内200万+医保外100万+特药60万",
+    "deductible": "较高", "waitingDays": 0,
+    "features": ["政府指导", "无健告", "¥69低价", "既往症可投"],
+    "ageRange": "不限", "healthCheck": "无需健告", "healthStrictness": 1,
+    "needSocialIns": true, "score": 73, "active": true, "regionRestrict": "山东医保"
+  },
+  {
+    "name": "惠闽保2026",
+    "company": "福建省医保局指导",
+    "type": "惠民保",
+    "companyRating": "政府指导",
+    "solvency": "—",
+    "prices": [
+      { "ageMin": 0, "ageMax": 120, "price": 79 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "1年期(年度续保)",
+    "coverage": "医保内150万+医保外100万+特药50万",
+    "deductible": "较高", "waitingDays": 0,
+    "features": ["政府指导", "无健告", "既往症可投", "全省覆盖"],
+    "ageRange": "不限", "healthCheck": "无需健告", "healthStrictness": 1,
+    "needSocialIns": true, "score": 73, "active": true, "regionRestrict": "福建医保"
+  },
+  {
+    "name": "阳光人寿防癌医疗险（终身版）",
+    "company": "阳光人寿",
+    "type": "防癌险",
+    "companyRating": "A类",
+    "solvency": "168%",
+    "prices": [
+      { "ageMin": 0, "ageMax": 30, "price": 145 }, { "ageMin": 31, "ageMax": 40, "price": 245 },
+      { "ageMin": 41, "ageMax": 50, "price": 510 }, { "ageMin": 51, "ageMax": 60, "price": 930 },
+      { "ageMin": 61, "ageMax": 70, "price": 1850 }, { "ageMin": 71, "ageMax": 80, "price": 3000 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "终身保证续保",
+    "coverage": "癌症医疗300万+质子重离子100万+特药50万",
+    "deductible": "0免赔·100%报销", "waitingDays": 90,
+    "features": ["终身保证续保", "阳光大品牌", "三高可投", "含特药", "住院垫付"],
+    "ageRange": "0-80岁", "healthCheck": "健康告知(三高/糖尿病可投)", "healthStrictness": 1,
+    "needSocialIns": false, "score": 85, "active": true
+  },
+  {
+    "name": "e生保·慢病版百万医疗",
+    "company": "平安健康",
+    "type": "百万医疗",
+    "companyRating": "AA",
+    "solvency": "210%",
+    "prices": [
+      { "ageMin": 18, "ageMax": 30, "price": 480 }, { "ageMin": 31, "ageMax": 40, "price": 750 },
+      { "ageMin": 41, "ageMax": 50, "price": 1200 }, { "ageMin": 51, "ageMax": 60, "price": 2200 },
+      { "ageMin": 61, "ageMax": 65, "price": 3800 }
+    ],
+    "priceNoSocialFactor": 1.7,
+    "guaranteeYears": null, "guaranteeType": "不保证续保",
+    "coverage": "一般200万+特定疾病200万",
+    "deductible": "一般1万·特定疾病0免赔", "waitingDays": 90,
+    "features": ["慢病人群专属", "高血压/糖尿病可投", "平安品牌", "智能核保"],
+    "ageRange": "18-65岁", "healthCheck": "慢病专属核保(宽松)", "healthStrictness": 1,
+    "needSocialIns": true, "score": 75, "active": true
+  },
+  {
+    "name": "康宁终身2024重大疾病保险",
+    "company": "中国人寿",
+    "type": "重疾险",
+    "companyRating": "AA",
+    "solvency": "230%",
+    "prices": [
+      { "ageMin": 0, "ageMax": 5, "price": 3200 }, { "ageMin": 6, "ageMax": 17, "price": 4000 },
+      { "ageMin": 18, "ageMax": 25, "price": 6500 }, { "ageMin": 26, "ageMax": 30, "price": 8200 },
+      { "ageMin": 31, "ageMax": 35, "price": 10500 }, { "ageMin": 36, "ageMax": 40, "price": 13000 },
+      { "ageMin": 41, "ageMax": 50, "price": 16800 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "终身保证·费率锁定",
+    "coverage": "50万重疾+特定疾病额外50%+30万中症+15万轻症",
+    "deductible": "给付型·无免赔", "waitingDays": 180,
+    "features": ["国寿央企", "线下网点多", "特定疾病额外赔", "终身保证", "身故返保额"],
+    "ageRange": "0-50岁", "healthCheck": "健康告知", "healthStrictness": 2,
+    "needSocialIns": false, "score": 84, "active": true
+  },
+  {
+    "name": "粤省保2026",
+    "company": "广东省医保局指导",
+    "type": "惠民保",
+    "companyRating": "政府指导",
+    "solvency": "—",
+    "prices": [
+      { "ageMin": 0, "ageMax": 120, "price": 89 }
+    ],
+    "priceNoSocialFactor": 1.0,
+    "guaranteeYears": null, "guaranteeType": "1年期(年度续保)",
+    "coverage": "医保内200万+医保外100万+特药80万",
+    "deductible": "较高", "waitingDays": 0,
+    "features": ["政府指导", "无健告", "既往症可投", "全省通用"],
+    "ageRange": "不限", "healthCheck": "无需健告", "healthStrictness": 1,
+    "needSocialIns": true, "score": 75, "active": true, "regionRestrict": "广东医保"
+  }
+]
