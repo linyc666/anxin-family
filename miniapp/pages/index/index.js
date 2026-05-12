@@ -30,9 +30,7 @@ Page({
     todayDate: getTodayDate(),
     stats: { members:0, pets:0, policies:0, premium:0, gaps:0, p0Gaps:0 },
     attentionCount: 0,
-    topAlerts: [],
-    moreAlerts: [],
-    allAlerts: [],
+    timelineItems: [],
     isDemo: false,
     familyName: '我的家庭',
     privacyAccepted: false,
@@ -136,9 +134,7 @@ Page({
           gaps: result.stats.totalGaps
         },
         attentionCount: attentionCount,
-        topAlerts: alerts.slice(0, 2),
-        moreAlerts: alerts.slice(2, 5),
-        allAlerts: alerts
+        timelineItems: alerts
       });
     });
   },

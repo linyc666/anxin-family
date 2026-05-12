@@ -7,14 +7,14 @@
 .ftab {
   flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
   padding: 10px 0; border-radius: 14px; font-size: 15px; font-weight: 600;
-  background: #FFFCF6; border: none; color: #717C73;
-  box-shadow: 0 1px 3px rgba(113,124,115,.05);
-  transition: all .2s ease;
+  background: var(--card); border: none; color: var(--text-muted);
+  box-shadow: 0 1px 3px rgba(74,80,73,.04);
+  transition: all var(--ease-out);
 }
 .ftab.active {
-  color: #9B7A45;
-  background: rgba(155,122,69,.06);
-  box-shadow: 0 2px 8px rgba(155,122,69,.08);
+  color: var(--gold);
+  background: var(--gold-bg);
+  box-shadow: 0 2px 8px rgba(142,107,62,.08);
 }
 .ftab-count {
   font-size: 12px; background: rgba(113,124,115,.06);
@@ -149,14 +149,20 @@
 
 /* ===== 空状态 ===== */
 .empty-state { text-align: center; padding: 50px 16px; }
-.empty-icon {
-  font-size: 32px; display: block; margin: 0 auto 12px;
-  width: 48px; height: 48px; border-radius: 24px; line-height: 46px;
-  background: rgba(155,122,69,.06); color: #9B7A45;
-  box-shadow: 0 2px 8px rgba(155,122,69,.06);
+
+/* CSS 插画：人物 */
+.empty-illustration { margin: 0 auto 20px; position: relative; }
+.ei-circle {
+  width: 56px; height: 56px; border-radius: 50%; margin: 0 auto;
+  background: var(--gold-bg);
+  box-shadow: 0 0 0 8px rgba(142,107,62,.03);
+  display: flex; align-items: center; justify-content: center;
 }
-.empty-text { font-size: 16px; font-weight: 600; color: #29302B; display: block; }
-.empty-hint { font-size: 12px; color: #969D92; display: block; margin-top: 6px; }
+.ei-circle.pet { background: var(--green-bg); box-shadow: 0 0 0 8px rgba(90,138,110,.03); }
+.ei-icon { font-size: 24px; line-height: 1; }
+
+.empty-text { font-size: 16px; font-weight: 600; color: var(--text-primary); display: block; }
+.empty-hint { font-size: 12px; color: var(--text-light); display: block; margin-top: 6px; }
 
 /* ===== 按钮 ===== */
 .btn {

@@ -1,5 +1,5 @@
-<!--pages/index/index.wxml - 安心总览-->
-<view class="container" style="background-color:{{ tColors ? tColors.bg : '#F8F4EC' }}">
+<!--pages/index/index.wxml - 安心总览（时间轴版）-->
+<view class="container">
   <!-- 隐私弹窗 -->
   <view class="privacy-modal" wx:if="{{ !privacyAccepted }}">
     <view class="privacy-content card-elevated">
@@ -16,9 +16,7 @@
 
   <!-- 空状态 -->
   <view class="empty-state entrance-item entrance-1" wx:if="{{ stats.members === 0 }}">
-    <view class="empty-illustration">
-      <view class="ei-house"></view>
-    </view>
+    <view class="empty-illustration"><view class="ei-house"></view></view>
     <text class="empty-title">开始搭建你的家庭安心家册</text>
     <text class="empty-desc">添加家人、宠物和重要资料，我们会帮你留意到期和待完善的事项</text>
     <button class="btn btn-gold" bindtap="onAddMember">添加第一位家人</button>
@@ -35,63 +33,52 @@
       </view>
     </view>
 
-    <!-- 家庭状态头 -->
+    <!-- 家庭状态 + 概况 -->
     <view class="status-header entrance-item entrance-2">
-      <view class="sh-top">
+      <view class="sh-left">
         <text class="sh-name">{{ familyName }}的安心家册</text>
-        <text class="sh-edit" bindtap="onEditFamily" bindlongpress="onLongPressSetting">设置</text>
+        <text class="sh-family" wx:if="{{ attentionCount > 0 }}">今天有 {{ attentionCount }} 件事需要留意</text>
+        <text class="sh-family" wx:else>一切安好</text>
       </view>
-      <view class="sh-today {{ attentionCount > 0 ? 'has' : '' }}">
-        <text>{{ attentionCount > 0 ? '今天有 ' + attentionCount + ' 件事需要留意' : '今天一切安好' }}</text>
-      </view>
+      <text class="sh-edit" bindtap="onEditFamily" bindlongpress="onLongPressSetting">设置</text>
     </view>
 
-    <!-- 提醒卡片 -->
-    <view class="top-alerts" wx:if="{{ topAlerts.length > 0 }}">
-      <view class="ta-card card-floating card-transition entrance-item entrance-{{ 3 + index }}" wx:for="{{ topAlerts }}" wx:key="key" bindtap="onTapAlert" data-type="{{ item.dataType }}" data-member-id="{{ item.memberId }}">
-        <view class="ta-dot {{ item.expired ? 'red' : 'gold' }}"></view>
-        <view class="ta-info">
-          <text class="ta-title">{{ item.title }}</text>
-          <text class="ta-desc">{{ item.desc }}</text>
+    <!-- 家庭概况条 -->
+    <view class="overview-strip entrance-item entrance-3">
+      <view class="ovs-item"><text class="ovs-num">{{ stats.members }}</text><text class="ovs-lbl">家人</text></view>
+      <view class="ovs-item"><text class="ovs-num">{{ stats.pets }}</text><text class="ovs-lbl">宠物</text></view>
+      <view class="ovs-item"><text class="ovs-num">{{ stats.policies }}</text><text class="ovs-lbl">资料</text></view>
+      <view class="ovs-item"><text class="ovs-num {{ stats.gaps > 0 ? 'warn' : '' }}">{{ stats.gaps }}</text><text class="ovs-lbl">待完善</text></view>
+    </view>
+
+    <!-- 主动入口 -->
+    <view class="main-actions entrance-item entrance-4">
+      <view class="ma-btn" bindtap="onAddMember"><text class="ma-icon">👤</text><text class="ma-label">添加家人</text></view>
+      <view class="ma-btn" bindtap="onAddPet"><text class="ma-icon">🐾</text><text class="ma-label">添加宠物</text></view>
+      <view class="ma-btn" bindtap="onAddRecord"><text class="ma-icon">📋</text><text class="ma-label">添加资料</text></view>
+    </view>
+
+    <!-- ===== 时间轴 ===== -->
+    <view class="timeline entrance-item entrance-5" wx:if="{{ timelineItems.length > 0 }}">
+      <text class="tl-section-title">近期提醒</text>
+      <view class="tl-item entrance-item entrance-{{ 5 + index }}" wx:for="{{ timelineItems }}" wx:key="key" wx:if="{{ index < 8 }}">
+        <view class="tl-dot {{ item.urgent ? 'urgent' : item.expired ? 'urgent' : item.priority === 0 ? 'normal' : 'muted' }} {{ item.expired ? 'pulse-dot' : '' }}"></view>
+        <view class="tl-card {{ item.expired ? 'urgent' : item.urgent ? 'urgent' : '' }}" bindtap="onTapAlert" data-type="{{ item.dataType }}" data-member-id="{{ item.memberId }}">
+          <view class="tlc-top">
+            <text class="tlc-title">{{ item.title }}</text>
+            <text class="tlc-tag {{ item.expired ? 'urgent' : item.urgent ? 'normal' : 'muted' }}">{{ item.tag }}</text>
+          </view>
+          <text class="tlc-desc">{{ item.desc }}</text>
         </view>
-        <text class="ta-tag {{ item.expired ? 'red' : 'gold' }}">{{ item.tag }}</text>
+      </view>
+      <view class="tl-footer" wx:if="{{ timelineItems.length > 8 }}" bindtap="onViewAll">
+        <text>查看全部 {{ timelineItems.length }} 条提醒 ›</text>
       </view>
     </view>
 
-    <!-- 三个主动入口 -->
-    <view class="main-actions entrance-item entrance-5">
-      <view class="ma-btn card-floating card-transition" bindtap="onAddMember">
-        <text class="ma-icon">👤</text>
-        <text class="ma-label">添加家人</text>
-      </view>
-      <view class="ma-btn card-floating card-transition" bindtap="onAddPet">
-        <text class="ma-icon">🐾</text>
-        <text class="ma-label">添加宠物</text>
-      </view>
-      <view class="ma-btn card-floating card-transition" bindtap="onAddRecord">
-        <text class="ma-icon">📋</text>
-        <text class="ma-label">添加资料</text>
-      </view>
-    </view>
-
-    <!-- 家庭概况 -->
-    <view class="overview card-floating entrance-item entrance-6">
-      <view class="ov-item"><text class="ov-num count-animate">{{ stats.members }}</text><text class="ov-lbl">家人</text></view>
-      <view class="ov-item"><text class="ov-num count-animate">{{ stats.pets }}</text><text class="ov-lbl">宠物</text></view>
-      <view class="ov-item"><text class="ov-num count-animate">{{ stats.policies }}</text><text class="ov-lbl">资料</text></view>
-      <view class="ov-item"><text class="ov-num count-animate {{ stats.gaps > 0 ? 'warn' : '' }}">{{ stats.gaps }}</text><text class="ov-lbl">待完善</text></view>
-    </view>
-
-    <!-- 更多提醒 -->
-    <view class="more-alerts" wx:if="{{ moreAlerts.length > 0 }}">
-      <view class="ma-item card-floating card-transition entrance-item entrance-{{ 7 + index }}" wx:for="{{ moreAlerts }}" wx:key="key" bindtap="onTapAlert" data-type="{{ item.dataType }}" data-member-id="{{ item.memberId }}">
-        <text class="mai-title">{{ item.title }}</text>
-        <text class="mai-tag {{ item.expired ? 'red' : item.urgent ? 'gold' : '' }}">{{ item.tag }}</text>
-      </view>
-      <view class="ma-more entrance-item entrance-10" bindtap="onViewAll" wx:if="{{ allAlerts.length > 3 }}">
-        <text>查看全部提醒（{{ allAlerts.length }}条）</text>
-        <text class="ma-arrow">›</text>
-      </view>
+    <!-- 无提醒 -->
+    <view class="tl-clear entrance-item entrance-5" wx:if="{{ timelineItems.length === 0 }}">
+      <text>暂无待提醒事项，一切安心 ✓</text>
     </view>
 
     <!-- 演示提示 -->
