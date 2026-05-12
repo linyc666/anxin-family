@@ -8,24 +8,32 @@
 
 /* 完整度条 */
 .cl-completeness { margin-bottom: 16px; }
-.clc-bar-bg { height: 6px; background: #E1D7C7; border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
-.clc-bar-fill { height: 100%; background: linear-gradient(90deg, #9B7A45, #527F68); border-radius: 3px; transition: width .5s ease; }
+.clc-bar-bg {
+  height: 6px; background: #E1D7C7; border-radius: 3px;
+  overflow: hidden; margin-bottom: 6px;
+}
+.clc-bar-fill {
+  height: 100%; border-radius: 3px;
+  background: linear-gradient(90deg, #9B7A45, #527F68);
+  transition: width .5s ease;
+}
 .clc-text { font-size: 11px; color: #969D92; }
 
-/* 通用卡片 */
+/* 卡片 */
 .cl-card {
-  background: #FFFCF6; border: 1px solid #E1D7C7; border-radius: 12px;
-  padding: 14px; margin-bottom: 12px;
+  background: #FFFCF6; border-radius: 14px; padding: 16px;
+  margin-bottom: 12px; border: none;
+  box-shadow: 0 1px 3px rgba(113,124,115,.05), 0 2px 8px rgba(113,124,115,.03);
 }
-.cl-card.cl-missing { border-color: rgba(155,122,69,.15); }
-.cl-card.cl-prep { border-color: rgba(82,127,150,.12); background: rgba(82,127,150,.03); }
+.cl-card.cl-missing { box-shadow: 0 1px 3px rgba(155,122,69,.06), 0 0 0 1px rgba(155,122,69,.08); }
+.cl-card.cl-prep { background: rgba(82,127,150,.02); }
 .cl-card-title { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
 .cl-card-title text:first-child { font-size: 14px; font-weight: 700; color: #29302B; }
 .cl-card-count { font-size: 11px; padding: 1px 7px; border-radius: 8px; }
 .cl-card-count.ok { background: rgba(82,127,104,.1); color: #527F68; }
 .cl-card-count.warn { background: rgba(155,122,69,.1); color: #9B7A45; }
 
-/* 到期状?*/
+/* 到期状态 */
 .cl-expiry { font-size: 15px; font-weight: 600; display: block; }
 .cl-expiry.red { color: #B95F57; }
 .cl-expiry.gold { color: #9B7A45; }
@@ -36,8 +44,11 @@
 .cl-spend { font-size: 14px; display: block; color: #717C73; }
 .cl-spend.gold { color: #9B7A45; }
 
-/* 字段?*/
-.cl-field { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.03); }
+/* 字段 */
+.cl-field {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 0; border-bottom: 1px solid rgba(225,215,199,.4);
+}
 .cl-field:last-child { border-bottom: none; }
 .clf-label { font-size: 13px; color: #48534B; }
 .clf-value { font-size: 12px; color: #717C73; text-align: right; max-width: 55%; }
@@ -47,7 +58,7 @@
 .cl-empty text { color: #969D92; }
 .cl-done text { color: #527F68; }
 
-/* 咨询前准?*/
+/* 咨询前准备 */
 .cl-prep-item { display: flex; gap: 10px; padding: 6px 0; }
 .clp-num { font-size: 11px; color: #969D92; min-width: 20px; text-align: center; }
 .clp-text { font-size: 12px; color: #717C73; line-height: 1.5; }

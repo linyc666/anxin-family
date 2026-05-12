@@ -1,24 +1,24 @@
 <!--pages/analysis/analysis.wxml - 安心清单-->
 <view class="container" style="background-color:{{ tColors ? tColors.bg : '#F8F4EC' }}">
-  <view class="summary-row">
+  <view class="summary-row entrance-item entrance-1">
     <text class="sum-item">重要 {{ stats.p0Gaps }} 项</text>
     <text class="sum-item">建议关注 {{ stats.p1Gaps }} 项</text>
   </view>
 
-  <scroll-view class="member-tabs" scroll-x="true" enable-flex="true" wx:if="{{ memberList.length > 1 }}">
+  <scroll-view class="member-tabs entrance-item entrance-2" scroll-x="true" enable-flex="true" wx:if="{{ memberList.length > 1 }}">
     <view class="mtab {{ activeMember === '' ? 'active' : '' }}" bindtap="onFilterMember" data-id="">全部</view>
     <view class="mtab {{ activeMember === item.id ? 'active' : '' }}" wx:for="{{ memberList }}" wx:key="id" bindtap="onFilterMember" data-id="{{ item.id }}">
       {{ item.name }}
     </view>
   </scroll-view>
 
-  <view class="empty-state" wx:if="{{ filteredGaps.length === 0 }}">
+  <view class="empty-state entrance-item entrance-3" wx:if="{{ filteredGaps.length === 0 }}">
     <text class="empty-icon">✓</text>
     <text class="empty-text">未检测到明显待完善项</text>
     <text class="empty-hint">确保年龄、角色、医保、家庭责任信息完整，可获得更清晰的安心清单</text>
   </view>
 
-  <view class="gap-item {{ item.priority === 'P1' ? 'p1' : '' }}" wx:for="{{ filteredGaps }}" wx:key="gapKey">
+  <view class="gap-item {{ item.priority === 'P1' ? 'p1' : '' }} entrance-item entrance-{{ 3 + index }}" wx:for="{{ filteredGaps }}" wx:key="gapKey">
     <view class="gi-header">
       <view class="gi-dot {{ item.priority === 'P0' ? 'red' : 'gold' }}"></view>
       <view class="gi-info">

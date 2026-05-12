@@ -4,40 +4,93 @@
 
 /* 统计摘要 */
 .summary-row { display: flex; gap: 10px; margin-bottom: 14px; }
-.sum-item { font-size: 12px; padding: 4px 10px; border-radius: 8px; background: #FFFCF6; border: 1px solid #E1D7C7; color: #717C73; }
+.sum-item {
+  font-size: 12px; padding: 5px 12px; border-radius: 10px;
+  background: #FFFCF6; border: none; color: #717C73;
+  box-shadow: 0 1px 3px rgba(113,124,115,.05);
+}
 
-/* 成员筛?*/
+/* 成员筛选 */
 .member-tabs { display: flex; gap: 6px; white-space: nowrap; margin-bottom: 14px; }
-.mtab { font-size: 12px; padding: 5px 12px; border-radius: 14px; background: #FFFCF6; border: 1px solid #E1D7C7; color: #717C73; display: inline-block; flex-shrink: 0; }
-.mtab.active { color: #9B7A45; border-color: rgba(155,122,69,.35); background: rgba(155,122,69,.05); }
+.mtab {
+  font-size: 12px; padding: 6px 14px; border-radius: 16px;
+  background: #FFFCF6; border: none; color: #717C73;
+  display: inline-block; flex-shrink: 0;
+  box-shadow: 0 1px 2px rgba(113,124,115,.04);
+  transition: all .2s ease;
+}
+.mtab.active {
+  color: #9B7A45;
+  background: rgba(155,122,69,.06);
+  box-shadow: 0 2px 8px rgba(155,122,69,.1);
+}
 
-/* 空状?*/
+/* 空状态 */
 .empty-state { text-align: center; padding: 50px 16px; }
-.empty-icon { font-size: 36px; color: #527F68; display: block; }
+.empty-icon { font-size: 40px; display: block; line-height: 1; }
 .empty-text { font-size: 16px; font-weight: 600; color: #29302B; display: block; margin-top: 12px; }
 .empty-hint { font-size: 12px; color: #969D92; display: block; margin-top: 6px; line-height: 1.5; }
 
-/* 安心清单?*/
-.gap-item { background: #FFFCF6; border: 1px solid #E1D7C7; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
-.gap-item.p1 { border-color: rgba(155,122,69,.10); }
+/* 安心清单项 */
+.gap-item {
+  background: #FFFCF6; border-radius: 14px; padding: 16px; margin-bottom: 10px;
+  border: none;
+  box-shadow: 0 1px 3px rgba(113,124,115,.05), 0 2px 8px rgba(113,124,115,.03);
+}
+.gap-item.p1 { box-shadow: 0 1px 3px rgba(155,122,69,.05); }
 .gi-header { display: flex; align-items: flex-start; gap: 10px; }
-.gi-dot { width: 8px; height: 8px; border-radius: 4px; flex-shrink: 0; margin-top: 5px; }
-.gi-dot.red { background: #B95F57; }
-.gi-dot.gold { background: #9B7A45; }
+.gi-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.gi-dot.red { background: #B95F57; box-shadow: 0 0 6px rgba(185,95,87,.25); }
+.gi-dot.gold { background: #9B7A45; box-shadow: 0 0 6px rgba(155,122,69,.2); }
 .gi-info { flex: 1; min-width: 0; }
 .gi-member { font-size: 11px; color: #969D92; display: block; }
 .gi-title { font-size: 14px; font-weight: 600; color: #29302B; display: block; margin-top: 2px; }
-.gi-priority { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 6px; color: #9B7A45; background: rgba(155,122,69,.08); white-space: nowrap; }
+.gi-priority {
+  font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 6px;
+  color: #9B7A45; background: rgba(155,122,69,.08); white-space: nowrap;
+}
 .gi-priority.red { color: #B95F57; background: rgba(185,95,87,.06); }
 .gi-desc { font-size: 12px; color: #717C73; display: block; margin-top: 8px; line-height: 1.5; }
 
-/* 参考样?*/
+/* 类目说明 */
+.gi-category { margin-top: 10px; padding: 12px; border-radius: 12px; background: #F8F4EC; }
+.gic-label { font-size: 11px; font-weight: 700; color: #9B7A45; display: block; }
+.gic-text { font-size: 12px; color: #48534B; line-height: 1.5; display: block; margin-top: 4px; }
+
+/* 缺口内容 */
+.gi-content-missing {
+  margin-top: 10px; padding: 12px; border-radius: 12px;
+  background: rgba(82,127,150,.04);
+}
+.gicm-title { font-size: 11px; font-weight: 600; color: #527F96; display: block; margin-bottom: 8px; }
+.gicm-list { display: flex; flex-direction: column; gap: 5px; }
+.gicm-item { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.gicm-label { font-size: 11px; color: #48534B; }
+.gicm-hint { font-size: 10px; color: #969D92; text-align: right; }
+.gicm-more { font-size: 10px; color: #527F96; margin-top: 6px; display: block; }
+
+/* 无匹配类目 */
+.gi-no-match { margin-top: 10px; padding: 12px; border-radius: 12px; background: #F8F4EC; }
+.gnm-title { font-size: 11px; font-weight: 600; color: #717C73; display: block; margin-bottom: 8px; }
+.gnm-list { display: flex; flex-direction: column; gap: 4px; }
+.gnm-item { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.gnm-label { font-size: 11px; color: #48534B; }
+.gnm-hint { font-size: 10px; color: #969D92; text-align: right; }
+
+/* 参考样例 */
 .gi-samples { margin-top: 10px; }
-.gs-toggle { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-top: 1px solid #E1D7C7; font-size: 12px; color: #527F96; }
-.gs-arrow { font-size: 16px; transition: transform .2s; }
+.gs-toggle {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0; border-top: 1px solid #E1D7C7;
+  font-size: 12px; color: #527F96;
+}
+.gs-arrow { font-size: 16px; transition: transform .2s ease; }
 .gs-arrow.up { transform: rotate(90deg); }
 .gs-list { margin-top: 6px; display: flex; flex-direction: column; gap: 6px; }
-.gs-card { background: #F2EBDD; border: 1px solid #E1D7C7; border-radius: 8px; padding: 10px 12px; }
+.gs-card {
+  background: #F8F4EC; border-radius: 12px; padding: 12px 14px;
+  box-shadow: 0 1px 3px rgba(113,124,115,.03);
+}
 .gsc-top { display: flex; justify-content: space-between; align-items: center; }
 .gsc-name { font-size: 12px; font-weight: 600; color: #29302B; }
 .gsc-price { font-size: 12px; font-weight: 600; color: #9B7A45; }
@@ -46,41 +99,20 @@
 .gsc-item { display: flex; gap: 6px; }
 .gsi-dot { font-size: 10px; color: #969D92; min-width: 10px; }
 .gsi-text { font-size: 11px; color: #717C73; line-height: 1.5; }
-.gsc-note { font-size: 10px; color: #969D92; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,.04); line-height: 1.5; }
-
-/* 还有更多 */
-.show-more { text-align: center; padding: 14px 0; }
-.show-more text { font-size: 12px; color: #969D92; }
-
+.gsc-note {
+  font-size: 10px; color: #969D92; margin-top: 8px; padding-top: 8px;
+  border-top: 1px solid rgba(225,215,199,.5); line-height: 1.5;
+}
 .gsc-actions { margin-top: 8px; display: flex; justify-content: flex-end; }
 .gsc-detail { font-size: 11px; color: #527F96; padding: 4px 0; }
-.gsc-level-tag { font-size: 9px; padding: 1px 5px; border-radius: 4px; margin-right: 6px; display: inline-block; }
+.gsc-level-tag {
+  font-size: 9px; padding: 1px 5px; border-radius: 4px; margin-right: 6px;
+  display: inline-block;
+}
 .gs-card.basic .gsc-level-tag { background: rgba(82,127,150,.10); color: #527F96; }
 .gs-card.complete .gsc-level-tag { background: rgba(155,122,69,.10); color: #9B7A45; }
 .gsc-use { font-size: 10px; color: #969D92; margin-top: 6px; display: block; font-style: italic; }
 
-.gi-category { margin-top: 10px; padding: 10px; border-radius: 10px; background: #F2EBDD; }
-.gic-label { font-size: 11px; font-weight: 700; color: #9B7A45; display: block; }
-.gic-text { font-size: 12px; color: #48534B; line-height: 1.5; display: block; margin-top: 4px; }
-
-/* 缺口内容 */
-.gi-content-missing { margin-top: 10px; padding: 10px; border-radius: 10px; background: rgba(82,127,150,.04); border: 1px solid rgba(82,127,150,.10); }
-.gicm-title { font-size: 11px; font-weight: 600; color: #527F96; display: block; margin-bottom: 8px; }
-.gicm-list { display: flex; flex-direction: column; gap: 5px; }
-.gicm-item { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.gicm-label { font-size: 11px; color: #48534B; }
-.gicm-hint { font-size: 10px; color: #969D92; text-align: right; }
-.gicm-more { font-size: 10px; color: #527F96; margin-top: 6px; display: block; }
-
-/* 无匹配类目对照 */
-.gi-no-match { margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: #F2EBDD; border: 1px solid #E1D7C7; }
-.gnm-title { font-size: 11px; font-weight: 600; color: #717C73; display: block; margin-bottom: 8px; }
-.gnm-list { display: flex; flex-direction: column; gap: 4px; }
-.gnm-item { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.gnm-label { font-size: 11px; color: #48534B; }
-.gnm-hint { font-size: 10px; color: #969D92; text-align: right; }
-
-.gi-checks { margin-top: 10px; }
-.gic-title { font-size: 11px; color: #969D92; display: block; margin-bottom: 6px; }
-.gic-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.gic-tag { font-size: 10px; color: #527F96; background: rgba(82,127,150,.08); border: 1px solid rgba(82,127,150,.14); border-radius: 8px; padding: 4px 7px; }
+/* 更多 */
+.show-more { text-align: center; padding: 14px 0; }
+.show-more text { font-size: 12px; color: #969D92; }

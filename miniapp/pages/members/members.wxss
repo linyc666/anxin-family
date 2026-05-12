@@ -1,27 +1,47 @@
 /* pages/members/members.wxss */
-.container { padding: 16px 14px 84px; }
+.container { padding: 16px 14px 90px; }
 .bottom-space { height: 20px; }
 
-/* 家人/宠物切换 */
+/* ===== 家人/宠物切换 ===== */
 .folder-tabs { display: flex; gap: 10px; margin-bottom: 16px; }
 .ftab {
   flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 10px 0; border-radius: 12px; font-size: 15px; font-weight: 600;
-  background: #FFFCF6; border: 1px solid #E1D7C7; color: #717C73;
+  padding: 10px 0; border-radius: 14px; font-size: 15px; font-weight: 600;
+  background: #FFFCF6; border: none; color: #717C73;
+  box-shadow: 0 1px 3px rgba(113,124,115,.05);
+  transition: all .2s ease;
 }
-.ftab.active { color: #9B7A45; border-color: rgba(155,122,69,.4); background: rgba(155,122,69,.04); }
-.ftab-count { font-size: 12px; background: rgba(255,255,255,.04); padding: 1px 8px; border-radius: 8px; }
+.ftab.active {
+  color: #9B7A45;
+  background: rgba(155,122,69,.06);
+  box-shadow: 0 2px 8px rgba(155,122,69,.08);
+}
+.ftab-count {
+  font-size: 12px; background: rgba(113,124,115,.06);
+  padding: 1px 8px; border-radius: 8px;
+}
 
-/* 档案夹卡?*/
-.folder-card { background: #FFFCF6; border: 1px solid #E1D7C7; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+/* ===== 档案夹卡片 ===== */
+.folder-card {
+  background: #FFFCF6; border-radius: 14px; padding: 16px;
+  margin-bottom: 10px; border: none;
+  box-shadow: 0 1px 3px rgba(113,124,115,.05), 0 2px 8px rgba(113,124,115,.03);
+  transition: box-shadow .2s ease;
+}
 .fc-header { display: flex; align-items: center; gap: 10px; }
 .fc-avatar {
-  width: 36px; height: 36px; border-radius: 18px;
+  width: 40px; height: 40px; border-radius: 20px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700; flex-shrink: 0;
-  background: rgba(155,122,69,.10); border: 1px solid rgba(155,122,69,.20); color: #9B7A45;
+  font-size: 14px; font-weight: 700; flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(155,122,69,.12), rgba(155,122,69,.04));
+  color: #9B7A45;
+  box-shadow: 0 2px 6px rgba(155,122,69,.08);
 }
-.fc-avatar.pet { background: rgba(82,127,104,.10); border-color: rgba(82,127,104,.18); color: #527F68; }
+.fc-avatar.pet {
+  background: linear-gradient(135deg, rgba(82,127,104,.12), rgba(82,127,104,.04));
+  color: #527F68;
+  box-shadow: 0 2px 6px rgba(82,127,104,.08);
+}
 .fc-info { flex: 1; min-width: 0; }
 .fc-name { font-size: 16px; font-weight: 600; color: #29302B; display: block; }
 .fc-meta { font-size: 11px; color: #969D92; display: block; margin-top: 2px; }
@@ -39,15 +59,17 @@
 .fpr-item.urgent { background: rgba(155,122,69,.08); color: #9B7A45; }
 .fpr-item.expired { background: rgba(185,95,87,.08); color: #B95F57; }
 
-/* 资料记录 */
-.fc-body { margin-top: 12px; padding-top: 12px; border-top: 1px solid #E1D7C7; }
+/* ===== 资料记录 ===== */
+.fc-body { margin-top: 14px; padding-top: 14px; border-top: 1px solid #E1D7C7; }
 .fc-empty { text-align: center; padding: 12px 0; font-size: 12px; color: #969D92; }
 .fc-record {
-  background: #F2EBDD; border-radius: 12px; padding: 14px 14px 12px;
-  margin-bottom: 12px; border: 1px solid #DED2BD;
+  background: #F8F4EC; border-radius: 14px; padding: 16px 16px 14px;
+  margin-bottom: 14px; border: none;
+  box-shadow: 0 1px 3px rgba(113,124,115,.04);
+  transition: box-shadow .2s ease;
 }
-.fc-record.expired { border-color: rgba(185,95,87,.22); }
-.fc-record.soon { border-color: rgba(155,122,69,.24); }
+.fc-record.expired { box-shadow: 0 1px 3px rgba(185,95,87,.06), 0 0 0 1px rgba(185,95,87,.1); }
+.fc-record.soon { box-shadow: 0 1px 3px rgba(155,122,69,.06), 0 0 0 1px rgba(155,122,69,.1); }
 
 .fcr-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
 .fcr-title-wrap { flex: 1; min-width: 0; }
@@ -65,20 +87,20 @@
 
 .fcr-summary {
   font-size: 13px; color: #48534B; display: block; line-height: 1.55;
-  margin-top: 8px; padding-top: 10px; border-top: 1px solid rgba(113,124,115,.16);
+  margin-top: 8px; padding-top: 10px; border-top: 1px solid rgba(225,215,199,.5);
 }
 .fcr-boundary { font-size: 12px; color: #717C73; display: block; line-height: 1.5; margin-top: 6px; }
 
 .fcr-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
-  margin-top: 9px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 9px;
 }
 .fcr-field {
-  min-height: 44px; background: rgba(255,252,246,.72); border-radius: 7px;
-  padding: 7px 9px; display: flex; flex-direction: column; justify-content: center;
+  min-height: 44px; background: rgba(255,252,246,.8); border-radius: 10px;
+  padding: 8px 10px; display: flex; flex-direction: column; justify-content: center;
+  border: 1px solid rgba(225,215,199,.4);
 }
-.fcr-field.missing { background: rgba(255,252,246,.38); }
-.fcr-field.reference { background: rgba(82,127,150,.08); border: 1px dashed rgba(82,127,150,.18); }
+.fcr-field.missing { background: rgba(255,252,246,.4); border-color: rgba(225,215,199,.2); }
+.fcr-field.reference { background: rgba(82,127,150,.06); border: 1px dashed rgba(82,127,150,.16); }
 .fcr-field-label { font-size: 10px; color: #969D92; display: block; margin-bottom: 4px; }
 .fcr-field-value { font-size: 14px; color: #29302B; line-height: 1.25; word-break: break-all; }
 .fcr-field.missing .fcr-field-value { color: #B95F57; font-style: italic; }
@@ -92,29 +114,60 @@
   border-radius: 6px; padding: 3px 8px;
 }
 
-.fcr-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
-.fcr-complete { font-size: 12px; color: #717C73; }
+/* ===== 环形进度 ===== */
+.fcr-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
+.fcr-complete-group { display: flex; align-items: center; gap: 8px; }
+.ring-progress {
+  width: 36px; height: 36px; flex-shrink: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    #9B7A45 var(--ring-pct),
+    #E1D7C7 var(--ring-pct)
+  );
+  mask: radial-gradient(transparent 60%, black 61%);
+  -webkit-mask: radial-gradient(transparent 60%, black 61%);
+  position: relative;
+}
+.ring-inner {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: #9B7A45;
+}
 .fcr-cost { font-size: 11px; color: #969D92; }
 
 .fcr-actions {
   display: flex; gap: 18px; margin-top: 12px; padding-top: 11px;
-  border-top: 1px solid rgba(113,124,115,.13);
+  border-top: 1px solid rgba(225,215,199,.5);
 }
 .fcr-check { font-size: 13px; color: #9B7A45; }
 .fcr-del { font-size: 13px; color: #969D92; }
 
-/* 档案底部操作 */
+/* 档案底部 */
 .fc-footer { display: flex; gap: 6px; margin-top: 10px; }
 .add-bar { margin-top: 12px; }
 .add-bar .btn { width: 100%; }
 
-/* 空状?*/
+/* ===== 空状态 ===== */
 .empty-state { text-align: center; padding: 50px 16px; }
-.empty-icon { font-size: 32px; display: block; margin: 0 auto 12px; width: 48px; height: 48px; border-radius: 24px; line-height: 46px; background: rgba(155,122,69,.06); color: #9B7A45; border: 1px solid rgba(155,122,69,.16); }
+.empty-icon {
+  font-size: 32px; display: block; margin: 0 auto 12px;
+  width: 48px; height: 48px; border-radius: 24px; line-height: 46px;
+  background: rgba(155,122,69,.06); color: #9B7A45;
+  box-shadow: 0 2px 8px rgba(155,122,69,.06);
+}
 .empty-text { font-size: 16px; font-weight: 600; color: #29302B; display: block; }
 .empty-hint { font-size: 12px; color: #969D92; display: block; margin-top: 6px; }
 
-/* 按钮 */
-.btn { padding: 8px 16px; border-radius: 12px; border: 1px solid #E1D7C7; background: #F2EBDD; color: #48534B; font-size: 13px; line-height: 1.4; }
-.btn-gold { background: #9B7A45; color: #F8F4EC; border-color: #9B7A45; font-weight: 600; }
+/* ===== 按钮 ===== */
+.btn {
+  padding: 8px 16px; border-radius: 12px; border: none;
+  background: #F2EBDD; color: #48534B; font-size: 13px; line-height: 1.4;
+  box-shadow: 0 1px 3px rgba(113,124,115,.05);
+  transition: transform .15s ease;
+}
+.btn:active { transform: scale(.97); }
+.btn-gold {
+  background: #9B7A45; color: #F8F4EC; font-weight: 600;
+  box-shadow: 0 2px 8px rgba(155,122,69,.18);
+}
 .btn-sm { padding: 6px 10px; font-size: 11px; }

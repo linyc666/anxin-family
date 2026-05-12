@@ -1,12 +1,13 @@
 .tab-bar {
   display: flex;
   height: 56px;
-  background: #FFFCF6;
-  border-top: 1px solid #E1D7C7;
-  padding: 0 12px;
+  background: rgba(255,252,246,.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(225,215,199,.5);
+  padding: 0 8px;
   padding-bottom: env(safe-area-inset-bottom);
   align-items: center;
-  gap: 8px;
 }
 
 .tab-item {
@@ -15,31 +16,35 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 40px;
-  border-radius: 10px;
+  height: 42px;
+  border-radius: 12px;
+  transition: all .2s ease;
+  position: relative;
 }
 
 .tab-icon {
-  font-size: 15px;
+  font-size: 18px;
   display: block;
+  line-height: 1;
 }
 
 .tab-text {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 500;
   color: #969D92;
-  margin-top: 1px;
+  margin-top: 2px;
+  transition: color .2s ease;
 }
 
-/* 选中态：仅改文字色，轻微背景加深，无发光无缩?*/
 .tab-item.active {
-  background: #F2EBDD;
+  background: rgba(155,122,69,.06);
 }
 
 .tab-item.active .tab-text {
   color: #9B7A45;
+  font-weight: 600;
 }
 
 .tab-item.active .tab-icon {
-  color: #9B7A45;
+  transform: scale(1.1);
 }

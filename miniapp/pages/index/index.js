@@ -1,15 +1,38 @@
-// pages/index/index.js - 安心总览（瘦身版）
+// pages/index/index.js - 安心总览
 var api = require('../../utils/api');
 var membership = require('../../utils/membership');
 var petReminders = require('../../utils/pet-reminders');
 
+function getGreetingInfo() {
+  var h = new Date().getHours();
+  if (h < 6) return { text: '夜深了', emoji: '🌙' };
+  if (h < 9) return { text: '早上好', emoji: '🌅' };
+  if (h < 12) return { text: '上午好', emoji: '☀️' };
+  if (h < 14) return { text: '中午好', emoji: '🌤️' };
+  if (h < 18) return { text: '下午好', emoji: '🌿' };
+  return { text: '晚上好', emoji: '🌙' };
+}
+
+function getTodayDate() {
+  var d = new Date();
+  var weekMap = ['日', '一', '二', '三', '四', '五', '六'];
+  var y = d.getFullYear();
+  var m = d.getMonth() + 1;
+  var day = d.getDate();
+  var w = weekMap[d.getDay()];
+  return y + '年' + m + '月' + day + '日 · 星期' + w;
+}
+
 Page({
   data: {
+    greeting: getGreetingInfo().text,
+    greetingEmoji: getGreetingInfo().emoji,
+    todayDate: getTodayDate(),
     stats: { members:0, pets:0, policies:0, premium:0, gaps:0, p0Gaps:0 },
     attentionCount: 0,
-    topAlerts: [],       // 首屏最高优先级 2 条
-    moreAlerts: [],      // 展开的最多 3 条
-    allAlerts: [],       // 全部提醒列表
+    topAlerts: [],
+    moreAlerts: [],
+    allAlerts: [],
     isDemo: false,
     familyName: '我的家庭',
     privacyAccepted: false,
@@ -26,6 +49,9 @@ Page({
       wx.setNavigationBarColor({ frontColor: tc.navFront || '#000000', backgroundColor: tc.cardBg });
     }
     this.setData({
+      greeting: getGreetingInfo().text,
+      greetingEmoji: getGreetingInfo().emoji,
+      todayDate: getTodayDate(),
       familyName: app.globalData.familyName || '我的家庭',
       privacyAccepted: app.globalData.privacyAccepted || false,
       tColors: tc

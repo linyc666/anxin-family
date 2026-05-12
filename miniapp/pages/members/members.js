@@ -316,7 +316,7 @@ Page({
             profileLabel: typeProfile.label,
             profileSummary: typeProfile.summary,
             checkItems: typeProfile.checkItems,
-            completeness: completeness,
+            completeness: { filled: completeness.filled, total: completeness.total, pct: completeness.percent },
             attachmentCount: atts.length,
             verified: p.verified !== false,
             contentItems: contentItems,

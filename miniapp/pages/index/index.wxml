@@ -1,7 +1,8 @@
 <!--pages/index/index.wxml - 安心总览-->
 <view class="container" style="background-color:{{ tColors ? tColors.bg : '#F8F4EC' }}">
+  <!-- 隐私弹窗 -->
   <view class="privacy-modal" wx:if="{{ !privacyAccepted }}">
-    <view class="privacy-content">
+    <view class="privacy-content card-elevated">
       <text class="privacy-title">安心家册</text>
       <view class="privacy-items">
         <text class="pi-text">数据默认保存在本机，不会自动上传。</text>
@@ -13,8 +14,11 @@
     </view>
   </view>
 
-  <view class="empty-state" wx:if="{{ stats.members === 0 }}">
-    <text class="empty-icon">+</text>
+  <!-- 空状态 -->
+  <view class="empty-state entrance-item entrance-1" wx:if="{{ stats.members === 0 }}">
+    <view class="empty-illustration">
+      <view class="ei-house"></view>
+    </view>
     <text class="empty-title">开始搭建你的家庭安心家册</text>
     <text class="empty-desc">添加家人、宠物和重要资料，我们会帮你留意到期和待完善的事项</text>
     <button class="btn btn-gold" bindtap="onAddMember">添加第一位家人</button>
@@ -22,7 +26,17 @@
   </view>
 
   <block wx:else>
-    <view class="status-header">
+    <!-- 时段问候 -->
+    <view class="greeting-block entrance-item entrance-1">
+      <text class="gr-wave">{{ greetingEmoji }}</text>
+      <view class="gr-text">
+        <text class="gr-greeting">{{ greeting }}</text>
+        <text class="gr-date">{{ todayDate }}</text>
+      </view>
+    </view>
+
+    <!-- 家庭状态头 -->
+    <view class="status-header entrance-item entrance-2">
       <view class="sh-top">
         <text class="sh-name">{{ familyName }}的安心家册</text>
         <text class="sh-edit" bindtap="onEditFamily" bindlongpress="onLongPressSetting">设置</text>
@@ -32,8 +46,9 @@
       </view>
     </view>
 
+    <!-- 提醒卡片 -->
     <view class="top-alerts" wx:if="{{ topAlerts.length > 0 }}">
-      <view class="ta-card {{ item.expired ? 'expired' : '' }}" wx:for="{{ topAlerts }}" wx:key="key" bindtap="onTapAlert" data-type="{{ item.dataType }}" data-member-id="{{ item.memberId }}">
+      <view class="ta-card card-floating card-transition entrance-item entrance-{{ 3 + index }}" wx:for="{{ topAlerts }}" wx:key="key" bindtap="onTapAlert" data-type="{{ item.dataType }}" data-member-id="{{ item.memberId }}">
         <view class="ta-dot {{ item.expired ? 'red' : 'gold' }}"></view>
         <view class="ta-info">
           <text class="ta-title">{{ item.title }}</text>
@@ -43,30 +58,43 @@
       </view>
     </view>
 
-    <view class="main-actions">
-      <view class="ma-btn" bindtap="onAddMember"><text class="ma-icon">+</text><text class="ma-label">添加家人</text></view>
-      <view class="ma-btn" bindtap="onAddPet"><text class="ma-icon">+</text><text class="ma-label">添加宠物</text></view>
-      <view class="ma-btn" bindtap="onAddRecord"><text class="ma-icon">+</text><text class="ma-label">添加资料</text></view>
+    <!-- 三个主动入口 -->
+    <view class="main-actions entrance-item entrance-5">
+      <view class="ma-btn card-floating card-transition" bindtap="onAddMember">
+        <text class="ma-icon">👤</text>
+        <text class="ma-label">添加家人</text>
+      </view>
+      <view class="ma-btn card-floating card-transition" bindtap="onAddPet">
+        <text class="ma-icon">🐾</text>
+        <text class="ma-label">添加宠物</text>
+      </view>
+      <view class="ma-btn card-floating card-transition" bindtap="onAddRecord">
+        <text class="ma-icon">📋</text>
+        <text class="ma-label">添加资料</text>
+      </view>
     </view>
 
-    <view class="overview">
-      <view class="ov-item"><text class="ov-num">{{ stats.members }}</text><text class="ov-lbl">家人</text></view>
-      <view class="ov-item"><text class="ov-num">{{ stats.pets }}</text><text class="ov-lbl">宠物</text></view>
-      <view class="ov-item"><text class="ov-num">{{ stats.policies }}</text><text class="ov-lbl">资料</text></view>
-      <view class="ov-item"><text class="ov-num {{ stats.gaps > 0 ? 'warn' : '' }}">{{ stats.gaps }}</text><text class="ov-lbl">待完善</text></view>
+    <!-- 家庭概况 -->
+    <view class="overview card-floating entrance-item entrance-6">
+      <view class="ov-item"><text class="ov-num count-animate">{{ stats.members }}</text><text class="ov-lbl">家人</text></view>
+      <view class="ov-item"><text class="ov-num count-animate">{{ stats.pets }}</text><text class="ov-lbl">宠物</text></view>
+      <view class="ov-item"><text class="ov-num count-animate">{{ stats.policies }}</text><text class="ov-lbl">资料</text></view>
+      <view class="ov-item"><text class="ov-num count-animate {{ stats.gaps > 0 ? 'warn' : '' }}">{{ stats.gaps }}</text><text class="ov-lbl">待完善</text></view>
     </view>
 
+    <!-- 更多提醒 -->
     <view class="more-alerts" wx:if="{{ moreAlerts.length > 0 }}">
-      <view class="ma-item {{ item.expired ? 'expired' : item.urgent ? 'soon' : '' }}" wx:for="{{ moreAlerts }}" wx:key="key" bindtap="onTapAlert" data-type="{{ item.dataType }}" data-member-id="{{ item.memberId }}">
+      <view class="ma-item card-floating card-transition entrance-item entrance-{{ 7 + index }}" wx:for="{{ moreAlerts }}" wx:key="key" bindtap="onTapAlert" data-type="{{ item.dataType }}" data-member-id="{{ item.memberId }}">
         <text class="mai-title">{{ item.title }}</text>
         <text class="mai-tag {{ item.expired ? 'red' : item.urgent ? 'gold' : '' }}">{{ item.tag }}</text>
       </view>
-      <view class="ma-more" bindtap="onViewAll" wx:if="{{ allAlerts.length > 3 }}">
+      <view class="ma-more entrance-item entrance-10" bindtap="onViewAll" wx:if="{{ allAlerts.length > 3 }}">
         <text>查看全部提醒（{{ allAlerts.length }}条）</text>
         <text class="ma-arrow">›</text>
       </view>
     </view>
 
+    <!-- 演示提示 -->
     <view class="demo-tip" wx:if="{{ isDemo }}">
       <text>演示数据 · 可自由修改</text>
       <text class="demo-reset" bindtap="onLoadDemo">重置</text>
