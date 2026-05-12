@@ -1,5 +1,17 @@
 <!--pages/analysis/analysis.wxml - 安心清单-->
-<view class="container" style="background-color:{{ tColors ? tColors.bg : '#F8F4EC' }}">
+<view class="container {{ pageThemeClass }}" style="background-color:{{ tColors ? tColors.bg : '#F8F4EC' }}">
+  <!-- 骨架屏 -->
+  <block wx:if="{{ loading }}">
+    <view style="display:flex;gap:10px;margin-bottom:14px;">
+      <view class="skeleton" style="width:80px;height:28px;border-radius:10px;"></view>
+      <view class="skeleton" style="width:90px;height:28px;border-radius:10px;"></view>
+    </view>
+    <view class="skeleton skeleton-card" style="height:100px;margin-bottom:10px;"></view>
+    <view class="skeleton skeleton-card" style="height:100px;margin-bottom:10px;"></view>
+    <view class="skeleton skeleton-card" style="height:100px;"></view>
+  </block>
+
+  <block wx:else>
   <view class="summary-row entrance-item entrance-1">
     <text class="sum-item">重要 {{ stats.p0Gaps }} 项</text>
     <text class="sum-item">建议关注 {{ stats.p1Gaps }} 项</text>
@@ -102,4 +114,5 @@
 
   <view class="page-footer">· 3 ·</view>
   <view class="bottom-space"></view>
+  </block>
 </view>

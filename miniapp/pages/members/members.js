@@ -234,9 +234,11 @@ Page({
   data: {
     members: [],
     visibleMembers: [],
-    activeKind: 'person',   // 'person' | 'pet'
+    activeKind: 'person',
     peopleCount: 0,
-    petCount: 0
+    petCount: 0,
+    pageThemeClass: '',
+    loading: true
   },
 
   onShow() {
@@ -246,7 +248,8 @@ Page({
     var app = getApp();
     var tc = app.globalData.themeColors;
     if (tc) wx.setNavigationBarColor({ frontColor: tc.navFront || '#000000', backgroundColor: tc.cardBg });
-    this.setData({ tColors: tc });
+    var themeClass = require('../../utils/theme').getThemeColors().pageClass || '';
+    this.setData({ tColors: tc, pageThemeClass: themeClass });
     // 首页跳转到指定成员
     if (app.globalData.focusMemberId) {
       var targetMember = (app.globalData.family.members || []).find(function(m) { return m.id === app.globalData.focusMemberId; });
@@ -333,7 +336,8 @@ Page({
     this.setData({
       members: members,
       peopleCount: members.filter(function(m){ return !m.isPet; }).length,
-      petCount: members.filter(function(m){ return m.isPet; }).length
+      petCount: members.filter(function(m){ return m.isPet; }).length,
+      loading: false
     });
     this.applyFilter();
   },

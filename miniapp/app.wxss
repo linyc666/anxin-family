@@ -47,16 +47,6 @@ page {
   --ease-spring: .3s cubic-bezier(.34,1.56,.64,1);
 
   background:
-    /* 书脊中缝阴影 */
-    linear-gradient(90deg,
-      transparent 0%,
-      transparent 48%,
-      rgba(74,80,73,.015) 49%,
-      rgba(74,80,73,.025) 50%,
-      rgba(74,80,73,.015) 51%,
-      transparent 52%,
-      transparent 100%
-    ),
     /* 纸纤维纹 */
     repeating-linear-gradient(
       0deg, transparent, transparent 2px,
@@ -70,6 +60,56 @@ page {
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
   font-size: 14px;
   line-height: 1.6;
+}
+
+/* ===== 深色主题变量覆盖 ===== */
+.theme-dark {
+  --gold: #B8976A;
+  --gold-light: #C9AB82;
+  --gold-bg: rgba(184,151,106,.10);
+  --gold-bg-hover: rgba(184,151,106,.16);
+  --gold-border: rgba(184,151,106,.22);
+  --gold-shadow: rgba(0,0,0,.2);
+
+  --bg: #1E1D1A;
+  --bg-warm: #252320;
+  --card: #2A2824;
+  --card-hover: #302E29;
+
+  --text-primary: #E8E4DB;
+  --text-body: #C5C0B5;
+  --text-muted: #969185;
+  --text-light: #706C63;
+
+  --border: #3D3A34;
+  --border-light: rgba(61,58,52,.5);
+  --border-soft: rgba(61,58,52,.3);
+
+  --red: #D48078;
+  --red-bg: rgba(212,128,120,.10);
+  --red-shadow: rgba(212,128,120,.08);
+
+  --green: #7AAA8A;
+  --green-bg: rgba(122,170,138,.10);
+  --green-shadow: rgba(122,170,138,.08);
+
+  --blue: #7A9FB0;
+  --blue-bg: rgba(122,159,176,.08);
+
+  --shadow-1: 0 1px 3px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.12);
+  --shadow-2: 0 2px 6px rgba(0,0,0,.22), 0 4px 14px rgba(0,0,0,.14);
+  --shadow-3: 0 4px 12px rgba(0,0,0,.28), 0 8px 28px rgba(0,0,0,.16);
+  --shadow-btn: 0 2px 6px rgba(184,151,106,.18);
+
+  /* 暗色纸纹 */
+  background:
+    repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(255,255,255,.004) 2px, rgba(255,255,255,.004) 4px
+    ),
+    radial-gradient(ellipse at 25% 40%, rgba(184,151,106,.03) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 15%, rgba(122,159,176,.02) 0%, transparent 45%),
+    var(--bg);
 }
 
 /* ===== 卡片阴影体系 ===== */

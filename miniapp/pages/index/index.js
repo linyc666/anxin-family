@@ -32,6 +32,7 @@ Page({
     attentionCount: 0,
     timelineItems: [],
     loading: true,
+    pageThemeClass: '',
     isDemo: false,
     familyName: '我的家庭',
     privacyAccepted: false,
@@ -47,10 +48,12 @@ Page({
     if (tc) {
       wx.setNavigationBarColor({ frontColor: tc.navFront || '#000000', backgroundColor: tc.cardBg });
     }
+    var themeColors = require('../../utils/theme').getThemeColors();
     this.setData({
       greeting: getGreetingInfo().text,
       greetingEmoji: getGreetingInfo().emoji,
       todayDate: getTodayDate(),
+      pageThemeClass: themeColors.pageClass || '',
       familyName: app.globalData.familyName || '我的家庭',
       privacyAccepted: app.globalData.privacyAccepted || false,
       tColors: tc

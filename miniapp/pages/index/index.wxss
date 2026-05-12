@@ -193,18 +193,39 @@
   box-shadow: 0 1px 4px rgba(192,107,96,.06), 0 2px 8px rgba(192,107,96,.04);
 }
 .tl-card.has-clip { position: relative; overflow: visible; }
-.tl-card.has-clip .paperclip {
+.tl-card .paperclip {
   position: absolute; top: -8px; right: 18px;
   width: 9px; height: 22px; z-index: 3;
-  border: 2px solid rgba(142,107,62,.22);
   border-radius: 6px 6px 3px 3px; border-bottom: none;
+  border-width: 2px; border-style: solid;
 }
-.tl-card.has-clip .paperclip::after {
+.tl-card .paperclip::after {
   content: ''; position: absolute;
   width: 7px; height: 13px;
-  border: 2px solid rgba(142,107,62,.15);
   border-radius: 4px 4px 2px 2px; border-bottom: none;
+  border-width: 2px; border-style: solid;
   top: 2px; left: -1px;
+}
+/* 过期=红 */
+.tl-card .paperclip.red {
+  border-color: rgba(192,107,96,.28);
+}
+.tl-card .paperclip.red::after {
+  border-color: rgba(192,107,96,.18);
+}
+/* 紧急=金 */
+.tl-card .paperclip.gold {
+  border-color: rgba(166,134,84,.28);
+}
+.tl-card .paperclip.gold::after {
+  border-color: rgba(166,134,84,.16);
+}
+/* 普通=浅灰 */
+.tl-card .paperclip.muted {
+  border-color: rgba(153,162,151,.18);
+}
+.tl-card .paperclip.muted::after {
+  border-color: rgba(153,162,151,.1);
 }
 .tlc-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
 .tlc-title {

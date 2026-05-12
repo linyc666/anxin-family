@@ -1,5 +1,5 @@
 <!--pages/mine/mine.wxml - 我的-->
-<view class="container">
+<view class="container {{ pageThemeClass }}">
   <!-- 数据安全状态条 -->
   <view class="safety-bar entrance-item entrance-1" bindtap="onPrivacy">
     <view class="sb-item">

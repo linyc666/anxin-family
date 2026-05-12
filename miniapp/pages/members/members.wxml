@@ -1,5 +1,17 @@
 <!--pages/members/members.wxml - 家庭档案-->
-<view class="container">
+<view class="container {{ pageThemeClass }}">
+  <!-- 骨架屏 -->
+  <block wx:if="{{ loading }}">
+    <view style="display:flex;gap:10px;margin-bottom:16px;">
+      <view class="skeleton" style="flex:1;height:42px;border-radius:14px;"></view>
+      <view class="skeleton" style="flex:1;height:42px;border-radius:14px;"></view>
+    </view>
+    <view class="skeleton skeleton-card" style="height:60px;margin-bottom:10px;"></view>
+    <view class="skeleton skeleton-card" style="height:60px;margin-bottom:10px;"></view>
+    <view class="skeleton skeleton-card"></view>
+  </block>
+
+  <block wx:else>
   <view class="folder-tabs entrance-item entrance-1">
     <view class="ftab {{ activeKind === 'person' ? 'active' : '' }}" bindtap="onSwitchKind" data-kind="person">
       <text>👤 家人</text>
@@ -117,4 +129,5 @@
 
   <view class="page-footer">· 2 ·</view>
   <view class="bottom-space"></view>
+  </block>
 </view>

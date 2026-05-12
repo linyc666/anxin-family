@@ -1,67 +1,73 @@
-// utils/theme.js - 暖白纸感统一主题，深色留作后续扩展
+// utils/theme.js - 主题管理
 var THEMES = {
   light: {
     name: '暖白纸感',
-    bg: '#F8F4EC',
-    cardBg: '#FFFCF6',
-    cardBorder: '#E1D7C7',
-    accent: '#9B7A45',
-    accentLight: 'rgba(155,122,69,.08)',
-    accentBorder: 'rgba(155,122,69,.22)',
-    text: '#29302B',
-    textBody: '#48534B',
-    textSecondary: '#717C73',
-    textMuted: '#969D92',
-    green: '#527F68',
-    blue: '#527F96',
-    red: '#B95F57',
-    innerBg: '#F2EBDD',
-    innerBorder: '#E1D7C7',
-    navFront: '#000000'
+    key: 'light',
+    bg: '#F9F5EE',
+    cardBg: '#FFFCF7',
+    cardBorder: '#E3DBD0',
+    accent: '#8E6B3E',
+    navFront: '#000000',
+    pageClass: ''
   },
-  deep: {
-    name: '静谧青灰',
-    bg: '#0F1413',
-    cardBg: '#171D1B',
-    cardBorder: '#2A3531',
-    accent: '#BFA46A',
-    accentLight: 'rgba(191,164,106,.10)',
-    accentBorder: 'rgba(191,164,106,.24)',
-    text: '#EEF3EF',
-    textBody: '#D5DED8',
-    textSecondary: '#9AA9A1',
-    textMuted: '#66756D',
-    green: '#86B99A',
-    blue: '#8CAFC2',
-    red: '#D07A72',
-    innerBg: '#202724',
-    innerBorder: '#2A3531',
-    navFront: '#ffffff'
+  dark: {
+    name: '暖夜墨韵',
+    key: 'dark',
+    bg: '#1E1D1A',
+    cardBg: '#2A2824',
+    cardBorder: '#3D3A34',
+    accent: '#B8976A',
+    navFront: '#ffffff',
+    pageClass: 'theme-dark'
   }
 };
 
-// 当前阶段强制暖白，不读取本地缓存的主题选择
 function getTheme() {
-  var cached = 'light';
-  try { cached = wx.getStorageSync('app_theme') || 'light'; } catch(e) {}
-  if (cached !== 'light') {
-    try { wx.setStorageSync('app_theme', 'light'); } catch(e) {}
+  try {
+    return wx.getStorageSync('app_theme') || 'light';
+  } catch(e) {
+    return 'light';
   }
-  return 'light';
 }
 
 function setTheme(key) {
   if (!THEMES[key]) return;
   try { wx.setStorageSync('app_theme', key); } catch(e) {}
+  applyTheme(key);
 }
 
 function getThemeColors(key) {
-  return THEMES[key || 'light'] || THEMES.light;
+  return THEMES[key || getTheme()] || THEMES.light;
 }
 
-// 当前只暴露暖白，深色后续扩展
 function getThemeList() {
-  return [{ key: 'light', name: '暖白纸感' }];
+  return [
+    { key: 'light', name: '暖白纸感' },
+    { key: 'dark', name: '暖夜墨韵' }
+  ];
+}
+
+function applyTheme(key) {
+  var t = THEMES[key] || THEMES.light;
+  // 设置页面 class
+  var pages = getCurrentPages();
+  pages.forEach(function(page) {
+    if (page.setData) {
+      page.setData({ pageThemeClass: t.pageClass });
+    }
+  });
+  // 设置导航栏
+  wx.setNavigationBarColor({
+    frontColor: t.navFront,
+    backgroundColor: t.cardBg
+  });
+  // 设置 tab bar
+  if (typeof pages[pages.length - 1] === 'object' && pages[pages.length - 1].getTabBar) {
+    var tabBar = pages[pages.length - 1].getTabBar();
+    if (tabBar && tabBar.setData) {
+      tabBar.setData({ tabBg: t.cardBg, tabBorder: t.cardBorder });
+    }
+  }
 }
 
 module.exports = {
@@ -69,5 +75,6 @@ module.exports = {
   getTheme: getTheme,
   setTheme: setTheme,
   getThemeColors: getThemeColors,
-  getThemeList: getThemeList
+  getThemeList: getThemeList,
+  applyTheme: applyTheme
 };

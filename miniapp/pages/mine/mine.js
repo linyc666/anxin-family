@@ -16,7 +16,8 @@ Page({
     cloudReady: false,
     currentTheme: 'light',
     themeList: [],
-    tColors: null
+    tColors: null,
+    pageThemeClass: ''
   },
 
   onShow() {
@@ -26,7 +27,9 @@ Page({
     var app = getApp();
     var tc = app.globalData.themeColors;
     if (tc) wx.setNavigationBarColor({ frontColor: tc.navFront || '#000000', backgroundColor: tc.cardBg });
-    this.setData({ tColors: tc });
+    var themeKey = theme.getTheme();
+    var themeClass = theme.getThemeColors(themeKey).pageClass || '';
+    this.setData({ tColors: tc, currentTheme: themeKey, pageThemeClass: themeClass, themeList: theme.getThemeList() });
     this.refreshMineData();
     // 同步云端权益（刷新UI）
     var that = this;
@@ -238,10 +241,20 @@ Page({
     if (key === this.data.currentTheme) return;
     theme.setTheme(key);
     var app = getApp();
+    var tc = theme.getThemeColors(key);
     app.globalData.theme = key;
-    app.globalData.themeColors = theme.getThemeColors(key);
+    app.globalData.themeColors = tc;
+    this.setData({ currentTheme: key, pageThemeClass: tc.pageClass || '' });
+    theme.applyTheme(key);
+    // 通知其他 tab 页面刷新主题
+    var pages = getCurrentPages();
+    pages.forEach(function(page) {
+      if (page !== this && page.setData) {
+        page.setData({ pageThemeClass: tc.pageClass || '' });
+      }
+    }, this);
     this.refreshMineData();
-    wx.showToast({ title: '主题已切换', icon: 'success' });
+    wx.showToast({ title: '主题已切换', icon: 'success', duration: 1000 });
   },
 
   // === 关于 ===

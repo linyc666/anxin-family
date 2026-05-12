@@ -60,7 +60,7 @@ Page({
   data: {
     gaps: [], filteredGaps: [],
     stats: { totalGaps:0, p0Gaps:0, p1Gaps:0 },
-    activeMember: '', memberList: [], tColors: null, showAll: false
+    activeMember: '', memberList: [], tColors: null, showAll: false, pageThemeClass: '', loading: true
   },
 
   onShow() {
@@ -68,7 +68,8 @@ Page({
     var app = getApp();
     var tc = app.globalData.themeColors;
     if (tc) wx.setNavigationBarColor({ frontColor: tc.navFront || '#000000', backgroundColor: tc.cardBg });
-    this.setData({ tColors: tc });
+    var themeClass = require('../../utils/theme').getThemeColors().pageClass || '';
+    this.setData({ tColors: tc, pageThemeClass: themeClass });
     this.refresh();
   },
 
@@ -130,7 +131,8 @@ Page({
 
       that.setData({
         gaps: gaps, memberList: memberList,
-        stats: { totalGaps: result.stats.totalGaps, p0Gaps: result.stats.p0Gaps, p1Gaps: result.stats.p1Gaps }
+        stats: { totalGaps: result.stats.totalGaps, p0Gaps: result.stats.p0Gaps, p1Gaps: result.stats.p1Gaps },
+        loading: false
       });
       that.applyFilter();
     });

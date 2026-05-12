@@ -1,5 +1,5 @@
 <!--pages/index/index.wxml - 安心总览（时间轴版）-->
-<view class="container page-enter">
+<view class="container page-enter {{ pageThemeClass }}">
   <!-- 隐私弹窗 -->
   <view class="privacy-modal" wx:if="{{ !privacyAccepted }}">
     <view class="privacy-content card-elevated">
@@ -74,9 +74,7 @@
     </view>
 
     <!-- 主动入口 -->
-    <view class="main-actions has-tape entrance-item entrance-4">
-      <view class="washi-tape left gold"></view>
-      <view class="washi-tape right green"></view>
+    <view class="main-actions entrance-item entrance-4">
       <view class="ma-btn" bindtap="onAddMember"><text class="ma-icon">👤</text><text class="ma-label">添加家人</text></view>
       <view class="ma-btn" bindtap="onAddPet"><text class="ma-icon">🐾</text><text class="ma-label">添加宠物</text></view>
       <view class="ma-btn" bindtap="onAddRecord"><text class="ma-icon">📋</text><text class="ma-label">添加资料</text></view>
@@ -88,7 +86,7 @@
       <view class="tl-item entrance-item entrance-{{ 5 + index }}" wx:for="{{ timelineItems }}" wx:key="key" wx:if="{{ index < 8 }}">
         <view class="tl-dot {{ item.urgent ? 'urgent' : item.expired ? 'urgent' : item.priority === 0 ? 'normal' : 'muted' }} {{ item.expired ? 'pulse-dot' : '' }}"></view>
         <view class="tl-card page-curl {{ item.expired ? 'urgent has-clip' : item.urgent ? 'urgent has-clip' : '' }}" bindtap="onTapAlert" data-type="{{ item.dataType }}" data-member-id="{{ item.memberId }}">
-          <view class="paperclip" wx:if="{{ item.expired || item.urgent }}"></view>
+          <view class="paperclip {{ item.expired ? 'red' : item.urgent ? 'gold' : 'muted' }}" wx:if="{{ item.expired || item.urgent }}"></view>
           <view class="tlc-top">
             <text class="tlc-title">{{ item.title }}</text>
             <text class="tlc-tag {{ item.expired ? 'urgent' : item.urgent ? 'normal' : 'muted' }}">{{ item.tag }}</text>
