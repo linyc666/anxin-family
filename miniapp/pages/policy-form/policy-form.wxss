@@ -121,3 +121,16 @@
   transition: transform .15s ease;
 }
 .save-btn:active { transform: scale(.97); }
+
+/* 深色主题 */
+.theme-dark .header .title { color: var(--gold); }
+.theme-dark .header .subtitle { color: var(--text-muted); }
+.theme-dark .ocr-btn { background: var(--blue-bg); color: var(--blue); }
+.theme-dark .ocr-btn.pdf { background: var(--gold-bg); color: var(--gold); }
+.theme-dark .manual-extract { background: var(--card); }
+.theme-dark .manual-textarea { background: var(--bg); color: var(--text-body); border-color: var(--border); }
+.theme-dark .attachment-section { background: var(--card); }
+.theme-dark .att-item { background: var(--bg-warm); }
+.theme-dark .ac-dropdown { background: var(--card); }
+.theme-dark .ac-item { color: var(--text-body); border-bottom-color: var(--border-soft); }
+.theme-dark .form-group .label { color: var(--text-muted); }

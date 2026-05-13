@@ -3,6 +3,28 @@ var api = require('../../utils/api');
 var membership = require('../../utils/membership');
 var petReminders = require('../../utils/pet-reminders');
 
+function animateNumbers(that, targets, duration) {
+  duration = duration || 500;
+  var start = Date.now();
+  var initial = {};
+  Object.keys(targets).forEach(function(k) {
+    initial[k] = that.data.animatedStats && that.data.animatedStats[k] !== undefined
+      ? that.data.animatedStats[k] : 0;
+  });
+  function tick() {
+    var elapsed = Date.now() - start;
+    var progress = Math.min(elapsed / duration, 1);
+    var ease = 1 - Math.pow(1 - progress, 3);
+    var frame = {};
+    Object.keys(targets).forEach(function(k) {
+      frame[k] = Math.round(initial[k] + (targets[k] - initial[k]) * ease);
+    });
+    that.setData({ animatedStats: frame });
+    if (progress < 1) setTimeout(tick, 16);
+  }
+  tick();
+}
+
 function getGreetingInfo() {
   var h = new Date().getHours();
   if (h < 6) return { text: '夜深了', emoji: '🌙' };
@@ -33,6 +55,7 @@ Page({
     timelineItems: [],
     loading: true,
     pageThemeClass: '',
+    animatedStats: { members: 0, pets: 0, policies: 0, gaps: 0 },
     isDemo: false,
     familyName: '我的家庭',
     privacyAccepted: false,
@@ -147,6 +170,18 @@ Page({
         timelineItems: alerts,
         loading: false
       });
+      if (!that._firstLoadDone) {
+        that._firstLoadDone = true;
+        animateNumbers(that, {
+          members: peopleCount, pets: petCount, policies: family.policies.length, gaps: result.stats.totalGaps
+        }, 600);
+      } else {
+        that.setData({
+          animatedStats: {
+            members: peopleCount, pets: petCount, policies: family.policies.length, gaps: result.stats.totalGaps
+          }
+        });
+      }
     });
   },
 

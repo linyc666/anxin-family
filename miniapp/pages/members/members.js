@@ -9,6 +9,21 @@ var recordContent = require('../../utils/record-content');
 var profileSections = require('../../utils/record-profile-sections');
 var productLoader = require('../../utils/product-loader');
 
+function getBreedClass(petType, breed) {
+  var t = (petType || '').replace(/\s/g, '');
+  var b = (breed || '').replace(/\s/g, '');
+  if (t === '猫' || t === '猫') {
+    if (/橘|黄|金|橙|虎斑/.test(b)) return 'cat-orange';
+    if (/黑|玄/.test(b)) return 'cat-black';
+    if (/白|银|布偶/.test(b)) return 'cat-white';
+    return 'cat-orange';
+  }
+  if (/金毛|拉布拉多|柯基|柴|黄/.test(b)) return 'dog-gold';
+  if (/黑|拉黑/.test(b)) return 'dog-black';
+  if (/棕|巧|可卡/.test(b)) return 'dog-brown';
+  return 'dog-gold';
+}
+
 function getTypeLabel(type) {
   return display.getTypeLabel(type) || '';
 }
@@ -290,6 +305,7 @@ Page({
         name: m.name, age: m.age, role: m.role || '',
         yibao: m.yibao || '', debt: m.debt || '', notes: m.notes || '',
         petType: m.petType || '狗', breed: m.breed || '',
+        breedClass: getBreedClass(m.petType, m.breed),
         vaccineDate: m.vaccineDate || '', dewormDate: m.dewormDate || '',
         checkupDate: m.checkupDate || '',
         petReminders: m.kind === 'pet' ? petReminders.getPetReminders(m) : null,

@@ -1,5 +1,5 @@
 <!--pages/members/members.wxml - 家庭档案-->
-<view class="container {{ pageThemeClass }}">
+<view class="container page-enter {{ pageThemeClass }}">
   <!-- 骨架屏 -->
   <block wx:if="{{ loading }}">
     <view style="display:flex;gap:10px;margin-bottom:16px;">
@@ -42,7 +42,7 @@
 
   <view class="folder-card photo-corners entrance-item entrance-{{ 2 + index }}" wx:for="{{ visibleMembers }}" wx:key="id">
     <view class="fc-header" bindtap="onToggleFolder" data-id="{{ item.id }}">
-      <view class="fc-avatar {{ item.isPet ? 'pet' : '' }}">
+      <view class="fc-avatar {{ item.isPet ? 'pet ' + item.breedClass : '' }}">
         <view wx:if="{{ item.isPet }}" class="fc-pet-icon {{ item.petType === '猫' ? 'cat' : 'dog' }}"></view>
         <text wx:else class="fc-person-icon">👤</text>
       </view>

@@ -73,10 +73,10 @@
 
     <!-- 家庭概况条 -->
     <view class="overview-strip page-curl entrance-item entrance-3">
-      <view class="ovs-item"><text class="ovs-num">{{ stats.members }}</text><text class="ovs-lbl">家人</text></view>
-      <view class="ovs-item"><text class="ovs-num">{{ stats.pets }}</text><text class="ovs-lbl">宠物</text></view>
-      <view class="ovs-item"><text class="ovs-num">{{ stats.policies }}</text><text class="ovs-lbl">资料</text></view>
-      <view class="ovs-item"><text class="ovs-num {{ stats.gaps > 0 ? 'warn' : '' }}">{{ stats.gaps }}</text><text class="ovs-lbl">待完善</text></view>
+      <view class="ovs-item"><text class="ovs-num num-tabular count-animate">{{ animatedStats.members }}</text><text class="ovs-lbl">家人</text></view>
+      <view class="ovs-item"><text class="ovs-num num-tabular count-animate">{{ animatedStats.pets }}</text><text class="ovs-lbl">宠物</text></view>
+      <view class="ovs-item"><text class="ovs-num num-tabular count-animate">{{ animatedStats.policies }}</text><text class="ovs-lbl">资料</text></view>
+      <view class="ovs-item"><text class="ovs-num num-tabular count-animate {{ animatedStats.gaps > 0 ? 'warn' : '' }}">{{ animatedStats.gaps }}</text><text class="ovs-lbl">待完善</text></view>
     </view>
 
     <!-- 主动入口 -->

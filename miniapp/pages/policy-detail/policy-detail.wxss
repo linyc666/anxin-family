@@ -100,3 +100,16 @@
 .pda-btn.check { background: rgba(82,127,150,.1); color: #527F96; }
 .pda-btn.del { background: rgba(185,95,87,.06); color: #B95F57; }
 .pda-btn.verify { background: rgba(82,127,104,.08); color: #527F68; }
+
+/* 深色主题 */
+.theme-dark .pd-header { background: var(--card); box-shadow: var(--shadow-2); }
+.theme-dark .pd-name { color: var(--text-primary); }
+.theme-dark .pd-detail-card { background: var(--card); box-shadow: var(--shadow-1); }
+.theme-dark .pd-fields { background: var(--border); }
+.theme-dark .pdf-item { background: var(--card); }
+.theme-dark .pda-file { background: var(--card); box-shadow: var(--shadow-1); }
+.theme-dark .pd-actions { background: rgba(30,29,26,.92); border-top-color: var(--border); }
+.theme-dark .pdd-summary-text { color: var(--text-primary); }
+.theme-dark .pdf-value { color: var(--text-body); }
+.theme-dark .pdf-label { color: var(--text-muted); }
+.theme-dark .pda-name { color: var(--text-body); }

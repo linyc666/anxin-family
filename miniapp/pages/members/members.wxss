@@ -70,6 +70,32 @@
   box-shadow: 6px 0 0 0 currentColor;
   border-radius: 0 0 2px 2px;
 }
+
+/* 品种色变体 */
+.fc-avatar.pet.cat-orange { color: #D4956A; background: linear-gradient(135deg, rgba(212,149,106,.14), rgba(212,149,106,.04)); }
+.fc-avatar.pet.cat-black  { color: #8A8A8A; background: linear-gradient(135deg, rgba(120,120,120,.12), rgba(120,120,120,.03)); }
+.fc-avatar.pet.cat-white  { color: #C9B99A; background: linear-gradient(135deg, rgba(200,185,155,.12), rgba(200,185,155,.03)); }
+.fc-avatar.pet.dog-gold   { color: #C9A96E; background: linear-gradient(135deg, rgba(201,169,110,.14), rgba(201,169,110,.04)); }
+.fc-avatar.pet.dog-black  { color: #7A7A7A; background: linear-gradient(135deg, rgba(100,100,100,.12), rgba(100,100,100,.03)); }
+.fc-avatar.pet.dog-brown  { color: #A0846A; background: linear-gradient(135deg, rgba(160,132,106,.14), rgba(160,132,106,.04)); }
+
+/* 列表 staggered 入场 */
+@keyframes listItemIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.fc-record {
+  animation: listItemIn .35s ease forwards;
+  opacity: 0;
+}
+.fc-record:nth-child(1) { animation-delay: .05s; }
+.fc-record:nth-child(2) { animation-delay: .10s; }
+.fc-record:nth-child(3) { animation-delay: .15s; }
+.fc-record:nth-child(4) { animation-delay: .20s; }
+.fc-record:nth-child(5) { animation-delay: .25s; }
+.fc-record:nth-child(6) { animation-delay: .30s; }
+.fc-record:nth-child(7) { animation-delay: .35s; }
+.fc-record:nth-child(8) { animation-delay: .40s; }
 .fc-info { flex: 1; min-width: 0; }
 .fc-name { font-size: 16px; font-weight: 600; color: #29302B; display: block; }
 .fc-meta { font-size: 11px; color: #969D92; display: block; margin-top: 2px; }

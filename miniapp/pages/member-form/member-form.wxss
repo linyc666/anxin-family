@@ -96,3 +96,16 @@
 }
 .save-btn::after { border: none; }
 .save-btn:active { transform: scale(.97); }
+
+/* 深色主题 */
+.theme-dark .kind-banner { background: linear-gradient(135deg, rgba(184,151,106,.08), rgba(184,151,106,.02)); }
+.theme-dark .kind-banner.pet { background: linear-gradient(135deg, rgba(122,170,138,.06), rgba(122,159,176,.02)); }
+.theme-dark .input, .theme-dark .textarea, .theme-dark .picker { background: var(--card); color: var(--text-body); border-color: var(--border); }
+.theme-dark .smart-box { background: var(--blue-bg); }
+.theme-dark .smart-textarea { background: var(--card); color: var(--text-body); border-color: var(--border); }
+.theme-dark .label { color: var(--text-muted); }
+.theme-dark .kind-title { color: var(--gold); }
+.theme-dark .kind-banner.pet .kind-title { color: var(--green); }
+.theme-dark .kind-desc { color: var(--text-muted); }
+.theme-dark .smart-title { color: var(--blue); }
+.theme-dark .smart-hint { color: var(--text-light); }

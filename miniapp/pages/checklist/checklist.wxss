@@ -66,3 +66,17 @@
 /* 底部声明 */
 .cl-footer { margin-top: 20px; text-align: center; }
 .cl-footer text { font-size: 10px; color: #969D92; display: block; line-height: 1.6; }
+
+/* 深色主题 */
+.theme-dark .cl-card { background: var(--card); box-shadow: var(--shadow-1); }
+.theme-dark .cl-card-title text:first-child { color: var(--text-primary); }
+.theme-dark .clf-label { color: var(--text-body); }
+.theme-dark .clf-value { color: var(--text-muted); }
+.theme-dark .cl-field { border-bottom-color: var(--border-soft); }
+.theme-dark .cl-prep-item .clp-text { color: var(--text-muted); }
+.theme-dark .cl-header .cl-title { color: var(--text-primary); }
+.theme-dark .cl-header .cl-sub { color: var(--text-light); }
+.theme-dark .clc-text { color: var(--text-muted); }
+.theme-dark .cl-expiry { color: var(--text-muted); }
+.theme-dark .cl-spend { color: var(--text-muted); }
+.theme-dark .cl-footer text { color: var(--text-light); }
