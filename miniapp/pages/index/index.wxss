@@ -322,8 +322,12 @@
 
 /* 无提醒状态 */
 .tl-clear {
-  text-align: center; padding: 20px 0;
+  text-align: center; padding: 24px 0; position: relative;
   color: var(--text-light); font-size: 13px;
+}
+.tl-clear-icon {
+  display: block; font-size: 28px; margin-bottom: 8px; line-height: 1;
+  animation: softPulse 3s ease-in-out infinite;
 }
 
 /* ===== 演示提示 ===== */

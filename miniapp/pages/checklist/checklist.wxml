@@ -1,5 +1,15 @@
 <!--pages/checklist/checklist.wxml - 资料核对清单-->
 <view class="container">
+  <!-- 骨架屏 -->
+  <block wx:if="{{ loading }}">
+    <view class="skeleton skeleton-title" style="margin-bottom:14px;"></view>
+    <view class="skeleton" style="height:8px;margin-bottom:6px;border-radius:4px;"></view>
+    <view class="skeleton skeleton-card" style="height:80px;margin-bottom:10px;"></view>
+    <view class="skeleton skeleton-card" style="height:100px;margin-bottom:10px;"></view>
+    <view class="skeleton skeleton-card" style="height:90px;"></view>
+  </block>
+
+  <block wx:else>
   <!-- 标题 -->
   <view class="cl-header">
     <text class="cl-title">{{ recordName }}</text>
@@ -75,4 +85,5 @@
   <view class="page-note">
     <text>本清单由系统根据已录入资料自动生成，仅供整理参考。</text>
   </view>
+  </block>
 </view>

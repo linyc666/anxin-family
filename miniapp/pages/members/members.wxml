@@ -70,7 +70,11 @@
         <text>暂无重要资料</text>
       </view>
 
-      <view class="fc-record {{ p.expired ? 'expired' : p.expSoon ? 'soon' : '' }}" wx:for="{{ item.policies }}" wx:key="id" wx:for-item="p">
+      <view class="swipe-wrap" wx:for="{{ item.policies }}" wx:key="id" wx:for-item="p">
+        <view class="swipe-delete" bindtap="onDeletePolicy" data-id="{{ p.id }}">删除</view>
+        <view class="fc-record {{ p.expired ? 'expired' : p.expSoon ? 'soon' : '' }} {{ p.swiped ? 'swiped' : '' }}"
+              bindtouchstart="onSwipeStart" bindtouchmove="onSwipeMove" bindtouchend="onSwipeEnd"
+              data-id="{{ p.id }}">
         <view class="fcr-top">
           <view class="fcr-title-wrap">
             <text class="fcr-title" bindtap="onViewPolicy" data-id="{{ p.id }}">{{ p.displayName }}</text>
@@ -117,6 +121,7 @@
           <text class="fcr-check" bindtap="onCheckPolicy" data-id="{{ p.id }}">核对</text>
           <text class="fcr-check" bindtap="onViewPolicy" data-id="{{ p.id }}">详情</text>
           <text class="fcr-del" bindtap="onDeletePolicy" data-id="{{ p.id }}">删除</text>
+        </view>
         </view>
       </view>
 

@@ -107,7 +107,8 @@
 
     <!-- 无提醒 -->
     <view class="tl-clear entrance-item entrance-5" wx:if="{{ timelineItems.length === 0 }}">
-      <text>暂无待提醒事项，一切安心 ✓</text>
+      <text class="tl-clear-icon">✓</text>
+      <text>暂无待提醒事项，一切安心</text>
     </view>
 
     <!-- 页脚 -->

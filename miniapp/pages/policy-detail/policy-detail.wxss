@@ -101,6 +101,33 @@
 .pda-btn.del { background: rgba(185,95,87,.06); color: #B95F57; }
 .pda-btn.verify { background: rgba(82,127,104,.08); color: #527F68; }
 
+/* 字段列表 staggered */
+.pdf-item {
+  animation: listItemIn .3s ease forwards; opacity: 0;
+}
+.pdf-item:nth-child(1) { animation-delay: .04s; }
+.pdf-item:nth-child(2) { animation-delay: .08s; }
+.pdf-item:nth-child(3) { animation-delay: .12s; }
+.pdf-item:nth-child(4) { animation-delay: .16s; }
+.pdf-item:nth-child(5) { animation-delay: .20s; }
+.pdf-item:nth-child(6) { animation-delay: .24s; }
+.pdf-item:nth-child(7) { animation-delay: .28s; }
+.pdf-item:nth-child(8) { animation-delay: .32s; }
+@keyframes listItemIn {
+  from { opacity: 0; transform: translateX(-4px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* 附件列表 staggered */
+.pda-file {
+  animation: listItemIn .3s ease forwards; opacity: 0;
+}
+.pda-file:nth-child(1) { animation-delay: .05s; }
+.pda-file:nth-child(2) { animation-delay: .10s; }
+.pda-file:nth-child(3) { animation-delay: .15s; }
+.pda-file:nth-child(4) { animation-delay: .20s; }
+.pda-file:nth-child(5) { animation-delay: .25s; }
+
 /* 深色主题 */
 .theme-dark .pd-header { background: var(--card); box-shadow: var(--shadow-2); }
 .theme-dark .pd-name { color: var(--text-primary); }

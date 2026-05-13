@@ -349,6 +349,7 @@ Page({
             boundaryLine: boundaryLine,
             reviewTags: reviewTags,
             productMatchName: matchedProduct ? display.aliasRecordName(matchedProduct.name, matchedProduct.type) : '',
+            swiped: false,
             profile: profile
           };
         })
@@ -432,6 +433,54 @@ Page({
     this.refresh();
     wx.vibrateShort({ type: 'light' });
     setTimeout(function() { wx.stopPullDownRefresh(); }, 600);
+  },
+
+  // === 左滑删除 ===
+  onSwipeStart(e) {
+    this._swipe = {
+      id: e.currentTarget.dataset.id,
+      startX: e.touches[0].clientX,
+      startY: e.touches[0].clientY,
+      swiping: false
+    };
+  },
+
+  onSwipeMove(e) {
+    if (!this._swipe) return;
+    var dx = e.touches[0].clientX - this._swipe.startX;
+    var dy = Math.abs(e.touches[0].clientY - this._swipe.startY);
+    if (dy > 10) return; // 垂直滚动优先
+    if (dx < -10) this._swipe.swiping = true;
+    if (!this._swipe.swiping) return;
+    // 更新当前记录 swiped 状态
+    var that = this;
+    var members = this.data.members.map(function(m) {
+      m.policies = m.policies.map(function(p) {
+        if (p.id === that._swipe.id) p.swiped = dx < -50;
+        else p.swiped = false;
+        return p;
+      });
+      return m;
+    });
+    this.setData({ members: members });
+    this.applyFilter();
+  },
+
+  onSwipeEnd(e) {
+    if (!this._swipe) return;
+    var dx = e.changedTouches[0].clientX - this._swipe.startX;
+    var that = this;
+    var members = this.data.members.map(function(m) {
+      m.policies = m.policies.map(function(p) {
+        if (p.id === that._swipe.id) p.swiped = dx < -50;
+        else p.swiped = false;
+        return p;
+      });
+      return m;
+    });
+    this.setData({ members: members });
+    this.applyFilter();
+    this._swipe = null;
   },
 
   // === 删除 ===
