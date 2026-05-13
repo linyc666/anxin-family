@@ -37,10 +37,38 @@
   color: #9B7A45;
   box-shadow: 0 2px 6px rgba(155,122,69,.08);
 }
+.fc-person-icon { font-size: 16px; }
 .fc-avatar.pet {
   background: linear-gradient(135deg, rgba(82,127,104,.12), rgba(82,127,104,.04));
   color: #527F68;
   box-shadow: 0 2px 6px rgba(82,127,104,.08);
+}
+
+/* CSS 宠物小头像 */
+.fc-pet-icon { position: relative; width: 18px; height: 18px; color: inherit; }
+.fc-pet-icon::before {
+  content: ''; position: absolute;
+  width: 14px; height: 12px; border-radius: 50%;
+  background: currentColor; opacity: .55;
+  top: 0; left: 50%; transform: translateX(-50%);
+}
+.fc-pet-icon::after {
+  content: ''; position: absolute;
+  width: 0; height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  top: -1px;
+}
+.fc-pet-icon.cat::after {
+  border-bottom: 7px solid currentColor;
+  left: 1px; opacity: .5;
+  box-shadow: 7px 0 0 0 currentColor;
+}
+.fc-pet-icon.dog::after {
+  border-bottom: 6px solid currentColor;
+  left: 2px; opacity: .45;
+  box-shadow: 6px 0 0 0 currentColor;
+  border-radius: 0 0 2px 2px;
 }
 .fc-info { flex: 1; min-width: 0; }
 .fc-name { font-size: 16px; font-weight: 600; color: #29302B; display: block; }
@@ -171,20 +199,35 @@
   border-radius: 3px;
   box-shadow: var(--shadow-1);
 }
+@keyframes paperFloat {
+  0%, 100% { transform: translateY(0) rotate(-8deg); }
+  50% { transform: translateY(-6px) rotate(-6deg); }
+}
+@keyframes paperFloat2 {
+  0%, 100% { transform: translateY(0) rotate(6deg); }
+  50% { transform: translateY(-5px) rotate(8deg); }
+}
+@keyframes paperFloat3 {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-4px) rotate(-1deg); }
+}
 .ei-paper.p1 {
   width: 32px; height: 40px; left: 8px; top: 12px;
   transform: rotate(-8deg);
   background: linear-gradient(160deg, var(--card) 0%, var(--bg-warm) 100%);
+  animation: paperFloat 3.5s ease-in-out infinite;
 }
 .ei-paper.p2 {
   width: 28px; height: 36px; right: 10px; top: 8px;
   transform: rotate(6deg);
   background: linear-gradient(200deg, var(--card) 0%, var(--bg-warm) 100%);
+  animation: paperFloat2 3.8s ease-in-out infinite .4s;
 }
 .ei-paper.p3 {
   width: 24px; height: 32px; left: 14px; bottom: 12px;
   transform: rotate(-3deg);
   background: linear-gradient(180deg, var(--card) 0%, var(--bg-warm) 100%);
+  animation: paperFloat3 4.1s ease-in-out infinite .8s;
 }
 
 /* 档案夹主体 */

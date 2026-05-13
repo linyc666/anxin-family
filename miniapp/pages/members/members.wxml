@@ -43,7 +43,8 @@
   <view class="folder-card photo-corners entrance-item entrance-{{ 2 + index }}" wx:for="{{ visibleMembers }}" wx:key="id">
     <view class="fc-header" bindtap="onToggleFolder" data-id="{{ item.id }}">
       <view class="fc-avatar {{ item.isPet ? 'pet' : '' }}">
-        <text>{{ item.isPet ? '🐾' : '👤' }}</text>
+        <view wx:if="{{ item.isPet }}" class="fc-pet-icon {{ item.petType === '猫' ? 'cat' : 'dog' }}"></view>
+        <text wx:else class="fc-person-icon">👤</text>
       </view>
       <view class="fc-info">
         <text class="fc-name">{{ item.name }}</text>

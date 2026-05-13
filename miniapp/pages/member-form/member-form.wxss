@@ -1,6 +1,32 @@
 /* pages/member-form/member-form.wxss */
 .container { padding: 16px; padding-bottom: 80px; }
 
+/* 装饰插画 */
+.mf-illustration { text-align: center; margin-bottom: 16px; position: relative; }
+.mfi-circle {
+  width: 52px; height: 52px; border-radius: 50%; margin: 0 auto;
+  background: linear-gradient(135deg, rgba(155,122,69,.1), rgba(155,122,69,.03));
+  box-shadow: 0 2px 12px rgba(155,122,69,.06);
+  display: flex; align-items: center; justify-content: center;
+}
+.mfi-circle.pet {
+  background: linear-gradient(135deg, rgba(82,127,104,.1), rgba(82,127,104,.03));
+  box-shadow: 0 2px 12px rgba(82,127,104,.06);
+}
+.mfi-icon { font-size: 22px; }
+.mfi-plus {
+  position: absolute; right: calc(50% - 34px); bottom: 4px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 1px 4px rgba(142,107,62,.18);
+  display: flex; align-items: center; justify-content: center;
+}
+.mfi-plus::before, .mfi-plus::after {
+  content: ''; position: absolute; background: #FFFCF7; border-radius: 1px;
+}
+.mfi-plus::before { width: 8px; height: 1.5px; }
+.mfi-plus::after { width: 1.5px; height: 8px; }
+
 /* 档案类型选择 */
 .kind-banner {
   background: linear-gradient(135deg, rgba(155,122,69,.08), rgba(155,122,69,.02));

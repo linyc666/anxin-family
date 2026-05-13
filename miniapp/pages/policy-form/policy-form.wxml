@@ -1,5 +1,17 @@
 <!--pages/policy-form/policy-form.wxml-->
 <view class="container">
+  <!-- 装饰插画 -->
+  <view class="pf-illustration" wx:if="{{ !editingId }}">
+    <view class="pfi-doc">
+      <view class="pfi-doc-page"></view>
+      <view class="pfi-doc-lines"></view>
+    </view>
+    <view class="pfi-glass">
+      <view class="pfi-glass-circle"></view>
+      <view class="pfi-glass-handle"></view>
+    </view>
+  </view>
+
   <view class="header">
     <text class="title">{{ editingId ? '编辑资料' : '添加资料' }}</text>
     <text class="subtitle" wx:if="{{ memberName }}">为 {{ memberName }} 添加</text>

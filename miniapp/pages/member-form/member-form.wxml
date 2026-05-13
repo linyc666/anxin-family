@@ -1,5 +1,13 @@
 <!--pages/member-form/member-form.wxml-->
 <view class="container">
+  <!-- 装饰插画 -->
+  <view class="mf-illustration">
+    <view class="mfi-circle {{ kind === 'pet' ? 'pet' : '' }}">
+      <text class="mfi-icon">{{ kind === 'pet' ? '🐾' : '👤' }}</text>
+    </view>
+    <view class="mfi-plus"></view>
+  </view>
+
   <view class="kind-banner {{ kind === 'pet' ? 'pet' : '' }}">
     <text class="kind-title">{{ kind === 'pet' ? '宠物档案' : '家人档案' }}</text>
     <text class="kind-desc">{{ kind === 'pet' ? '记录疫苗、驱虫、体检和重要资料提醒' : '记录家庭成员资料、年度支出和重要事项提醒' }}</text>

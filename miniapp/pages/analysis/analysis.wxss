@@ -48,11 +48,16 @@
 }
 
 /* 展开的纸 */
+@keyframes scrollBreathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02, 1.01); }
+}
 .ei-scroll-paper {
   position: absolute; left: 12px; right: 12px; top: 16px; bottom: 16px;
   background: linear-gradient(180deg, var(--card) 0%, var(--bg-warm) 100%);
   border-radius: 4px;
   box-shadow: var(--shadow-1);
+  animation: scrollBreathe 5s ease-in-out infinite;
 }
 .ei-scroll-paper::after {
   content: ''; position: absolute;

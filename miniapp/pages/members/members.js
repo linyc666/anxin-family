@@ -289,7 +289,7 @@ Page({
         id: m.id, kind: m.kind || 'person', isPet: m.kind === 'pet',
         name: m.name, age: m.age, role: m.role || '',
         yibao: m.yibao || '', debt: m.debt || '', notes: m.notes || '',
-        petType: m.petType || '', breed: m.breed || '',
+        petType: m.petType || '狗', breed: m.breed || '',
         vaccineDate: m.vaccineDate || '', dewormDate: m.dewormDate || '',
         checkupDate: m.checkupDate || '',
         petReminders: m.kind === 'pet' ? petReminders.getPetReminders(m) : null,
