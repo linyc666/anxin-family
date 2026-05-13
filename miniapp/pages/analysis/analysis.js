@@ -70,6 +70,13 @@ Page({
     if (tc) wx.setNavigationBarColor({ frontColor: tc.navFront || '#000000', backgroundColor: tc.cardBg });
     this.setData({ tColors: tc, pageThemeClass: app.globalData.pageThemeClass || '' });
     this.refresh();
+    this.syncTabBar();
+  },
+
+  syncTabBar() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().refreshTheme();
+    }
   },
 
   refresh() {
@@ -154,6 +161,12 @@ Page({
     });
     this.setData({ gaps: gaps });
     this.applyFilter();
+  },
+
+  onPullDownRefresh() {
+    this.refresh();
+    wx.vibrateShort({ type: 'light' });
+    setTimeout(function() { wx.stopPullDownRefresh(); }, 600);
   },
 
   onViewSample(e) {

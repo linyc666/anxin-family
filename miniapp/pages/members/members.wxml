@@ -59,7 +59,7 @@
       </view>
     </view>
 
-    <view class="fc-body" wx:if="{{ !item.collapsed }}">
+    <view class="fc-body {{ item.collapsed ? 'fc-collapsed' : 'fc-expanded' }}">
       <view class="fc-empty" wx:if="{{ item.policies.length === 0 }}">
         <text>暂无重要资料</text>
       </view>

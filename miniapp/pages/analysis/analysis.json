@@ -1,1 +1,1 @@
-{ "navigationBarTitleText": "安心清单" }
+{ "navigationBarTitleText": "安心清单", "enablePullDownRefresh": true, "backgroundColor": "#F9F5EE" }

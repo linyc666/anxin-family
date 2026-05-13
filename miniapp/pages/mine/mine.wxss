@@ -85,3 +85,17 @@
   box-shadow: 0 2px 6px rgba(155,122,69,.16);
 }
 .btn-sm { padding: 5px 10px; font-size: 11px; }
+
+/* ===== 深色主题覆盖 ===== */
+.theme-dark .safety-bar { background: var(--card); box-shadow: var(--shadow-1); }
+.theme-dark .member-card { background: var(--card); box-shadow: var(--shadow-1); }
+.theme-dark .menu-item { background: var(--card); box-shadow: var(--shadow-1); }
+.theme-dark .feedback-box { background: var(--card); box-shadow: var(--shadow-1); }
+.theme-dark .fb-textarea { background: var(--bg); color: var(--text-body); border-color: var(--border); }
+.theme-dark .btn { background: var(--bg-warm); color: var(--text-body); }
+.theme-dark .btn-gold { background: var(--gold); color: #FFFCF7; }
+.theme-dark .sb-item text { color: var(--text-muted); }
+.theme-dark .mi-label { color: var(--text-primary); }
+.theme-dark .mi-hint { color: var(--text-light); }
+.theme-dark .fb-title { color: var(--text-primary); }
+.theme-dark .fb-count { color: var(--text-light); }

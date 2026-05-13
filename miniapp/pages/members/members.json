@@ -1,1 +1,1 @@
-{ "navigationBarTitleText": "家庭资料" }
+{ "navigationBarTitleText": "家庭资料", "enablePullDownRefresh": true, "backgroundColor": "#F9F5EE" }

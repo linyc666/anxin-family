@@ -59,6 +59,13 @@ Page({
     });
     this.loadData();
     this.refresh();
+    this.syncTabBar();
+  },
+
+  syncTabBar() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().refreshTheme();
+    }
   },
 
   loadData() {
@@ -220,6 +227,13 @@ Page({
         }
       }
     });
+  },
+
+  // === 下拉刷新 ===
+  onPullDownRefresh() {
+    this.refresh();
+    wx.vibrateShort({ type: 'light' });
+    setTimeout(function() { wx.stopPullDownRefresh(); }, 600);
   },
 
   // === 管理入口 ===

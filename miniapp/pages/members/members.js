@@ -258,6 +258,13 @@ Page({
       app.globalData.focusMemberId = '';
     }
     this.refresh();
+    this.syncTabBar();
+  },
+
+  syncTabBar() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().refreshTheme();
+    }
   },
 
   refresh() {
@@ -404,10 +411,18 @@ Page({
     wx.navigateTo({ url: '/pages/policy-form/policy-form?editId=' + e.currentTarget.dataset.id });
   },
 
+  // === 下拉刷新 ===
+  onPullDownRefresh() {
+    this.refresh();
+    wx.vibrateShort({ type: 'light' });
+    setTimeout(function() { wx.stopPullDownRefresh(); }, 600);
+  },
+
   // === 删除 ===
   onDeleteMember(e) {
     var id = e.currentTarget.dataset.id;
     var that = this;
+    wx.vibrateShort({ type: 'medium' });
     wx.showModal({
       title: '确认删除', content: '将删除该成员及其所有资料记录，不可恢复。',
       success: function(res) {
@@ -416,6 +431,7 @@ Page({
           app.globalData.family.members = app.globalData.family.members.filter(function(m) { return m.id !== id; });
           app.globalData.family.policies = app.globalData.family.policies.filter(function(p) { return p.memberId !== id; });
           app.saveData(); that.refresh();
+          wx.vibrateShort({ type: 'light' });
         }
       }
     });
@@ -423,6 +439,7 @@ Page({
   onDeletePolicy(e) {
     var id = e.currentTarget.dataset.id;
     var that = this;
+    wx.vibrateShort({ type: 'medium' });
     wx.showModal({
       title: '确认删除', content: '删除该资料记录？',
       success: function(res) {
@@ -430,6 +447,7 @@ Page({
           var app = getApp();
           app.globalData.family.policies = app.globalData.family.policies.filter(function(p) { return p.id !== id; });
           app.saveData(); that.refresh();
+          wx.vibrateShort({ type: 'light' });
         }
       }
     });

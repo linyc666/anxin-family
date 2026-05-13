@@ -1,1 +1,1 @@
-{ "navigationBarTitleText": "安心家册" }
+{ "navigationBarTitleText": "安心家册", "enablePullDownRefresh": true, "backgroundColor": "#F9F5EE" }

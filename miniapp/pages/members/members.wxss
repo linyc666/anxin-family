@@ -60,7 +60,20 @@
 .fpr-item.expired { background: rgba(185,95,87,.08); color: #B95F57; }
 
 /* ===== 资料记录 ===== */
-.fc-body { margin-top: 14px; padding-top: 14px; border-top: 1px solid #E1D7C7; }
+.fc-body {
+  overflow: hidden;
+  transition: max-height .35s ease, opacity .3s ease, margin .35s ease, padding .35s ease;
+}
+.fc-collapsed {
+  max-height: 0; opacity: 0;
+  margin-top: 0; padding-top: 0;
+  border-top: none;
+}
+.fc-expanded {
+  max-height: 3000px; opacity: 1;
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
 .fc-empty { text-align: center; padding: 12px 0; font-size: 12px; color: #969D92; }
 .fc-record {
   background: #F8F4EC; border-radius: 14px; padding: 16px 16px 14px;

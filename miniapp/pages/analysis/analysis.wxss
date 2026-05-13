@@ -164,3 +164,19 @@
 /* 更多 */
 .show-more { text-align: center; padding: 14px 0; }
 .show-more text { font-size: 12px; color: #969D92; }
+
+/* ===== 深色主题覆盖 ===== */
+.theme-dark .sum-item { background: var(--card); color: var(--text-muted); box-shadow: var(--shadow-1); }
+.theme-dark .mtab { background: var(--card); color: var(--text-muted); box-shadow: var(--shadow-1); }
+.theme-dark .mtab.active { color: var(--gold); background: var(--gold-bg); box-shadow: 0 2px 8px rgba(184,151,106,.12); }
+.theme-dark .gap-item { background: var(--card); box-shadow: var(--shadow-1); }
+.theme-dark .gi-category { background: var(--bg-warm); }
+.theme-dark .gi-no-match { background: var(--bg-warm); }
+.theme-dark .gi-content-missing { background: var(--blue-bg); }
+.theme-dark .gicm-title { color: var(--blue); }
+.theme-dark .gs-card { background: var(--bg-warm); }
+.theme-dark .gs-toggle { border-top-color: var(--border); }
+.theme-dark .gsc-note { border-top-color: var(--border-soft); }
+.theme-dark .gs-card.basic .gsc-level-tag { background: var(--blue-bg); color: var(--blue); }
+.theme-dark .gs-card.complete .gsc-level-tag { background: var(--gold-bg); color: var(--gold); }
+

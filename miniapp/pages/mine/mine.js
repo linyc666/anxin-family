@@ -238,6 +238,7 @@ Page({
   onSwitchTheme(e) {
     var key = e.currentTarget.dataset.key;
     if (key === this.data.currentTheme) return;
+    wx.vibrateShort({ type: 'light' });
     theme.setTheme(key);
     var app = getApp();
     var tc = theme.getThemeColors(key);
