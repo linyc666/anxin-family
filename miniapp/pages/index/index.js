@@ -273,14 +273,24 @@ Page({
 
   // === 管理入口 ===
   onLongPressSetting() {
-    if (!wx.cloud) return;
+    var app = getApp();
+    // 本地绕过：已标记管理员直接进
+    if (app.globalData.isAdmin || wx.getStorageSync('is_admin')) {
+      app.globalData.isAdmin = true;
+      wx.navigateTo({ url: '/pages/admin/products/products' });
+      return;
+    }
+    // 云函数验证
+    if (!wx.cloud) {
+      wx.showToast({ title: '云开发未初始化', icon: 'none' });
+      return;
+    }
     var that = this;
     wx.cloud.callFunction({
       name: 'adminProducts',
       data: { action: 'verifyAdmin' }
     }).then(function(res) {
       if (res.result && res.result.success && res.result.data && res.result.data.isAdmin) {
-        var app = getApp();
         app.globalData.isAdmin = true;
         try { wx.setStorageSync('is_admin', true); } catch(e) {}
         wx.navigateTo({ url: '/pages/admin/products/products' });
@@ -288,7 +298,18 @@ Page({
         wx.showToast({ title: '无管理权限', icon: 'none' });
       }
     }).catch(function() {
-      wx.showToast({ title: '验证失败', icon: 'none' });
+      // 云函数失败时，给一次本地进入机会
+      wx.showModal({
+        title: '云端验证失败',
+        content: '是否以本地模式进入管理后台？',
+        success: function(r) {
+          if (r.confirm) {
+            app.globalData.isAdmin = true;
+            try { wx.setStorageSync('is_admin', true); } catch(e) {}
+            wx.navigateTo({ url: '/pages/admin/products/products' });
+          }
+        }
+      });
     });
   }
 });

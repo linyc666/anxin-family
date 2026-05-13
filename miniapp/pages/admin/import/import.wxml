@@ -1,4 +1,4 @@
-<view class="container">
+<view class="container page-enter">
   <!-- 导入方式 -->
   <view class="form-section">
     <text class="section-title">批量导入样例</text>

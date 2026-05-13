@@ -1,4 +1,4 @@
-<view class="container">
+<view class="container page-enter">
   <!-- 搜索栏 -->
   <view class="search-bar">
     <input class="search-input" placeholder="搜索样例名/机构..." bindinput="onSearchInput" value="{{ searchText }}" />
