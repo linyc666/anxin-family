@@ -21,6 +21,12 @@
       <view class="ei-book-right"></view>
       <view class="ei-book-spine"></view>
       <view class="ei-pen"></view>
+      <view class="ei-ink"></view>
+      <view class="ei-bookmark"></view>
+      <view class="ei-particle p1"></view>
+      <view class="ei-particle p2"></view>
+      <view class="ei-particle p3"></view>
+      <view class="ei-particle p4"></view>
     </view>
     <text class="empty-title">开始搭建你的家庭安心家册</text>
     <text class="empty-desc">添加家人、宠物和重要资料，我们会帮你留意到期和待完善的事项</text>
@@ -48,7 +54,7 @@
     <view wx:else>
     <!-- 时段问候 -->
     <view class="greeting-block entrance-item entrance-1">
-      <text class="gr-wave">{{ greetingEmoji }}</text>
+      <view class="gr-wave-wrap"><text class="gr-wave">{{ greetingEmoji }}</text></view>
       <view class="gr-text">
         <text class="gr-greeting">{{ greeting }}</text>
         <text class="gr-date">{{ todayDate }}</text>

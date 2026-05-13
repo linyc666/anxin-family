@@ -327,6 +327,44 @@ page {
     2px 8px 0 -1px currentColor;
 }
 
+/* 猫头 */
+.icon-cat::before {
+  content: ''; position: absolute;
+  width: 16px; height: 14px;
+  background: currentColor;
+  border-radius: 50%;
+  top: 3px; left: 50%; transform: translateX(-50%);
+}
+.icon-cat::after {
+  content: ''; position: absolute;
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 8px solid currentColor;
+  top: 0; left: 2px;
+  box-shadow: 8px 0 0 0 currentColor;
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+}
+
+/* 狗头 */
+.icon-dog::before {
+  content: ''; position: absolute;
+  width: 14px; height: 13px;
+  background: currentColor;
+  border-radius: 50% 50% 45% 45%;
+  top: 2px; left: 50%; transform: translateX(-50%);
+}
+.icon-dog::after {
+  content: ''; position: absolute;
+  width: 10px; height: 7px;
+  background: currentColor;
+  border-radius: 0 0 5px 5px;
+  bottom: 2px; left: 50%; transform: translateX(-50%);
+  box-shadow:
+    -6px -4px 0 -2px currentColor,
+    6px -4px 0 -2px currentColor;
+}
+
 /* ===== 入场动画 ===== */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(14px); }

@@ -30,6 +30,11 @@
       <view class="ei-scroll-right"></view>
       <view class="ei-scroll-paper"></view>
       <view class="ei-scroll-check"></view>
+      <view class="ei-ribbon"></view>
+      <view class="ei-seal"></view>
+      <view class="ei-particle p1"></view>
+      <view class="ei-particle p2"></view>
+      <view class="ei-particle p3"></view>
     </view>
     <text class="empty-text">未检测到明显待完善项</text>
     <text class="empty-hint">确保年龄、角色、医保、家庭责任信息完整，可获得更清晰的安心清单</text>
